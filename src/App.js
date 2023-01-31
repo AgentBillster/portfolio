@@ -1,25 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  Text,
+  Box,
+  Container,
+  Center,
+  NativeBaseProvider,
+  extendTheme,
+} from "native-base";
+import AppNavigator from "./navigators/AppNavigator";
 
-function App() {
+// import { Dimensions } from "react-native-web";
+
+const App = () => {
+  const theme = extendTheme({
+    components: {
+      Heading: {
+        baseStyle: () => {
+          return {
+            _light: { color: "red.300" },
+            _dark: { color: "blue.300" },
+          };
+        },
+      },
+    },
+
+    colors: {
+      background: "white",
+      primary: {
+        50: "#E3F2F9",
+        100: "#C5E4F3",
+        200: "#A2D4EC",
+        300: "#7AC1E4",
+        400: "#47A9DA",
+        500: "#0088CC",
+        600: "#007AB8",
+        700: "#006BA1",
+        800: "#005885",
+        900: "#003F5E",
+      },
+    },
+
+    config: {
+      // Changing initialColorMode to 'dark'
+      initialColorMode: "dark",
+    },
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <NativeBaseProvider theme={theme}>
+      <AppNavigator />
+    </NativeBaseProvider>
   );
-}
+};
 
 export default App;
