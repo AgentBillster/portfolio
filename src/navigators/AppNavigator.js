@@ -6,9 +6,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import HomeScreen from "../screens/HomeScreen";
 import WorkScreen from "../screens/WorkScreen";
 import ContactScreen from "../screens/ContactScreen";
-import { Button } from "react-native-web";
 import TabHeaderMinimal from "../components/TabHeaderMinimal";
 import { useColorMode } from "native-base";
+import AnimatedBackground from "../components/AnimatedBackground";
 
 const Tab = createBottomTabNavigator();
 const linking = {
@@ -27,8 +27,6 @@ const linking = {
 };
 
 const AppNavigator = () => {
-  const { colorMode, toggleColorMode } = useColorMode();
-
   return (
     <>
       <NavigationContainer linking={linking}>

@@ -1,22 +1,36 @@
-import { Pressable, Text, View, Box, HStack } from "native-base";
+import { Pressable, Text, View, Box, HStack, useColorMode } from "native-base";
 import { useLinkTo } from "@react-navigation/native";
 import { Dimensions } from "react-native";
+import { useSpring, animated, useSpringValue } from "@react-spring/web";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
+const barheight = height * 0.1;
+
 const TabBarMinimal = ({ state, descriptors, navigation }) => {
   const linkTo = useLinkTo();
+  const { colorMode, toggleColorMode } = useColorMode();
+  const colorvalue = useSpringValue();
 
+  const bg = useSpring({
+    background: colorMode === "light" ? "white" : "#202023",
+  });
+
+  const handleToggle = () => {
+    toggleColorMode();
+    // colorMode === "light" ? colorvalue.start(1) : colorvalue.start(0);
+  };
   return (
-    <HStack
-      h={"12%"}
-      space={width / state.routes.length / 1.5}
-      justifyContent="center"
-      _light={{
-        bg: "white",
+    <animated.div
+      style={{
+        ...bg,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: barheight,
+        width,
       }}
-      _dark={{ bg: "#202023" }}
     >
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
@@ -50,16 +64,11 @@ const TabBarMinimal = ({ state, descriptors, navigation }) => {
             accessibilityLabel={options.tabBarAccessibilityLabel}
             onPress={onPress}
           >
-            <Text
-              fontSize={"2xl"}
-              style={{ color: isFocused ? "#673ab7" : "#222" }}
-            >
-              {label}
-            </Text>
+            <Text fontSize={30}>{label}</Text>
           </Pressable>
         );
       })}
-    </HStack>
+    </animated.div>
   );
 };
 

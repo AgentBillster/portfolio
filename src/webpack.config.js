@@ -6,6 +6,7 @@ module.exports = {
     alias: {
       "react-native": "react-native-web",
       "react-native-linear-gradient": "react-native-web-linear-gradient",
+      "react-animated-cursor": "react-animated-cursor",
     },
   },
 };

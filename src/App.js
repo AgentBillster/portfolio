@@ -14,12 +14,10 @@ import AppNavigator from "./navigators/AppNavigator";
 const App = () => {
   const theme = extendTheme({
     components: {
-      Heading: {
-        baseStyle: () => {
-          return {
-            _light: { color: "red.300" },
-            _dark: { color: "blue.300" },
-          };
+      Text: {
+        defaultProps: {
+          _light: { color: "black" },
+          _dark: { color: "lightgray" },
         },
       },
     },
@@ -42,7 +40,7 @@ const App = () => {
 
     config: {
       // Changing initialColorMode to 'dark'
-      initialColorMode: "dark",
+      // initialColorMode: "dark",
     },
   });
 
