@@ -1,5 +1,5 @@
-import { Pressable, Text, View, Box, HStack, useColorMode } from "native-base";
-import { useLinkTo } from "@react-navigation/native";
+import { Text, useColorMode } from "native-base";
+import { Link, useLinkTo } from "@react-navigation/native";
 import { Dimensions } from "react-native";
 import { useSpring, animated, useSpringValue } from "@react-spring/web";
 
@@ -30,6 +30,7 @@ const TabBarMinimal = ({ state, descriptors, navigation }) => {
         alignItems: "center",
         height: barheight,
         width,
+        zIndex: 1,
       }}
     >
       {state.routes.map((route, index) => {
@@ -43,29 +44,25 @@ const TabBarMinimal = ({ state, descriptors, navigation }) => {
 
         const isFocused = state.index === index;
 
-        const onPress = () => {
-          const event = navigation.emit({
-            type: "tabPress",
-            target: route.key,
-            canPreventDefault: true,
-          });
-
-          // linkTo('/profile/jane')
-          if (!isFocused && !event.defaultPrevented) {
-            console.log("the merge thing");
-            navigation.navigate({ name: route.name, merge: true });
-          }
-        };
-
         return (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityState={isFocused ? { selected: true } : {}}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
-            onPress={onPress}
+          <Link
+            style={{
+              boxshadow: "0px 20 10px rgba(0, 0, 0, 0.8);",
+            }}
+            to={{ screen: route.name, merge: true }}
           >
-            <Text fontSize={30}>{label}</Text>
-          </Pressable>
+            <Text fontSize={"30"}>{label}</Text>
+          </Link>
+
+          // <Pressable
+          //   accessibilityRole="button"
+          //   accessibilityState={isFocused ? { selected: true } : {}}
+          //   accessibilityLabel={options.tabBarAccessibilityLabel}
+          //   onPress={onPress}
+          //   textDecoration="none"
+          // >
+          //   <Text fontSize={30}>{label}</Text>
+          // </Pressable>
         );
       })}
     </animated.div>

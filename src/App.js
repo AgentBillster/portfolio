@@ -8,6 +8,7 @@ import {
   extendTheme,
 } from "native-base";
 import AppNavigator from "./navigators/AppNavigator";
+import AnimatedCursor from "react-animated-cursor";
 
 // import { Dimensions } from "react-native-web";
 
@@ -46,6 +47,7 @@ const App = () => {
 
   return (
     <NativeBaseProvider theme={theme}>
+      <AnimatedCursor />
       <AppNavigator />
     </NativeBaseProvider>
   );

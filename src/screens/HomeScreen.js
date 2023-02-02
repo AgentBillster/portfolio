@@ -14,6 +14,7 @@ import { Dimensions } from "react-native";
 import { useSpring, animated, useSpringValue } from "@react-spring/web";
 import AnimatedCursor from "react-animated-cursor";
 import AnimatedBackground from "../components/AnimatedBackground";
+import FadeMask from "../components/FadeMask";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
@@ -29,6 +30,7 @@ const HomeScreen = () => {
     setIsDragging(true);
     setStartY(event.clientY);
     setStartScrollTop(scrollRef.current.scrollTop);
+    event.preventDefault();
   };
 
   const handleMouseUp = (event) => {
@@ -39,24 +41,24 @@ const HomeScreen = () => {
     if (!isDragging) return;
     const diff = event.clientY - startY;
     scrollRef.current.scrollTop = startScrollTop - diff;
+    event.preventDefault();
   };
 
   return (
-    <View
-      alignSelf={"center"}
-      style={{
-        width: 600,
-        height: "100%",
-        position: "fixed",
-        zIndex: 100,
-      }}
+    <Box
+      h="100%"
+      w="100%"
+      alignItems="center"
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
-      
     >
       <AnimatedBackground />
-      <ScrollView ref={scrollRef} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        w={"30%"}
+        ref={scrollRef}
+        showsVerticalScrollIndicator={false}
+      >
         {[...Array(15).keys()].map((item, index) => (
           <Box height={itemHeight}>
             <Text color={"black"}>
@@ -73,10 +75,9 @@ const HomeScreen = () => {
             </Text>
           </Box>
         ))}
-        {/* <FadeMask />; */}
       </ScrollView>
-      <AnimatedCursor />
-    </View>
+      <FadeMask />;
+    </Box>
   );
 };
 
