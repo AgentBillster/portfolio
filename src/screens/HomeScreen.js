@@ -1,93 +1,109 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-  Box,
-  Center,
-  Container,
-  Divider,
-  Text,
-  VStack,
-  ScrollView,
-  useColorMode,
-  View,
-} from "native-base";
+import React, { useEffect, useState, useRef } from "react";
+import { animated, useSpring } from "@react-spring/web";
+
+import SkillSection from "../components/SkillSection";
+import AboutSection from "../components/AboutSection";
+
 import { Dimensions } from "react-native";
-import { useSpring, animated, useSpringValue } from "@react-spring/web";
-import AnimatedCursor from "react-animated-cursor";
-import AnimatedBackground from "../components/AnimatedBackground";
-import FadeMask from "../components/FadeMask";
+import { useGesture, useDrag } from "@use-gesture/react";
+import { Box, Text, VStack } from "native-base";
+
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
-const itemHeight = height / 5;
+const sectionSize = height * 0.4;
 
-const HomeScreen = () => {
+const HomeScreen = ({ style }) => {
+  const [containerHeight, setContainerHeight] = useState(0);
   const scrollRef = useRef(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startY, setStartY] = useState(0);
-  const [startScrollTop, setStartScrollTop] = useState(0);
 
-  const handleMouseDown = (event) => {
-    setIsDragging(true);
-    setStartY(event.clientY);
-    setStartScrollTop(scrollRef.current.scrollTop);
-    event.preventDefault();
+  const [{ y }, api] = useSpring(() => ({
+    y: 0,
+    config: { tension: 300, friction: 30 },
+  }));
+
+  const handleContainerHeight = (height) => {
+    setContainerHeight(height);
   };
 
-  const handleMouseUp = (event) => {
-    setIsDragging(false);
-  };
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (container) {
+      handleContainerHeight(container.getBoundingClientRect().height);
+    }
+  }, []);
 
-  const handleMouseMove = (event) => {
-    if (!isDragging) return;
-    const diff = event.clientY - startY;
-    scrollRef.current.scrollTop = startScrollTop - diff;
-    event.preventDefault();
-  };
+  const bind = useDrag(
+    ({ event, distance, offset: [, y] }) => {
+      api.start({ y: y });
+    },
+    {
+      bounds: {
+        bottom: containerHeight - height * 0.9,
+        top: -containerHeight,
+      },
+
+      rubberband: 0.9,
+    }
+  );
 
   return (
-    <Box
-      h="100%"
-      w="100%"
-      alignItems="center"
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onMouseMove={handleMouseMove}
+    <animated.div
+      ref={scrollRef}
+      {...bind()}
+      style={{
+        ...style,
+        width: "100%",
+        transform: y.to((y) => `translate3d(0,${y}px,0)`),
+      }}
     >
-      <AnimatedBackground />
-      <ScrollView
-        w={"30%"}
-        ref={scrollRef}
-        showsVerticalScrollIndicator={false}
+      <VStack
+        style={{
+          boxShadow: "0px 0px 5px rgba(0,0,0,0 .3)",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: 10,
+          backgroundColor: "lightblue",
+        }}
       >
-        {[...Array(15).keys()].map((item, index) => (
-          <Box height={itemHeight}>
-            <Text color={"black"}>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </Text>
-          </Box>
-        ))}
-      </ScrollView>
-      <FadeMask />;
-    </Box>
+        <AboutSection
+          style={{
+            height: sectionSize,
+          }}
+        />
+        <AboutSection
+          style={{
+            height: sectionSize,
+          }}
+        />
+        <AboutSection
+          style={{
+            height: sectionSize,
+          }}
+        />
+      </VStack>
+    </animated.div>
+    // </animated.div>
   );
 };
 
 export default HomeScreen;
 
 {
-  /* <animated.div
-style={{
-  ...bg,
-  alignSelf: "center",
-}}
-> */
+  /* <ScrollView
+  w={"35%"}
+  height="100%"
+  margin={"auto"}
+  bg="white"
+  showsVerticalScrollIndicator={false}
+  p="3"
+  contentContainerStyle={{
+    alignItems: "center",
+    boxShadow: "px 0px 5px rgba(255,255,255,0.8)",
+    padding: "7px",
+    borderRadius: 40,
+  }}
+>
+  
+</ScrollView> */
 }

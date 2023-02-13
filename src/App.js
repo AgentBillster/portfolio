@@ -1,55 +1,79 @@
-import React from "react";
-import {
-  Text,
-  Box,
-  Container,
-  Center,
-  NativeBaseProvider,
-  extendTheme,
-} from "native-base";
-import AppNavigator from "./navigators/AppNavigator";
-import AnimatedCursor from "react-animated-cursor";
+import React, { useEffect, useState } from "react";
+import { Center, HStack } from "native-base";
 
-// import { Dimensions } from "react-native-web";
+import { useTransition } from "@react-spring/web";
+import HomeScreen from "./screens/HomeScreen";
+import WorkScreen from "./screens/WorkScreen";
+import ContactScreen from "./screens/ContactScreen";
+import AnimatedNavPanel from "./navigators/AnimatedNavPanel";
+import AnimatedCursor from "react-animated-cursor";
+import { Dimensions } from "react-native";
+
+const pages = {
+  home: ({ style }) => <HomeScreen style={style} />,
+  work: ({ style }) => <WorkScreen style={style} />,
+  contact: ({ style }) => <ContactScreen style={style} />,
+};
 
 const App = () => {
-  const theme = extendTheme({
-    components: {
-      Text: {
-        defaultProps: {
-          _light: { color: "black" },
-          _dark: { color: "lightgray" },
-        },
-      },
-    },
+  const [page, setPage] = useState("home");
+  const onPress = (page) => {
+    setPage(page);
+  };
 
-    colors: {
-      background: "white",
-      primary: {
-        50: "#E3F2F9",
-        100: "#C5E4F3",
-        200: "#A2D4EC",
-        300: "#7AC1E4",
-        400: "#47A9DA",
-        500: "#0088CC",
-        600: "#007AB8",
-        700: "#006BA1",
-        800: "#005885",
-        900: "#003F5E",
-      },
+  const transitions = useTransition(page, {
+    keys: page,
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: {
+      display: "none",
     },
-
-    config: {
-      // Changing initialColorMode to 'dark'
-      // initialColorMode: "dark",
-    },
+    reset: page !== "home",
   });
 
+  const [width, setWidth] = useState(Dimensions.get("window").width);
+  const [height, setHeight] = useState(Dimensions.get("window").height);
+
+  useEffect(() => {
+    function handleResize() {
+      setWidth(Dimensions.get("window").width);
+      setHeight(Dimensions.get("window").height);
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
-    <NativeBaseProvider theme={theme}>
+    <Center
+      w={width}
+      h={height}
+      style={{
+        background: "rgb(226,225,230)",
+        background:
+          "linear-gradient(0deg, rgba(226,225,230,1) 0%, rgba(206,205,209,1) 93%)",
+      }}
+    >
       <AnimatedCursor />
-      <AppNavigator />
-    </NativeBaseProvider>
+      <HStack
+        margin={"auto"}
+        w={width * 0.9}
+        h={height * 0.9}
+        borderWidth="2"
+        borderColor="rgba(80,80,80, 0.4)"
+        borderRadius={15}
+        overflowY={"hidden"}
+      >
+        <AnimatedNavPanel pages={Object.keys(pages)} onPress={onPress} />
+        {transitions((style, item, i) => {
+          const Page = pages[item];
+          return <Page style={style} />;
+        })}
+      </HStack>
+    </Center>
   );
 };
 

@@ -8,7 +8,8 @@ const AnimatedBackground = () => {
   const { colorMode } = useColorMode();
 
   const bg = useSpring({
-    background: colorMode === "light" ? "white" : "#202023",
+    background:
+      colorMode === "light" ? "rgba(255, 255, 255, 1)" : "rgba(32, 32, 35, 1)",
   });
 
   return (
