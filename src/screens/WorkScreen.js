@@ -1,16 +1,13 @@
-import React, { useRef, useState, useEffect } from "react";
-import {
-  useSpringRef,
-  useTransition,
-  animated,
-  useSpring,
-} from "@react-spring/web";
+import React, { useState, useContext } from "react";
+import { animated, useSpring } from "@react-spring/web";
 import ProjectCard from "../components/ProjectCard";
 
 import { Dimensions } from "react-native";
-import { FlatList } from "react-native-web";
-import { Box, Center, ScrollView, Stagger, VStack } from "native-base";
+import { Center, Text, VStack, Box, Button } from "native-base";
 import { useDrag } from "@use-gesture/react";
+import useMeasure from "react-use-measure";
+import { usePageNavigation } from "./../hooks/usePageNavigation";
+import { NavContext } from "./../providers/NavigationProvider";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -49,10 +46,10 @@ const data = [
 ];
 
 const WorkScreen = ({ style, pages }) => {
+  const { navigate } = useContext(NavContext);
+  const [ref, { height }] = useMeasure();
   const [filterDemo, setFilterDemo] = useState(false);
   const [search, setSearch] = useState("");
-  const [containerHeight, setContainerHeight] = useState(0);
-  const scrollRef = useRef(null);
 
   const filteredData = data.filter(
     (item) =>
@@ -65,25 +62,14 @@ const WorkScreen = ({ style, pages }) => {
     config: { tension: 300, friction: 30 },
   }));
 
-  const handleContainerHeight = (height) => {
-    setContainerHeight(height);
-  };
-
-  useEffect(() => {
-    const container = scrollRef.current;
-    if (container) {
-      handleContainerHeight(container.getBoundingClientRect().height);
-    }
-  }, []);
-
   const bind = useDrag(
     ({ event, distance, offset: [, y] }) => {
       api.start({ y: y });
     },
     {
       bounds: {
-        bottom: containerHeight - height * 0.9,
-        top: -containerHeight - height * 0.9,
+        bottom: 0,
+        top: -height + 600,
       },
 
       rubberband: 0.9,
@@ -92,7 +78,6 @@ const WorkScreen = ({ style, pages }) => {
 
   return (
     <animated.div
-      ref={scrollRef}
       {...bind()}
       style={{
         ...style,
@@ -100,7 +85,7 @@ const WorkScreen = ({ style, pages }) => {
         transform: y.to((y) => `translate3d(0,${y}px,0)`),
       }}
     >
-      <Center w={"100%"} bg="lightgreen">
+      <Center ref={ref} w={"100%"} bg="lightgreen">
         <VStack
           flex="1"
           flexDirection={"row"}
@@ -110,12 +95,19 @@ const WorkScreen = ({ style, pages }) => {
           width="60%"
         >
           {filteredData.map((item, i) => (
-            <ProjectCard
-              key={i}
-              title={item.title}
-              description={item.description}
-              hasDemo={item.hasDemo}
-            />
+            <Box bg="white" w={400} h={500}>
+              <Text style={{ fontWeight: "bold" }}>{item.title}</Text>
+              <Text>{item.description}</Text>
+              <Button
+                onPress={() => {
+                  navigate("demo");
+                }}
+                w={40}
+                m="auto"
+              >
+                go
+              </Button>
+            </Box>
           ))}
         </VStack>
       </Center>

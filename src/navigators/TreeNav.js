@@ -82,19 +82,15 @@ const TreeNav = () => {
   return (
     <div
       style={{
-        width: "100%",
         height: " 100%",
-        margin: "0",
-        padding: "0",
         overflow: "hidden",
         fontSize: "14px",
         lineHeight: "21px",
-        // --webkit-user-select: "none",
-        // user-select: "none",
         display: "flex",
         alignItems: " center",
         height: "100%",
         justifyContent: " center",
+        border: "1px solid red",
       }}
     >
       <Tree name="main" defaultOpen>

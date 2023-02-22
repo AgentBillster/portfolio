@@ -2,19 +2,28 @@ import React, { useEffect, useState, useRef } from "react";
 import { animated, useSpring } from "@react-spring/web";
 
 import SkillSection from "../components/SkillSection";
-import AboutSection from "../components/AboutSection";
 
 import { Dimensions } from "react-native";
 import { useGesture, useDrag } from "@use-gesture/react";
-import { Box, Text, VStack } from "native-base";
+import {
+  Box,
+  Text,
+  VStack,
+  HStack,
+  Center,
+  Image,
+  Heading,
+  Divider,
+  TextArea,
+} from "native-base";
+import useMeasure from "react-use-measure";
+import HomeHeader from "./../components/HomeHeader";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
-const sectionSize = height * 0.4;
-
 const HomeScreen = ({ style }) => {
-  const [containerHeight, setContainerHeight] = useState(0);
+  const [ref, { height }] = useMeasure();
   const scrollRef = useRef(null);
 
   const [{ y }, api] = useSpring(() => ({
@@ -22,26 +31,15 @@ const HomeScreen = ({ style }) => {
     config: { tension: 300, friction: 30 },
   }));
 
-  const handleContainerHeight = (height) => {
-    setContainerHeight(height);
-  };
-
-  useEffect(() => {
-    const container = scrollRef.current;
-    if (container) {
-      handleContainerHeight(container.getBoundingClientRect().height);
-    }
-  }, []);
-
   const bind = useDrag(
     ({ event, distance, offset: [, y] }) => {
       api.start({ y: y });
     },
     {
-      bounds: {
-        bottom: containerHeight - height * 0.9,
-        top: -containerHeight,
-      },
+      // bounds: {
+      //   bottom: 0,
+      //   top: -height + 600,
+      // },
 
       rubberband: 0.9,
     }
@@ -49,7 +47,6 @@ const HomeScreen = ({ style }) => {
 
   return (
     <animated.div
-      ref={scrollRef}
       {...bind()}
       style={{
         ...style,
@@ -57,30 +54,113 @@ const HomeScreen = ({ style }) => {
         transform: y.to((y) => `translate3d(0,${y}px,0)`),
       }}
     >
-      <VStack
-        style={{
-          boxShadow: "0px 0px 5px rgba(0,0,0,0 .3)",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: 10,
-          backgroundColor: "lightblue",
-        }}
-      >
-        <AboutSection
-          style={{
-            height: sectionSize,
-          }}
+      <VStack ref={ref} w="50%" margin="auto">
+        <HomeHeader />
+        <Image
+          position={"fixed"}
+          right="20%"
+          top="14%"
+          source={require("../assets/images/me.jpg")}
+          alt="Alternate Text"
+          size="230px"
+          borderRadius={"40"}
         />
-        <AboutSection
-          style={{
-            height: sectionSize,
-          }}
+        <Divider
+          bgColor={"black"}
+          alignSelf="center"
+          mt={"5%"}
+          w="170%"
+          zIndex="-1"
         />
-        <AboutSection
-          style={{
-            height: sectionSize,
-          }}
-        />
+
+        <HStack mt={"50"}>
+          <Text fontSize={"20px"} flex={0.1}>
+            Bio
+          </Text>
+          <Box
+            _text={{
+              fontSize: "20px",
+              lineHeight: "25px",
+            }}
+            flex={0.6}
+          >
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book. It has survived not
+            only five centuries, but also the leap into electronic typesetting,
+            remaining essentially unchanged. It was popularised in the 1960s
+            with the release of Letraset sheets containing Lorem Ipsum passages,
+            and more recently with desktop publishing software like Aldus
+            PageMaker including versions of Lorem Ipsum.
+          </Box>
+        </HStack>
+        <HStack mt={"50"}>
+          <Text fontSize={"20px"} flex={0.1}>
+            Bio
+          </Text>
+          <Box
+            _text={{
+              fontSize: "20px",
+              lineHeight: "25px",
+            }}
+            flex={0.6}
+          >
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book. It has survived not
+            only five centuries, but also the leap into electronic typesetting,
+            remaining essentially unchanged. It was popularised in the 1960s
+            with the release of Letraset sheets containing Lorem Ipsum passages,
+            and more recently with desktop publishing software like Aldus
+            PageMaker including versions of Lorem Ipsum.
+          </Box>
+        </HStack>
+        <HStack mt={"50"}>
+          <Text fontSize={"20px"} flex={0.1}>
+            Bio
+          </Text>
+          <Box
+            _text={{
+              fontSize: "20px",
+              lineHeight: "25px",
+            }}
+            flex={0.6}
+          >
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book. It has survived not
+            only five centuries, but also the leap into electronic typesetting,
+            remaining essentially unchanged. It was popularised in the 1960s
+            with the release of Letraset sheets containing Lorem Ipsum passages,
+            and more recently with desktop publishing software like Aldus
+            PageMaker including versions of Lorem Ipsum.
+          </Box>
+        </HStack>
+        <HStack mt={"50"}>
+          <Text fontSize={"20px"} flex={0.1}>
+            Bio
+          </Text>
+          <Box
+            _text={{
+              fontSize: "20px",
+              lineHeight: "25px",
+            }}
+            flex={0.6}
+          >
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book. It has survived not
+            only five centuries, but also the leap into electronic typesetting,
+            remaining essentially unchanged. It was popularised in the 1960s
+            with the release of Letraset sheets containing Lorem Ipsum passages,
+            and more recently with desktop publishing software like Aldus
+            PageMaker including versions of Lorem Ipsum.
+          </Box>
+        </HStack>
       </VStack>
     </animated.div>
     // </animated.div>

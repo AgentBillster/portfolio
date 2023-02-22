@@ -3,27 +3,31 @@ import { Box, Pressable, Switch, Text, useColorMode } from "native-base";
 
 import { View } from "react-native";
 import { useSpring, animated, useSpringValue } from "@react-spring/web";
+import { Dimensions } from "react-native";
 
-const AnimatedBackground = () => {
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
+
+const AnimatedBackground = (props) => {
   const { colorMode } = useColorMode();
 
   const bg = useSpring({
-    background:
-      colorMode === "light" ? "rgba(255, 255, 255, 1)" : "rgba(32, 32, 35, 1)",
+    background: colorMode === "light" ? "rgb(230,230,230)" : "black",
   });
 
   return (
     <animated.div
       style={{
         ...bg,
-        width: "100%",
-        height: "100%",
-        position: "fixed",
-        top: 0,
-        left: 0,
-        zIndex: -1,
+        width,
+        height,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
-    />
+    >
+      {props.children}
+    </animated.div>
   );
 };
 

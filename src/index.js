@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { extendTheme, NativeBaseProvider } from "native-base";
+import { NavigationProvider } from "./providers/NavigationProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -16,6 +17,18 @@ root.render(
             _light: { color: "black" },
             _dark: { color: "lightgray" },
             fontFamily: "Book",
+          },
+        },
+
+        Pressable: {
+          defaultProps: {
+            cursor: "none",
+          },
+        },
+
+        Switch: {
+          defaultProps: {
+            cursor: "none",
           },
         },
 
@@ -51,7 +64,9 @@ root.render(
       },
     })}
   >
-    <App />
+    <NavigationProvider>
+      <App />
+    </NavigationProvider>
   </NativeBaseProvider>
 );
 

@@ -23,15 +23,12 @@ const SkillSection = ({ style }) => {
         <HStack space={50}>
           <Text style={{ fontSize: 20 }}>{`\u2023 Skill`}</Text>
           <Text style={{ fontSize: 20 }}>{`\u2023 Skill`}</Text>
-          <Text style={{ fontSize: 20 }}>{`\u2023 Skill`}</Text>
         </HStack>
         <HStack space={50}>
           <Text style={{ fontSize: 20 }}>{`\u2023 Skill`}</Text>
           <Text style={{ fontSize: 20 }}>{`\u2023 Skill`}</Text>
-          <Text style={{ fontSize: 20 }}>{`\u2023 Skill`}</Text>
         </HStack>
         <HStack space={50}>
-          <Text style={{ fontSize: 20 }}>{`\u2023 Skill`}</Text>
           <Text style={{ fontSize: 20 }}>{`\u2023 Skill`}</Text>
           <Text style={{ fontSize: 20 }}>{`\u2023 Skill`}</Text>
         </HStack>

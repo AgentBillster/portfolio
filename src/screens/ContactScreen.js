@@ -3,7 +3,7 @@ import React from "react";
 import AnimatedBackground from "../components/AnimatedBackground";
 import { useSpringRef, useTransition, animated } from "@react-spring/web";
 import { Dimensions } from "react-native";
-import DeviceFrame from "../components/DeviceFrame";
+import "react-device-frameset/styles/marvel-devices.min.css";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -15,11 +15,8 @@ const ContactScreen = ({ style, pages }) => {
         ...style,
         height,
         width,
-        background: "lightblue",
       }}
-    >
-      <DeviceFrame />
-    </animated.div>
+    ></animated.div>
   );
 };
 
