@@ -1,4 +1,3 @@
-import { View, Text } from "react-native";
 import React from "react";
 import { usePageNavigation } from "./../hooks/usePageNavigation";
 import HomeScreen from "./../screens/HomeScreen";

@@ -145,6 +145,16 @@ code {
     monospace;
 }
 
+.example::-webkit-scrollbar {
+  display: none;
+}
+
+
+.example {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 html,
 body {
   height: 100%;
@@ -250,5 +260,4 @@ body {
   border-radius: 8px;
   box-shadow: inset 0px -3px 3px 0px rgba(256, 256, 256, 0.2);
   z-index: 2;
-
 }

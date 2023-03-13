@@ -1,8 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { animated, useSpring } from "@react-spring/web";
-
-import SkillSection from "../components/SkillSection";
-
 import { Dimensions } from "react-native";
 import { useGesture, useDrag } from "@use-gesture/react";
 import {
@@ -14,10 +11,13 @@ import {
   Image,
   Heading,
   Divider,
+  Button,
   TextArea,
+  PlayIcon,
 } from "native-base";
 import useMeasure from "react-use-measure";
-import HomeHeader from "./../components/HomeHeader";
+import { GitIcon, LinkedInIcon, MailIcon } from "../assets/icons/icons";
+
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -54,27 +54,72 @@ const HomeScreen = ({ style }) => {
         transform: y.to((y) => `translate3d(0,${y}px,0)`),
       }}
     >
-      <VStack ref={ref} w="50%" margin="auto">
-        <HomeHeader />
-        <Image
-          position={"fixed"}
-          right="20%"
-          top="14%"
-          source={require("../assets/images/me.jpg")}
-          alt="Alternate Text"
-          size="230px"
-          borderRadius={"40"}
-        />
+      <VStack ref={ref} w="50%" margin="auto" >
+
+        <VStack mt={"5%"} >
+          <Text fontFamily={"Book"} fontSize={"65"} letterSpacing="14">
+            WILLIAM WILSON
+          </Text>
+          <Text fontFamily={"thin"} fontSize={"50"}>
+            Fullstack Web Developer
+          </Text>
+        </VStack>
+
+        <HStack space={12} mt={'12'} alignItems="center" >
+          <HStack alignItems={'center'}>
+            <Box>
+              <MailIcon size="60px" />
+            </Box>
+
+            <VStack >
+              <Text>Gmail</Text>
+              <Text _light={{ color: "muted.600" }}>william.z.wilson95@gmail.com</Text>
+            </VStack>
+          </HStack>
+
+          <HStack alignItems={'center'}>
+            <Box>
+              <GitIcon size="60px" />
+            </Box>
+
+            <VStack>
+              <Text>Github</Text>
+              <Text _light={{ color: "muted.600" }}>AgentBillster</Text>
+            </VStack>
+          </HStack>
+
+          <HStack alignItems={'center'}>
+            <Box>
+              <LinkedInIcon size="60px" />
+            </Box>
+
+            <VStack>
+              <Text>Linkedin</Text>
+              <Text _light={{ color: "muted.600" }}>William_wilson95</Text>
+            </VStack>
+          </HStack>
+        </HStack>
+
         <Divider
           bgColor={"black"}
           alignSelf="center"
-          mt={"5%"}
-          w="170%"
+          w="150%"
           zIndex="-1"
         />
 
-        <HStack mt={"50"}>
-          <Text fontSize={"20px"} flex={0.1}>
+        <Image
+          position={"fixed"}
+          right="21%"
+          top="20%"
+          source={require("../assets/images/me.jpg")}
+          alt="Alternate Text"
+          size="235px"
+          borderRadius={"20"}
+        />
+
+
+        <HStack mt={"50"} space="4" >
+          <Text fontSize={"30px"} flex={0.1}>
             Bio
           </Text>
           <Box
@@ -84,20 +129,17 @@ const HomeScreen = ({ style }) => {
             }}
             flex={0.6}
           >
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
+            As a self-taught Full Stack React Native/ReactJS Engineer, I take great pride in my unwavering commitment to
+            learning and the pursuit of knowledge. With a passion for developing cutting-edge solutions, I have honed
+            my skills to become a highly skilled and efficient worker. With a keen eye for detail and a deep
+            understanding of the latest technologies
           </Box>
         </HStack>
-        <HStack mt={"50"}>
-          <Text fontSize={"20px"} flex={0.1}>
-            Bio
+
+
+        <HStack mt={"60"}>
+          <Text fontSize={"30px"} flex={0.1}>
+            Education
           </Text>
           <Box
             _text={{
@@ -106,61 +148,10 @@ const HomeScreen = ({ style }) => {
             }}
             flex={0.6}
           >
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
+            something institute of technology
           </Box>
         </HStack>
-        <HStack mt={"50"}>
-          <Text fontSize={"20px"} flex={0.1}>
-            Bio
-          </Text>
-          <Box
-            _text={{
-              fontSize: "20px",
-              lineHeight: "25px",
-            }}
-            flex={0.6}
-          >
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
-          </Box>
-        </HStack>
-        <HStack mt={"50"}>
-          <Text fontSize={"20px"} flex={0.1}>
-            Bio
-          </Text>
-          <Box
-            _text={{
-              fontSize: "20px",
-              lineHeight: "25px",
-            }}
-            flex={0.6}
-          >
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
-          </Box>
-        </HStack>
+
       </VStack>
     </animated.div>
     // </animated.div>

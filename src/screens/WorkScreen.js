@@ -2,15 +2,11 @@ import React, { useState, useContext } from "react";
 import { animated, useSpring } from "@react-spring/web";
 import ProjectCard from "../components/ProjectCard";
 
-import { Dimensions } from "react-native";
 import { Center, Text, VStack, Box, Button } from "native-base";
 import { useDrag } from "@use-gesture/react";
 import useMeasure from "react-use-measure";
 import { usePageNavigation } from "./../hooks/usePageNavigation";
 import { NavContext } from "./../providers/NavigationProvider";
-
-const width = Dimensions.get("window").width;
-const height = Dimensions.get("window").height;
 
 const data = [
   {
@@ -81,37 +77,35 @@ const WorkScreen = ({ style, pages }) => {
       {...bind()}
       style={{
         ...style,
-        width: "100%",
         transform: y.to((y) => `translate3d(0,${y}px,0)`),
       }}
     >
-      <Center ref={ref} w={"100%"} bg="lightgreen">
-        <VStack
-          flex="1"
-          flexDirection={"row"}
-          flexWrap="wrap"
-          justifyContent="center"
-          alignItems={"center"}
-          width="60%"
-        >
-          {filteredData.map((item, i) => (
-            <Box bg="white" w={400} h={500}>
-              <Text style={{ fontWeight: "bold" }}>{item.title}</Text>
-              <Text>{item.description}</Text>
-              <Button
-                onPress={() => {
-                  navigate("demo");
-                }}
-                w={40}
-                m="auto"
-              >
-                go
-              </Button>
-            </Box>
-          ))}
-        </VStack>
+      <Center ref={ref} w={"100%"} flexDirection={"row"} flexWrap="wrap">
+        {filteredData.map((item, i) => (
+          <Box
+            p={50}
+            borderColor="grey"
+            borderBottomWidth={i < 2 ? 1 : 0}
+            borderRightWidth={i % 1 === 0 ? 1 : 0}
+            bg="rgb(230,230,230)"
+            w={i === 0 || i === 1 ? '50%' : "33.33%"}
+            h={530}
+          >
+            <Text style={{ fontWeight: "bold" }}>{item.title}</Text>
+            <Text>{item.description}</Text>
+            <Button
+              onPress={() => {
+                navigate("demo");
+              }}
+              w={40}
+              m="auto"
+            >
+              go
+            </Button>
+          </Box>
+        ))}
       </Center>
-    </animated.div>
+    </animated.div >
   );
 };
 

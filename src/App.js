@@ -32,7 +32,7 @@ const App = () => {
         borderWidth="1"
         borderColor="rgba(80,80,80, 0.7)"
         borderRadius={5}
-        overflowY={"hidden"}
+        overflow={"hidden"}
       >
         <AnimatedNavPanel />
         {transitions((style, item) => getPage(item, style))}

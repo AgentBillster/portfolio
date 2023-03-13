@@ -2,23 +2,29 @@ import React from "react";
 import { animated } from "@react-spring/web";
 import { HStack, Box, Center } from "native-base";
 import TradeApp from "./../Projects/TradeApp/src/TradeApp";
-import DFrame from "../components/DFrame";
+
 
 const DemoScreen = ({ style }) => {
   return (
-    <animated.div
-      style={{
-        ...style,
-        height: "100%",
-        width: "100%",
-      }}
+    <Center
+      w={'full'}
+      h='full'
     >
-      <DFrame>
+
+      {/* <Box w={'375'} h='812' position={'absolute'} overflow="hidden" borderWidth={1}>
         <TradeApp />
-      </DFrame>
-    </animated.div>
+      </Box> */}
+
+
+      <div className="iphone-x">
+        <i></i>
+        <TradeApp />
+      </div>
+
+    </Center>
   );
 };
 
 export default DemoScreen;
-// h={812} w={375}
+{/* <Box w={'375'} h='812'>
+      </Box> */}

@@ -5,21 +5,25 @@ import {
   Text,
   Center,
   useColorMode,
+  HStack,
+  Divider,
+  Checkbox,
+  Hidden,
+  VStack,
+  SunIcon,
+  MoonIcon,
 } from "native-base";
 
 const ColorModeSwitch = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <Center flex={0.2}>
-      <Switch
-        offTrackColor="orange.500"
-        onTrackColor="orange.200"
-        onThumbColor="orange.500"
-        offThumbColor="orange.50"
-        onValueChange={toggleColorMode}
-        style={{ transform: [{ rotate: "-90deg" }] }}
-      />
+    <Center flex={0.25} justifyContent="space-evenly">
+
+      <Pressable onPress={toggleColorMode}>
+        {colorMode === 'light' ? <SunIcon size="8" /> : <MoonIcon />}
+      </Pressable>
+
     </Center>
   );
 };

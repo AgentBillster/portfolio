@@ -59,8 +59,7 @@ root.render(
       },
 
       config: {
-        // Changing initialColorMode to 'dark'
-        // initialColorMode: "dark",
+        initialColorMode: "light",
       },
     })}
   >

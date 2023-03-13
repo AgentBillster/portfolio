@@ -30,7 +30,7 @@ const AnimatedNavPanel = () => {
         </Text>
       </Center>
       <Divider bg={"muted.500"} />
-      <VStack flex={0.7} justifyContent="center">
+      <VStack flex={0.75} justifyContent="center">
         {Object.keys(pages).map((page, i) =>
           page === "demo" ? null : (
             <Pressable
@@ -51,8 +51,6 @@ const AnimatedNavPanel = () => {
           )
         )}
       </VStack>
-      <Divider bg={"muted.500"} />
-      <ColorModeSwitch />
       <Divider bg={"muted.500"} />
       <ColorModeSwitch />
     </Box>
