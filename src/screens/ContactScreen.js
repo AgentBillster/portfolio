@@ -16,7 +16,9 @@ const ContactScreen = ({ style, pages }) => {
         height,
         width,
       }}
-    ></animated.div>
+    >
+      
+    </animated.div>
   );
 };
 

@@ -5,8 +5,8 @@ import { View } from "react-native";
 import { useSpring, animated, useSpringValue } from "@react-spring/web";
 import { Dimensions } from "react-native";
 
-const width = Dimensions.get("window").width;
-const height = Dimensions.get("window").height;
+const width = Dimensions.get("screen").width;
+const height = Dimensions.get("screen").height;
 
 const AnimatedBackground = (props) => {
   const { colorMode } = useColorMode();
@@ -19,8 +19,8 @@ const AnimatedBackground = (props) => {
     <animated.div
       style={{
         ...bg,
-        width,
-        height,
+        width: "100%",
+        height: window.innerHeight,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",

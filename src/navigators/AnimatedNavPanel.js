@@ -30,28 +30,32 @@ const AnimatedNavPanel = () => {
         </Text>
       </Center>
       <Divider bg={"muted.500"} />
-      <VStack flex={0.75} justifyContent="center">
+      <VStack flex={0.75}>
         {Object.keys(pages).map((page, i) =>
           page === "demo" ? null : (
             <Pressable
-              style={{ transform: [{ rotate: "-90deg" }] }}
-              my={"100%"}
-              key={page}
-              borderBottomWidth={page === currentPage ? 2 : 0}
-              py={4}
-              textAlign={"center"}
+              flex="1"
+              justifyContent={"center"}
+              alignItems="center"
               onPress={() => {
                 navigate(page);
               }}
             >
-              <Text fontFamily={"Book"} fontSize="20px">
+              <Text
+                style={{ transform: [{ rotate: "-90deg" }] }}
+                fontFamily={"Book"}
+                textAlign="center"
+                fontFamily="Light"
+                borderBottomWidth={page === currentPage ? 2 : 0}
+                borderColor="rgba(80,80,80, 0.9)"
+                fontSize="20px"
+              >
                 {page}
               </Text>
             </Pressable>
           )
         )}
       </VStack>
-      <Divider bg={"muted.500"} />
       <ColorModeSwitch />
     </Box>
   );

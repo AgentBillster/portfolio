@@ -1,21 +1,20 @@
 import React, { useRef, useState, useEffect } from "react";
+import { useSpring, a } from "@react-spring/web";
 import useMeasure from "react-use-measure";
-import * as Icons from "../assets/icons/icons";
-import { animated, useSpring } from "@react-spring/web";
+import { treeIcons } from "../assets/icons/icons";
 
-function usePrevious(value) {
+const usePrevious = (value) => {
   const ref = useRef();
-  useEffect(() => {
-    ref.current = value;
-  }, [value]);
+  useEffect(() => void (ref.current = value), [value]);
   return ref.current;
-}
+};
 
 const Tree = React.memo(({ children, name, style, defaultOpen = false }) => {
   const [isOpen, setOpen] = useState(defaultOpen);
-
   const previous = usePrevious(isOpen);
+
   const [ref, { height: viewHeight }] = useMeasure();
+
   const { height, opacity, y } = useSpring({
     from: { height: 0, opacity: 0, y: 0 },
     to: {
@@ -26,104 +25,78 @@ const Tree = React.memo(({ children, name, style, defaultOpen = false }) => {
   });
 
   const Icon =
-    Icons[`${children ? (isOpen ? "Minus" : "Plus") : "Close"}SquareO`];
+    treeIcons[
+      `${children ? (isOpen ? "ChevronDown" : "ChevronRight") : "JSIcon"}`
+    ];
 
   return (
     <div
       style={{
         position: "relative",
-        padding: "4px 0px 0px 0px",
+        paddingInline: "7px",
+        paddingBlock: "3px",
         textOverflow: "ellipsis",
-        overflow: "hidden",
+        whiteSpace: "nowrap",
         verticalAlign: "middle",
-        color: "#24292e",
-        fill: "#24292e",
+        color: "white",
+        fill: "white",
       }}
     >
       <Icon
         style={{
-          width: "1em",
-          height: "1em",
-          marginRight: 10,
-          cursor: "pointer",
+          width: "16px",
+          height: "16px",
+          marginRight: "10px",
           verticalAlign: "middle",
-          opacity: children ? 1 : 0.3,
         }}
         onClick={() => setOpen(!isOpen)}
       />
-      <span
-        style={{
-          verticalAlign: "middle",
-        }}
-      >
-        {name}
-      </span>
-      <animated.div
+      <span style={{ ...style, verticalAlign: "middle" }}>{name}</span>
+      <a.div
         style={{
           opacity,
-          marginLeft: "8",
-          padding: "0px 0px 0px 14px",
-          borderLeft: "1px dashed rgba(255, 255, 255, 0.4)",
-          overflow: "hidden",
-          //   marginl: 6px;
-          //   padding: 0px 0px 0px 14px;
-          //   border-left: 1px dashed rgba(255, 255, 255, 0.4);
-          //   overflow: hidden;
           height: isOpen && previous === isOpen ? "auto" : height,
+          marginLeft: "6px",
+          padding: "0px 0px 0px 14px",
+          borderLeft: "1px dashed rgba(80,80,80)",
+          overflow: "hidden",
         }}
       >
-        <animated.div ref={ref} style={{ y }} children={children} />
-      </animated.div>
+        <a.div ref={ref} style={{ y }} children={children} />
+      </a.div>
     </div>
   );
 });
 
-const TreeNav = () => {
+export const TreeNav = () => {
   return (
     <div
       style={{
-        height: " 100%",
+        width: "100%",
+        height: "100%",
+        margin: "0",
+        padding: " 0",
         overflow: "hidden",
         fontSize: "14px",
         lineHeight: "21px",
-        display: "flex",
-        alignItems: " center",
+        userSelect: "none",
         height: "100%",
-        justifyContent: " center",
-        border: "1px solid red",
+        justifyContent: "center",
       }}
     >
-      <Tree name="main" defaultOpen>
-        <Tree name="subtree with children">
-          <Tree name="sub-subtree with children">
-            <Tree name="child 1" style={{ color: "#37ceff" }} />
+      <Tree name={"App_Name"} defaultOpen>
+        <Tree name="src">
+          <Tree name="components">
+            <Tree name="component1" />
+            <Tree name="component1" />
           </Tree>
+          <Tree name="screens">
+            <Tree name="screen1" />
+            <Tree name="screen2" />
+          </Tree>
+          <Tree name="app" />
         </Tree>
       </Tree>
     </div>
   );
 };
-
-export default TreeNav;
-
-{
-  /* <Tree name="custom content">
-  <div
-    style={{
-      position: "relative",
-      width: "100%",
-      height: 200,
-      padding: 10,
-    }}
-  >
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        background: "black",
-        borderRadius: 5,
-      }}
-    />
-  </div>
-</Tree> */
-}

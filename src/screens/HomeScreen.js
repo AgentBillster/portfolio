@@ -14,10 +14,10 @@ import {
   Button,
   TextArea,
   PlayIcon,
+  Badge,
 } from "native-base";
 import useMeasure from "react-use-measure";
 import { GitIcon, LinkedInIcon, MailIcon } from "../assets/icons/icons";
-
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -51,107 +51,119 @@ const HomeScreen = ({ style }) => {
       style={{
         ...style,
         width: "100%",
+        paddingBlock: "3%",
+        paddingInline: "5%",
         transform: y.to((y) => `translate3d(0,${y}px,0)`),
       }}
     >
-      <VStack ref={ref} w="50%" margin="auto" >
+      <VStack>
+        <Text variant="bigtext">William Wilson</Text>
+        <Text variant="bigsubtext">Fullstack Web Developer</Text>
+      </VStack>
 
-        <VStack mt={"5%"} >
-          <Text fontFamily={"Book"} fontSize={"65"} letterSpacing="14">
-            WILLIAM WILSON
-          </Text>
-          <Text fontFamily={"thin"} fontSize={"50"}>
-            Fullstack Web Developer
-          </Text>
-        </VStack>
+      <HStack space={12} mt={"10"}>
+        <HStack space={2} alignItems={"center"}>
+          <Box>
+            <MailIcon />
+          </Box>
 
-        <HStack space={12} mt={'12'} alignItems="center" >
-          <HStack alignItems={'center'}>
-            <Box>
-              <MailIcon size="60px" />
-            </Box>
-
-            <VStack >
-              <Text>Gmail</Text>
-              <Text _light={{ color: "muted.600" }}>william.z.wilson95@gmail.com</Text>
-            </VStack>
-          </HStack>
-
-          <HStack alignItems={'center'}>
-            <Box>
-              <GitIcon size="60px" />
-            </Box>
-
-            <VStack>
-              <Text>Github</Text>
-              <Text _light={{ color: "muted.600" }}>AgentBillster</Text>
-            </VStack>
-          </HStack>
-
-          <HStack alignItems={'center'}>
-            <Box>
-              <LinkedInIcon size="60px" />
-            </Box>
-
-            <VStack>
-              <Text>Linkedin</Text>
-              <Text _light={{ color: "muted.600" }}>William_wilson95</Text>
-            </VStack>
-          </HStack>
+          <VStack>
+            <Text>Gmail</Text>
+            <Text _light={{ color: "muted.600" }}>
+              william.z.wilson95@gmail.com
+            </Text>
+          </VStack>
         </HStack>
 
-        <Divider
-          bgColor={"black"}
-          alignSelf="center"
-          w="150%"
-          zIndex="-1"
-        />
+        <HStack space={2} alignItems={"center"}>
+          <Box>
+            <GitIcon />
+          </Box>
+
+          <VStack>
+            <Text>Github</Text>
+            <Text _light={{ color: "muted.600" }}>AgentBillster</Text>
+          </VStack>
+        </HStack>
+
+        <HStack space={2} alignItems={"center"}>
+          <Box>
+            <LinkedInIcon />
+          </Box>
+
+          <VStack>
+            <Text>Linkedin</Text>
+            <Text _light={{ color: "muted.600" }}>William_wilson95</Text>
+          </VStack>
+        </HStack>
 
         <Image
-          position={"fixed"}
-          right="21%"
-          top="20%"
+          position={"absolute"}
+          right="100"
+          bottom="-20"
           source={require("../assets/images/me.jpg")}
           alt="Alternate Text"
-          size="235px"
+          size={["150px", "160px", "170px", "180px"]}
           borderRadius={"20"}
         />
+      </HStack>
 
+      <Divider bgColor="grey" zIndex="-1" />
+      {/* <Divider mt={"1px"} zIndex="-1" borderWidth="1" /> */}
 
-        <HStack mt={"50"} space="4" >
-          <Text fontSize={"30px"} flex={0.1}>
-            Bio
+      <HStack w={"70%"} mt={"40px"} alignItems={"baseline"} space="5">
+        <Box>
+          <Heading variant={"bioheader"}>Bio</Heading>
+          <Divider mt={""} bgColor="black" zIndex="-1" />
+          <Divider mt={"1px"} zIndex="-1" borderWidth="1" />
+        </Box>
+        <Text variant={"biotext"}>
+          As a Full Stack React Native/ReactJS Engineer, I've learned the ropes
+          through hands-on experience and plenty of self-teaching. I got my
+          start with the Lambda program, but I've been building and tinkering
+          ever since. I'm always looking for ways to push the boundaries with
+          innovative solutions and fresh ideas. And with a easygoing demeanor
+          and strong communication skills, I'm a great collaborator and teammate
+        </Text>
+      </HStack>
+
+      <VStack w={"70%"} mt={"40px"} alignItems={"baseline"} space="5">
+        <Box>
+          <Heading variant={"bioheader"}>Education</Heading>
+          <Divider mt={""} bgColor="black" zIndex="-1" />
+          <Divider mt={"1px"} zIndex="-1" borderWidth="1" />
+        </Box>
+
+        <VStack>
+          <Text>
+            Bloom Institite Of technology
+            <Text>/ Las Vegas / 2018 - 2019 </Text>
           </Text>
-          <Box
-            _text={{
-              fontSize: "20px",
-              lineHeight: "25px",
-            }}
-            flex={0.6}
-          >
-            As a self-taught Full Stack React Native/ReactJS Engineer, I take great pride in my unwavering commitment to
-            learning and the pursuit of knowledge. With a passion for developing cutting-edge solutions, I have honed
-            my skills to become a highly skilled and efficient worker. With a keen eye for detail and a deep
-            understanding of the latest technologies
-          </Box>
-        </HStack>
 
-
-        <HStack mt={"60"}>
-          <Text fontSize={"30px"} flex={0.1}>
-            Education
+          <Text mt={"10px"}>
+            A rigorous 9-month web development program that emphasized
+            practical, hands-on learning to improve my skills as both a
+            developer and team player. Here is the tech we worked with.
           </Text>
-          <Box
-            _text={{
-              fontSize: "20px",
-              lineHeight: "25px",
-            }}
-            flex={0.6}
-          >
-            something institute of technology
-          </Box>
-        </HStack>
 
+          <HStack mt={"2"} space={"8"}>
+            <VStack>
+              <Badge>HTML</Badge>
+              {"\n"}
+              <Badge>CSS</Badge>
+            </VStack>
+            <VStack>
+              <Badge>Javascript</Badge>
+              {"\n"}
+              <Badge>React.js</Badge>
+            </VStack>
+            <VStack>
+              <Badge>Java</Badge>
+              {"\n"}
+              <Badge>Spring</Badge>
+            </VStack>
+          </HStack>
+        </VStack>
       </VStack>
     </animated.div>
     // </animated.div>

@@ -133,16 +133,8 @@ table {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
 }
 
 .example::-webkit-scrollbar {
@@ -160,9 +152,6 @@ body {
   height: 100%;
 }
 
-body {
-  overflow: hidden;
-}
 
 *,
 *::after,
@@ -173,51 +162,46 @@ body {
   cursor: none;
 }
 
-#root {
-  display: flex;
-  height: 100%;
-}
 
 @font-face {
-  font-family: 'Bold';
-  src: local('Bold'), url(./assets/fonts/Bold.otf) format('opentype');
-}
-
-@font-face {
-  font-family: 'Book';
-  src: local('Book'), url(./assets/fonts/Book.otf) format('opentype');
-}
-
-@font-face {
-  font-family: 'Italic';
-  src: local('Italic'), url(./assets/fonts/Italic.otf) format('opentype');
-}
-
-@font-face {
-  font-family: 'Medium';
-  src: local('Medium'), url(./assets/fonts/Medium.otf) format('opentype');
-}
-
-@font-face {
-  font-family: 'SemiBold';
-  src: local('SemiBold'), url(./assets/fonts/SemiBold.otf) format('opentype');
+  font-family: 'Light';
+  src: local('Bold'), url(./assets/fonts/Light.ttf) format('truetype');
 }
 
 @font-face {
   font-family: 'Thin';
-  src: local('Thin'), url(./assets/fonts/Thin.otf) format('opentype');
+  src: local('Thin'), url(./assets/fonts/Thin.ttf) format("truetype");
 }
-
 
 
 .iphone-x {
   position: relative;
-  margin: 40px auto;
-  width: 360px;
-  height: 780px;
+  width: 250px;
+  height: 800px;
   overflow: hidden;
   border-radius: 40px;
   box-shadow: 0px 0px 0px 11px #1f1f1f, 0px 0px 0px 13px #191919, 0px 0px 0px 20px #111;
+}
+
+@media (min-width: 768px) {
+  .iphone-x {
+    width: 320px;
+    height: 600px;
+  }
+}
+
+@media (min-width: 992px) {
+  .iphone-x {
+    width: 300px;
+    height: 600px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .iphone-x {
+    width: 320px;
+    height: 650px;
+  }
 }
 
 .iphone-x:before,
@@ -261,3 +245,9 @@ body {
   box-shadow: inset 0px -3px 3px 0px rgba(256, 256, 256, 0.2);
   z-index: 2;
 }
+
+
+
+
+/* ----------------------------------------- treelist stuff */
+

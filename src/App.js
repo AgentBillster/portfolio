@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useLayoutEffect } from "react";
 import { Center, HStack } from "native-base";
 import AnimatedNavPanel from "./navigators/AnimatedNavPanel";
 import AnimatedCursor from "react-animated-cursor";
@@ -12,7 +12,8 @@ const App = () => {
   const [width, setWidth] = useState(Dimensions.get("window").width);
   const [height, setHeight] = useState(Dimensions.get("window").height);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // use useLayoutEffect instead of useEffect
     function handleResize() {
       setWidth(Dimensions.get("window").width);
       setHeight(Dimensions.get("window").height);
@@ -27,10 +28,10 @@ const App = () => {
     <AnimatedBackground>
       <AnimatedCursor />
       <HStack
-        w={width * 0.9}
-        h={height * 0.8}
+        w={width * 0.92}
+        h={height * 0.85}
         borderWidth="1"
-        borderColor="rgba(80,80,80, 0.7)"
+        borderColor="rgba(80,80,80, 0.9)"
         borderRadius={5}
         overflow={"hidden"}
       >

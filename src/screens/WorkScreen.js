@@ -1,57 +1,91 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { animated, useSpring } from "@react-spring/web";
-import ProjectCard from "../components/ProjectCard";
 
-import { Center, Text, VStack, Box, Button } from "native-base";
+import {
+  Center,
+  Text,
+  VStack,
+  Box,
+  HStack,
+  Heading,
+  ShareIcon,
+  Select,
+  Switch,
+  CheckIcon,
+  Button,
+  Stagger,
+  Divider,
+  Pressable,
+  PresenceTransition,
+} from "native-base";
 import { useDrag } from "@use-gesture/react";
-import useMeasure from "react-use-measure";
-import { usePageNavigation } from "./../hooks/usePageNavigation";
 import { NavContext } from "./../providers/NavigationProvider";
+import { ImageBackground, TouchableOpacity } from "react-native-web";
 
 const data = [
   {
     id: 1,
-    title: "GameHub",
-    description: "this is my own creation uses blah blah features blah blah",
+    image: "https://picsum.photos/id/1/200/200",
+    title: "Pomodoro+",
+    description: "a much needed app for personal use that keeps me focused!",
+    tags: ["react native", "native base"],
     hasDemo: true,
   },
   {
     id: 2,
-    title: "Todo",
-    description: "A todo app where i learned the basics of gesture animations",
-    hasDemo: true,
+    image: "https://picsum.photos/id/1/200/200",
+    title: "STEAMRANK",
+    description: "backend for some shit code on  github",
+    tags: ["react native", "native base"],
+    hasDemo: false,
   },
   {
     id: 3,
-    title: "Pomodoro",
-    description: "a much needed app for personal use that keeps me focused!",
-    hasDemo: true,
+    image: "https://picsum.photos/id/1/200/200",
+    title: "backendjv",
+    description: "backend for some shit code on github",
+    tags: ["react native", "native base"],
+    hasDemo: false,
   },
   {
     id: 4,
-    title: "Backend 1",
+    image: "https://picsum.photos/id/1/200/200",
+    title: "JAVATHING .tm",
     description: "backend for some shit code on github",
+    tags: ["react native", "native base"],
     hasDemo: false,
   },
   {
     id: 5,
-    title: "Backend 2",
+    image: "https://picsum.photos/id/1/200/200",
+    title: "SOMEOther shit",
+    description: "backend for some shit code on  github",
+    tags: ["react native", "native base"],
+    hasDemo: false,
+  },
+  {
+    id: 6,
+    image: "https://picsum.photos/id/1/200/200",
+    title: "IDKasos",
     description: "backend for some shit code on github",
+    tags: ["react native", "native base"],
+    hasDemo: false,
+  },
+  {
+    id: 7,
+    image: "https://picsum.photos/id/1/200/200",
+    title: "haha nice",
+    description: "backend for some shit code on github",
+    tags: ["react native", "native base"],
     hasDemo: false,
   },
 ];
 
 const WorkScreen = ({ style, pages }) => {
   const { navigate } = useContext(NavContext);
-  const [ref, { height }] = useMeasure();
-  const [filterDemo, setFilterDemo] = useState(false);
-  const [search, setSearch] = useState("");
-
-  const filteredData = data.filter(
-    (item) =>
-      (!filterDemo || item.hasDemo) &&
-      item.title.toLowerCase().includes(search.toLowerCase())
-  );
+  const [showDemoProjects, setShowDemoProjects] = useState(false);
+  const [selectedTag, setSelectedTag] = useState("");
+  const [hoveredIndex, setHoveredIndex] = useState("");
 
   const [{ y }, api] = useSpring(() => ({
     y: 0,
@@ -63,72 +97,135 @@ const WorkScreen = ({ style, pages }) => {
       api.start({ y: y });
     },
     {
-      bounds: {
-        bottom: 0,
-        top: -height + 600,
-      },
-
       rubberband: 0.9,
     }
   );
+
+  const filteredData = data.filter((item) => {
+    // Filter by hasDemo
+    if (showDemoProjects && !item.hasDemo) {
+      return false;
+    }
+
+    // Filter by selectedTag
+    if (selectedTag !== "" && !item.tags.includes(selectedTag)) {
+      return false;
+    }
+
+    return true;
+  });
 
   return (
     <animated.div
       {...bind()}
       style={{
         ...style,
+        paddingBlock: "3%",
+        paddingInline: "5%",
+        width: "100%",
         transform: y.to((y) => `translate3d(0,${y}px,0)`),
       }}
     >
-      <Center ref={ref} w={"100%"} flexDirection={"row"} flexWrap="wrap">
-        {filteredData.map((item, i) => (
-          <Box
-            p={50}
-            borderColor="grey"
-            borderBottomWidth={i < 2 ? 1 : 0}
-            borderRightWidth={i % 1 === 0 ? 1 : 0}
-            bg="rgb(230,230,230)"
-            w={i === 0 || i === 1 ? '50%' : "33.33%"}
-            h={530}
+      <HStack mx="8" mt="10">
+        <Heading letterSpacing="-2" color="gray" fontSize="50px">
+          PROJECTS
+          <Text ml={"6px"} color="muted.600" fontSize="30px">
+            {filteredData.length}
+          </Text>
+        </Heading>
+        <HStack space={"4"} alignItems="center" ml={"auto"}>
+          <Select
+            colorScheme={"info"}
+            p="12px"
+            selectedValue={selectedTag}
+            borderColor="rgba(80,80,80, 0.5)"
+            borderWidth={1.5}
+            placeholder="All"
+            _selectedItem={{
+              bg: "muted.600",
+              endIcon: <CheckIcon size="5" />,
+            }}
+            onValueChange={(itemValue) => setSelectedTag(itemValue)}
           >
-            <Text style={{ fontWeight: "bold" }}>{item.title}</Text>
-            <Text>{item.description}</Text>
-            <Button
+            <Select.Item label="react native" value="react native" />
+          </Select>
+          <Button
+            onPress={() => setShowDemoProjects(!showDemoProjects)}
+            colorScheme="warning"
+          >
+            HasDemo
+          </Button>
+        </HStack>
+      </HStack>
+
+      <VStack borderTopWidth="1" borderColor="rgba(80,80,80, 0.8)">
+        {filteredData.map((item, i) => (
+          <HStack key={item.id} mt={i === 0 ? "30px" : ""} ml="auto" space="4">
+            <Pressable
+              onHoverIn={() => setHoveredIndex(i)}
+              onHoverOut={() => setHoveredIndex("")}
               onPress={() => {
-                navigate("demo");
+                navigate("demo", item.title);
               }}
-              w={40}
-              m="auto"
+              flex={1}
+              flexDir="row"
+              alignItems={"flex-end"}
             >
-              go
-            </Button>
-          </Box>
+              <PresenceTransition
+                visible={hoveredIndex === i} // trigger animation when we hover over index
+                initial={{
+                  opacity: 0.8,
+                }}
+                animate={{
+                  opacity: 0.2,
+                  transition: {
+                    duration: 400,
+                  },
+                }}
+              >
+                <HStack>
+                  <Text fontSize={15} _hover={{ color: "blue.500" }}>
+                    {item.tags.map(
+                      (tag, index) =>
+                        `${tag} ${index < item.tags.length - 1 ? " / " : ""}`
+                    )}
+                  </Text>
+
+                  <Text
+                    borderColor="muted.300"
+                    fontSize="65px"
+                    fontFamily="thin"
+                  >
+                    {item.title}
+                  </Text>
+                </HStack>
+              </PresenceTransition>
+            </Pressable>
+          </HStack>
         ))}
-      </Center>
-    </animated.div >
+      </VStack>
+    </animated.div>
   );
 };
 
 export default WorkScreen;
 
 {
-  /* <Stagger
-  visible={true}
-  initial={{
-    opacity: 0,
-    translateY: 500,
-  }}
-  animate={{
-    translateY: 0,
-    opacity: 1,
-    transition: {
-      delay: 100,
-      type: "spring",
-      easing: 20,
-      stagger: {
-        offset: 50,
-      },
-    },
-  }}
-></Stagger>; */
+  /* <Center borderRadius={15} bgColor={"amber.400"} p="2">
+                <ShareIcon size={16} color="black" />
+              </Center> */
+}
+{
+  /* {item.hasDemo && (
+    <Button
+      ml={"15px"}
+      bg="none"
+      borderWidth="1"
+      onPress={() => {
+        navigate("demo");
+      }}
+    >
+      demo
+    </Button>
+  )} */
 }

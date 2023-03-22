@@ -16,12 +16,13 @@ export const usePageNavigation = (pages) => {
 
   const transitions = useTransition(hookProps.page, {
     keys: hookProps.page,
-    from: { width: '100%', opacity: 0 },
-    enter: { width: '100%', opacity: 1 },
-    leave: {
-      display: "none",
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+    config: {
+      duration: 400,
     },
-    reset: hookProps.page !== Object.keys(pages)[0],
+    reset: true,
   });
 
   const getPage = (item, style) => {

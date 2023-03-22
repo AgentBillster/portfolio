@@ -11,20 +11,43 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <NativeBaseProvider
     theme={extendTheme({
+      breakpoints: {
+        base: 0,
+        md: 768,
+        lg: 992,
+        xl: 1280,
+      },
+
       components: {
         Text: {
-          defaultProps: {
-            _light: { color: "black" },
-            _dark: { color: "lightgray" },
-            fontFamily: "Book",
+          variants: {
+            bigtext: {
+              fontFamily: "Thin",
+              fontSize: [30, 40, 50, 65],
+              display: ["none", "none", "flex"],
+            },
+            bigsubtext: {
+              fontFamily: "thin",
+              fontSize: [20, 25, 30, 20],
+            },
+
+            biotext: {
+              fontSize: [10, 12, 14, 16],
+            },
           },
         },
 
-        Pressable: {
+        Icon: {
           defaultProps: {
-            cursor: "none",
+            size: [40, 45, 50, 55],
           },
         },
+
+        // Pressable: {
+        //   defaultProps: {
+        //     cursor: "none",
+        //   },
+        // },
 
         Switch: {
           defaultProps: {
@@ -33,12 +56,23 @@ root.render(
         },
 
         Heading: {
-          defaultProps: {
-            _light: { color: "black" },
-            _dark: { color: "lightgray" },
-            fontFamily: "Thin",
-            fontSize: "50",
+          variants: {
+            bioheader: {
+              fontSize: [10, 20, 30, 30],
+              fontFamily: "Thin",
+            },
+
+            bioheader_sm: {
+              fontSize: [10, 20, 30, 25],
+              fontFamily: "Thin",
+            },
           },
+
+          // defaultProps: {
+          //   fontFamily: "Light",
+          //   _light: { color: "black" },
+          //   _dark: { color: "white" },
+          // },
         },
       },
 
@@ -72,4 +106,4 @@ root.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals(console.log);
