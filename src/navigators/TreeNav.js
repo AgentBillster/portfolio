@@ -44,8 +44,8 @@ const Tree = React.memo(({ children, name, style, defaultOpen = false }) => {
     >
       <Icon
         style={{
-          width: "16px",
-          height: "16px",
+          width: "15px",
+          height: "15px",
           marginRight: "10px",
           verticalAlign: "middle",
         }}
@@ -74,10 +74,9 @@ export const TreeNav = () => {
       style={{
         width: "100%",
         height: "100%",
-        margin: "0",
-        padding: " 0",
+        margin: "16px",
         overflow: "hidden",
-        fontSize: "14px",
+        fontSize: "18px",
         lineHeight: "21px",
         userSelect: "none",
         height: "100%",

@@ -81,7 +81,7 @@ const data = [
   },
 ];
 
-const WorkScreen = ({ style, pages }) => {
+const WorkScreen = ({ style }) => {
   const { navigate } = useContext(NavContext);
   const [showDemoProjects, setShowDemoProjects] = useState(false);
   const [selectedTag, setSelectedTag] = useState("");
@@ -209,23 +209,3 @@ const WorkScreen = ({ style, pages }) => {
 };
 
 export default WorkScreen;
-
-{
-  /* <Center borderRadius={15} bgColor={"amber.400"} p="2">
-                <ShareIcon size={16} color="black" />
-              </Center> */
-}
-{
-  /* {item.hasDemo && (
-    <Button
-      ml={"15px"}
-      bg="none"
-      borderWidth="1"
-      onPress={() => {
-        navigate("demo");
-      }}
-    >
-      demo
-    </Button>
-  )} */
-}

@@ -8,14 +8,17 @@ import DemoScreen from "./../screens/DemoScreen";
 export const NavContext = React.createContext({});
 
 export const NavigationProvider = (props) => {
+  
+  const { navigate, transitions, getPage, currentPage } =
+    usePageNavigation(pages);
+
+
   const pages = {
     home: ({ style }) => <HomeScreen style={style} />,
     work: ({ style }) => <WorkScreen style={style} />,
     contact: ({ style }) => <ContactScreen style={style} />,
     demo: ({ style, data }) => <DemoScreen style={style} data={data} />,
   };
-  const { navigate, transitions, getPage, currentPage } =
-    usePageNavigation(pages);
 
   return (
     <NavContext.Provider
