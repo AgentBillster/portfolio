@@ -21,6 +21,7 @@ import {
 import { useDrag } from "@use-gesture/react";
 import { NavContext } from "./../providers/NavigationProvider";
 import { ImageBackground, TouchableOpacity } from "react-native-web";
+import Pomodoro from "../Projects/Pomodoro/src/Pomodoro";
 
 const data = [
   {
@@ -30,6 +31,7 @@ const data = [
     description: "a much needed app for personal use that keeps me focused!",
     tags: ["react native", "native base"],
     hasDemo: true,
+    app: <Pomodoro />,
     fileData: [
       {
         name: "Pomodoro",
@@ -46,7 +48,7 @@ const data = [
                 name: "screens",
                 children: [{ name: "screen1" }, { name: "screen2" }],
               },
-              { name: "app" },
+              { name: "Pomodoro" },
             ],
           },
         ],

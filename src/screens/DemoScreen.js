@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { animated } from "@react-spring/web";
 import { HStack, Box, Center, Text, Heading } from "native-base";
-import TradeApp from "./../Projects/TradeApp/src/TradeApp";
 import { TreeNav } from "../navigators/TreeNav";
 import {
   a11yDark,
@@ -13,6 +12,9 @@ import {
 } from "react-code-blocks";
 
 const DemoScreen = ({ style, data }) => {
+  const [activeFile, setActiveFile] = useState(data.title); // all projects main file is named after themselves.
+  // import data
+  console.log(activeFile);
   return (
     <animated.div
       style={{
@@ -23,24 +25,26 @@ const DemoScreen = ({ style, data }) => {
       }}
     >
       <Box bg={"#2d2d30"} flex={0.2}>
-        <TreeNav data={data.fileData} />
+        <TreeNav data={data.fileData} setActiveFile={setActiveFile} />
       </Box>
 
+      {/* 
       <Box bg={"#2d2d30"} flex={0.45}>
         <CodeBlock
-          text={"cddaosd asdo asd oasd oasod "}
           theme={a11yLight}
           customStyle={{
             height: "100%",
             fontSize: "16px",
           }}
+          text={activeFile ? activeFile : "null"}
+          language="jsx"
         />
-      </Box>
+      </Box> */}
 
       <Center flex={0.35}>
         <div className="iphone-x">
           <i></i>
-          <TradeApp />
+          {data.app}
         </div>
       </Center>
     </animated.div>
