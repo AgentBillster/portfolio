@@ -41,6 +41,7 @@ const Tree = React.memo(({ children, name, style, defaultOpen = false }) => {
         color: "white",
         fill: "white",
       }}
+      onClick={() => setOpen(!isOpen)}
     >
       <Icon
         style={{
@@ -68,34 +69,12 @@ const Tree = React.memo(({ children, name, style, defaultOpen = false }) => {
   );
 });
 
-export const TreeNav = () => {
-  return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        margin: "16px",
-        overflow: "hidden",
-        fontSize: "18px",
-        lineHeight: "21px",
-        userSelect: "none",
-        height: "100%",
-        justifyContent: "center",
-      }}
-    >
-      <Tree name={"App_Name"} defaultOpen>
-        <Tree name="src">
-          <Tree name="components">
-            <Tree name="component1" />
-            <Tree name="component1" />
-          </Tree>
-          <Tree name="screens">
-            <Tree name="screen1" />
-            <Tree name="screen2" />
-          </Tree>
-          <Tree name="app" />
-        </Tree>
-      </Tree>
-    </div>
+export const TreeNav = ({ data }) => {
+  const renderTree = (node) => (
+    <Tree name={node.name} defaultOpen={node.defaultOpen}>
+      {node.children && node.children.map((child) => renderTree(child))}
+    </Tree>
   );
+
+  return <div>{data.map((node) => renderTree(node))}</div>;
 };

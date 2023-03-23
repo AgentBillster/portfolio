@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { animated } from "@react-spring/web";
 import { HStack, Box, Center, Text, Heading } from "native-base";
 import TradeApp from "./../Projects/TradeApp/src/TradeApp";
@@ -11,9 +11,8 @@ import {
   dracula,
   nord,
 } from "react-code-blocks";
-// no mobile 500
+
 const DemoScreen = ({ style, data }) => {
-  data && console.log(data);
   return (
     <animated.div
       style={{
@@ -24,7 +23,7 @@ const DemoScreen = ({ style, data }) => {
       }}
     >
       <Box bg={"#2d2d30"} flex={0.2}>
-        <TreeNav />
+        <TreeNav data={data.fileData} />
       </Box>
 
       <Box bg={"#2d2d30"} flex={0.45}>

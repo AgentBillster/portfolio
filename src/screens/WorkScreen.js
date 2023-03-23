@@ -26,10 +26,32 @@ const data = [
   {
     id: 1,
     image: "https://picsum.photos/id/1/200/200",
-    title: "Pomodoro+",
+    title: "Pomodoro",
     description: "a much needed app for personal use that keeps me focused!",
     tags: ["react native", "native base"],
     hasDemo: true,
+    fileData: [
+      {
+        name: "Pomodoro",
+        defaultOpen: true,
+        children: [
+          {
+            name: "src",
+            children: [
+              {
+                name: "components",
+                children: [{ name: "component1" }, { name: "component2" }],
+              },
+              {
+                name: "screens",
+                children: [{ name: "screen1" }, { name: "screen2" }],
+              },
+              { name: "app" },
+            ],
+          },
+        ],
+      },
+    ],
   },
   {
     id: 2,
@@ -165,7 +187,7 @@ const WorkScreen = ({ style }) => {
               onHoverIn={() => setHoveredIndex(i)}
               onHoverOut={() => setHoveredIndex("")}
               onPress={() => {
-                navigate("demo", item.title);
+                navigate("demo", item);
               }}
               flex={1}
               flexDir="row"

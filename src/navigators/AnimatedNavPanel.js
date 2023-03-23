@@ -12,7 +12,6 @@ import {
 } from "native-base";
 import { Dimensions } from "react-native";
 import { useTransition } from "@react-spring/web";
-import TreeNav from "./TreeNav";
 import { usePageNavigation } from "./../hooks/usePageNavigation";
 import { NavContext } from "./../providers/NavigationProvider";
 import ColorModeSwitch from "./../components/ColorModeSwitch";
