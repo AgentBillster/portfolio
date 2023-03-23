@@ -118,7 +118,7 @@ export const TaskScreen = ({}) => {
       }}
     >
       <Pressable
-        onPress={addTask}
+        // onPress={addTask}
         borderRadius={"2"}
         bg={"lightBlue.400"}
         w="40px"
@@ -146,7 +146,7 @@ export const TaskScreen = ({}) => {
               </Pressable>
             ) : (
               <Pressable
-                onPress={() => handleTaskPress(item)}
+                // onPress={() => handleTaskPress(item)}
                 borderWidth={1}
                 p="4"
                 my={"2"}

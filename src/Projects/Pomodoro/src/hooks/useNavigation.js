@@ -2,10 +2,12 @@ import { useState } from "react";
 
 export const useNavigation = (initialScreen, screenMap) => {
   const [activeScreen, setActiveScreen] = useState(initialScreen);
+  const [props, setProps] = useState({});
 
-  const navigateToScreen = (screenName) => {
+  const navigateToScreen = (screenName, screenProps) => {
     if (screenName in screenMap) {
       setActiveScreen(screenName);
+      setProps(screenProps || {});
     } else {
       console.error(`Screen '${screenName}' not found in screenMap`);
     }
@@ -13,12 +15,12 @@ export const useNavigation = (initialScreen, screenMap) => {
 
   const navigateBack = () => {
     console.warn(`'navigateBack' method not implemented`);
-    // You can implement this method to handle navigating back to the previous screen if needed
   };
 
   const getScreenComponent = () => {
     if (activeScreen in screenMap) {
-      return screenMap[activeScreen];
+      const ScreenComponent = screenMap[activeScreen];
+      return <ScreenComponent {...props} navigateToScreen={navigateToScreen} />;
     } else {
       console.error(`Screen '${activeScreen}' not found in screenMap`);
       return null;
@@ -26,9 +28,9 @@ export const useNavigation = (initialScreen, screenMap) => {
   };
 
   return {
-    activeScreen,
-    navigateToScreen,
-    navigateBack,
+    // activeScreen,
+    // navigateToScreen,
+    // navigateBack,
     getScreenComponent,
   };
 };
