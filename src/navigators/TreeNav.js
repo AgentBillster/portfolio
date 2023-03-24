@@ -2,12 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { useSpring, a } from "@react-spring/web";
 import useMeasure from "react-use-measure";
 import { treeIcons } from "../assets/icons/icons";
-
-const usePrevious = (value) => {
-  const ref = useRef();
-  useEffect(() => void (ref.current = value), [value]);
-  return ref.current;
-};
+import { usePrevious } from "../hooks/usePrevious";
 
 const Tree = React.memo(
   ({ onFileClick, children, name, style, defaultOpen = false }) => {

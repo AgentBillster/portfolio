@@ -1,21 +1,18 @@
 import {
   Center,
-  Heading,
   SectionList,
   Box,
   Text,
-  VStack,
-  Fab,
-  Button,
-  HStack,
   AddIcon,
   ArrowForwardIcon,
   Pressable,
 } from "native-base";
+import { PanResponder, ScrollView } from "react-native";
+
 import { animated, useSpring } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
 import useMeasure from "react-use-measure";
-import React from "react";
+import React, { useRef } from "react";
 import { useState } from "react";
 
 const SPACING = 8; // spacing between items
@@ -23,6 +20,28 @@ const ITEM_HEIGHT = 48; // height of each item
 const ADD_BUTTON_SIZE = 40; // size of the add button
 
 export const TaskScreen = ({}) => {
+  const scrollViewRef = useRef(null);
+  const [previousY, setPreviousY] = useState(0);
+
+  const handlePanResponderMove = (evt, gestureState) => {
+    const { dy } = gestureState;
+    const newScrollY = previousY - dy;
+    scrollViewRef.current.scrollTo({ y: newScrollY, animated: false });
+  };
+
+  const handlePanResponderRelease = (evt, gestureState) => {
+    const { dy } = gestureState;
+    const prev = previousY - dy;
+
+    setPreviousY(prev < 0 ? 0 : prev);
+  };
+
+  const panResponder = PanResponder.create({
+    onMoveShouldSetPanResponder: () => true,
+    onMoveShouldSetPanResponderCapture: () => true,
+    onPanResponderMove: handlePanResponderMove,
+    onPanResponderRelease: handlePanResponderRelease,
+  });
   const [tasks, setTasks] = useState([
     {
       name: "Web Redesign",
@@ -44,16 +63,16 @@ export const TaskScreen = ({}) => {
   ]);
   const [selectedTask, setSelectedTask] = useState(null);
 
-  // const addTask = (task) => {
-  //   setTasks([
-  //     ...tasks,
-  //     {
-  //       name: "new Task",
-  //       minutes: 120,
-  //       completed: false,
-  //     },
-  //   ]);
-  // };
+  const addTask = (task) => {
+    setTasks([
+      ...tasks,
+      {
+        name: "new Task",
+        minutes: 120,
+        completed: false,
+      },
+    ]);
+  };
 
   // const handleTaskPress = (task) => {
   //   if (!task.completed) {
@@ -73,29 +92,6 @@ export const TaskScreen = ({}) => {
   //   // setActiveTab("home");
   // };
 
-  const [ref, { height }] = useMeasure();
-  const [{ y }, api] = useSpring(() => ({
-    y: 0,
-    config: { tension: 300, friction: 30 },
-  }));
-
-  const numTasks = tasks.length;
-
-  const bounds = {
-    top: (ITEM_HEIGHT + SPACING) * numTasks - height,
-    bottom: 0,
-  };
-
-  const bind = useDrag(
-    ({ event, distance, offset: [, y] }) => {
-      api.start({ y: y });
-    },
-    {
-      bounds: bounds,
-      rubberband: 0.2,
-    }
-  );
-
   // Add an extra item to the "Active" section to represent the "Add task" button
   const activeTasks = [...tasks.filter((item) => !item.completed)];
   const data = [
@@ -110,15 +106,9 @@ export const TaskScreen = ({}) => {
   ];
 
   return (
-    <animated.div
-      {...bind()}
-      style={{
-        width: "100%",
-        transform: y.to((y) => `translate3d(0,${y}px,0)`),
-      }}
-    >
+    <ScrollView ref={scrollViewRef} {...panResponder.panHandlers}>
       <Pressable
-        // onPress={addTask}
+        onPress={addTask}
         borderRadius={"2"}
         bg={"lightBlue.400"}
         w="40px"
@@ -127,14 +117,20 @@ export const TaskScreen = ({}) => {
         <AddIcon m="auto" flex="1" size="4" color="muted.600" />
       </Pressable>
 
-      <Box ref={ref} p="8px">
+      <Box p="8px">
         <SectionList
           w="100%"
           sections={data}
           keyExtractor={(item, index) => item + index}
           renderItem={({ item, index, section }) =>
             item.isAddButton ? (
-              <Pressable borderWidth={1} p="4" my={"2"} flexDirection={"row"}>
+              <Pressable
+                onPress={addTask}
+                borderWidth={1}
+                p="4"
+                my={"2"}
+                flexDirection={"row"}
+              >
                 <Box flex={1}>
                   <Text>{item.name}</Text>
                 </Box>
@@ -146,7 +142,7 @@ export const TaskScreen = ({}) => {
               </Pressable>
             ) : (
               <Pressable
-                // onPress={() => handleTaskPress(item)}
+                // onPress={() => handleTaskPress()}
                 borderWidth={1}
                 p="4"
                 my={"2"}
@@ -171,6 +167,7 @@ export const TaskScreen = ({}) => {
           )}
         />
       </Box>
-    </animated.div>
+    </ScrollView>
+    // </animated.div>
   );
 };
