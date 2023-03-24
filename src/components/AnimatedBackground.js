@@ -19,6 +19,7 @@ const AnimatedBackground = (props) => {
     <animated.div
       style={{
         ...bg,
+        cursor: "none",
         width: "100%",
         height: window.innerHeight,
         display: "flex",

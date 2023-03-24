@@ -43,13 +43,25 @@ root.render(
           },
         },
 
+        // HStack: {
+        //   defaultProps: {
+        //     cursor: "none",
+        //   },
+        // },
+
         // Pressable: {
         //   defaultProps: {
         //     cursor: "none",
         //   },
         // },
 
-        Switch: {
+        // Switch: {
+        //   defaultProps: {
+        //     cursor: "none",
+        //   },
+        // },
+
+        Pressable: {
           defaultProps: {
             cursor: "none",
           },

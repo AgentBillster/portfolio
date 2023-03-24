@@ -33,6 +33,7 @@ const App = () => {
         borderWidth="1"
         borderColor="rgba(80,80,80, 0.9)"
         borderRadius={5}
+        cursor="default"
         overflow={"hidden"}
       >
         <AnimatedNavPanel />
