@@ -1,8 +1,8 @@
-import { Center, Heading, Text, Button, Fab } from "native-base";
+import { Center, Heading, Text, Button } from "native-base";
 import React, { useState, useEffect } from "react";
 
-export const TimerScreen = ({ selectedTask, completeTask }) => {
-  const [seconds, setSeconds] = useState(selectedTask.minutes * 60);
+export const TimerScreen = ({ task, index, completeTask }) => {
+  const [seconds, setSeconds] = useState(task.minutes * 60);
   const [isPaused, setIsPaused] = useState(true);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export const TimerScreen = ({ selectedTask, completeTask }) => {
 
   const handleReset = () => {
     setIsPaused(true);
-    setSeconds(selectedTask.minutes * 60);
+    setSeconds(task.minutes * 60);
   };
 
   const minutes = Math.floor(seconds / 60);
@@ -31,14 +31,20 @@ export const TimerScreen = ({ selectedTask, completeTask }) => {
 
   return (
     <Center flex={1}>
-      <Text>{selectedTask.name}</Text>
+      <Text>{task.name}</Text>
       <Heading>
         {minutes < 10 ? `0${minutes}` : minutes}:
         {secondsRemaining < 10 ? `0${secondsRemaining}` : secondsRemaining}
       </Heading>
       <Button onPress={handlePlayPause}>{isPaused ? "Play" : "Pause"}</Button>
       <Button onPress={handleReset}>Reset</Button>
-      <Button onPress={completeTask}>Reset</Button>
+      <Button
+        onPress={() => {
+          completeTask(index);
+        }}
+      >
+        complete dat shit
+      </Button>
     </Center>
   );
 };

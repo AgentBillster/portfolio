@@ -14,34 +14,13 @@ import { useDrag } from "@use-gesture/react";
 import useMeasure from "react-use-measure";
 import React, { useRef } from "react";
 import { useState } from "react";
+import { ScrollViewPlus } from "../components/ScrollViewPlus";
 
 const SPACING = 8; // spacing between items
 const ITEM_HEIGHT = 48; // height of each item
 const ADD_BUTTON_SIZE = 40; // size of the add button
 
-export const TaskScreen = ({}) => {
-  const scrollViewRef = useRef(null);
-  const [previousY, setPreviousY] = useState(0);
-
-  const handlePanResponderMove = (evt, gestureState) => {
-    const { dy } = gestureState;
-    const newScrollY = previousY - dy;
-    scrollViewRef.current.scrollTo({ y: newScrollY, animated: false });
-  };
-
-  const handlePanResponderRelease = (evt, gestureState) => {
-    const { dy } = gestureState;
-    const prev = previousY - dy;
-
-    setPreviousY(prev < 0 ? 0 : prev);
-  };
-
-  const panResponder = PanResponder.create({
-    onMoveShouldSetPanResponder: () => true,
-    onMoveShouldSetPanResponderCapture: () => true,
-    onPanResponderMove: handlePanResponderMove,
-    onPanResponderRelease: handlePanResponderRelease,
-  });
+export const TaskScreen = ({ navigateToScreen }) => {
   const [tasks, setTasks] = useState([
     {
       name: "Web Redesign",
@@ -49,6 +28,16 @@ export const TaskScreen = ({}) => {
       completed: false,
     },
 
+    {
+      name: "Finish Chapter 7",
+      minutes: 60,
+      completed: false,
+    },
+    {
+      name: "write some code",
+      minutes: 60,
+      completed: false,
+    },
     {
       name: "other thing",
       minutes: 30,
@@ -61,7 +50,6 @@ export const TaskScreen = ({}) => {
       completed: true,
     },
   ]);
-  const [selectedTask, setSelectedTask] = useState(null);
 
   const addTask = (task) => {
     setTasks([
@@ -74,24 +62,22 @@ export const TaskScreen = ({}) => {
     ]);
   };
 
-  // const handleTaskPress = (task) => {
-  //   if (!task.completed) {
-  //     setSelectedTask(task);
-  //     // setActiveTab("detail");
-  //   } else {
-  //     console.log("task is completed");
-  //   }
-  // };
+  const completeTask = (index) => {
+    setTasks((prevTasks) => {
+      const task = prevTasks[index];
+      task.completed = true;
+      return [...prevTasks];
+    });
+    navigateToScreen("Home");
+  };
 
-  // const completeTask = (index) => {
-  //   setTasks((prevTasks) => {
-  //     const task = prevTasks[index];
-  //     task.completed = true;
-  //     return [...prevTasks];
-  //   });
-  //   // setActiveTab("home");
-  // };
-
+  const handleTaskPress = (task, index) => {
+    if (!task.completed) {
+      navigateToScreen("Timer", { task, index, completeTask });
+    } else {
+      console.log("task is completed");
+    }
+  };
   // Add an extra item to the "Active" section to represent the "Add task" button
   const activeTasks = [...tasks.filter((item) => !item.completed)];
   const data = [
@@ -106,17 +92,7 @@ export const TaskScreen = ({}) => {
   ];
 
   return (
-    <ScrollView ref={scrollViewRef} {...panResponder.panHandlers}>
-      <Pressable
-        onPress={addTask}
-        borderRadius={"2"}
-        bg={"lightBlue.400"}
-        w="40px"
-        h="40px"
-      >
-        <AddIcon m="auto" flex="1" size="4" color="muted.600" />
-      </Pressable>
-
+    <ScrollViewPlus>
       <Box p="8px">
         <SectionList
           w="100%"
@@ -142,7 +118,7 @@ export const TaskScreen = ({}) => {
               </Pressable>
             ) : (
               <Pressable
-                // onPress={() => handleTaskPress()}
+                onPress={() => handleTaskPress(item, index)}
                 borderWidth={1}
                 p="4"
                 my={"2"}
@@ -167,7 +143,7 @@ export const TaskScreen = ({}) => {
           )}
         />
       </Box>
-    </ScrollView>
+    </ScrollViewPlus>
     // </animated.div>
   );
 };

@@ -15,11 +15,7 @@ const Pomodoro = () => {
 
   const { getScreenComponent } = useNavigation("Home", screenMap);
 
-  return (
-    <Box position={"relative"} w={"100%"} h={"100%"}>
-      {getScreenComponent()}
-    </Box>
-  );
+  return <Box>{getScreenComponent()}</Box>;
 };
 
 export default Pomodoro;

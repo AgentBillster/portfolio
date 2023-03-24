@@ -41,7 +41,7 @@ const DemoScreen = ({ style, data }) => {
         />
       </Box> */}
 
-      <Center flex={0.35}>
+      <Center zIndex={"200"} flex={0.35}>
         <div className="iphone-x">
           <i></i>
           {data.app}
