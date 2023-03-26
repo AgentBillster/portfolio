@@ -15,12 +15,12 @@ import {
   AddIcon,
 } from "native-base";
 import React, { useContext, useEffect, useState } from "react";
-import { TaskContext } from "../context/TaskProvider";
-import { NewTaskForm } from "./NewTaskForm";
+import { useToggle } from "../hooks/useToggle";
+import { NewTaskForm } from "./NBaseAnimatedForm";
 import { ScrollViewPlus } from "./ScrollViewPlus";
 
-export const NBTaskList = ({ tasks, navigateToScreen }) => {
-  const { isOpen, onToggle } = useDisclose();
+export const NBaseList = ({ tasks, handleTaskPress }) => {
+  const [isToggledOn, toggle] = useToggle();
   return (
     <>
       <ScrollViewPlus>
@@ -32,7 +32,7 @@ export const NBTaskList = ({ tasks, navigateToScreen }) => {
             w="100%"
             borderWidth={1}
             onPress={() => {
-              navigateToScreen("Timer");
+              handleTaskPress(task);
             }}
             mt={4}
             px="8"
@@ -49,17 +49,7 @@ export const NBTaskList = ({ tasks, navigateToScreen }) => {
             <ArrowForwardIcon size="7" />
           </Pressable>
         ))}
-        <Button
-          onPress={onToggle}
-          mt="6"
-          ml={"auto"}
-          colorScheme="blueGray"
-          size={"60px"}
-          borderRadius="12"
-          endIcon={<AddIcon size="8" />}
-        />
       </ScrollViewPlus>
-      {isOpen && <NewTaskForm isOpen={isOpen} onToggle={onToggle} />}
     </>
   );
 };

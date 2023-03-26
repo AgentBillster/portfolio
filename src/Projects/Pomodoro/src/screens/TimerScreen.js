@@ -1,12 +1,10 @@
 import { Center, Heading, Text, Button } from "native-base";
 import React, { useState, useEffect, useContext } from "react";
-import { TaskContext } from "../context/TaskProvider";
+import { NBaseHeader } from "../components/NBaseHeader";
 
-export const TimerScreen = ({ navigateToScreen, task, index }) => {
+export const TimerScreen = ({ task, completeTask, activeScreen }) => {
   const [seconds, setSeconds] = useState(task.minutes * 60);
   const [isPaused, setIsPaused] = useState(true);
-
-  const { completeTask } = useContext(TaskContext);
 
   useEffect(() => {
     let interval = null;
@@ -33,7 +31,9 @@ export const TimerScreen = ({ navigateToScreen, task, index }) => {
   const secondsRemaining = seconds % 60;
 
   return (
-    <Center flex={1}>
+    <>
+      <NBaseHeader title={activeScreen} />
+
       <Text>{task.name}</Text>
       <Heading>
         {minutes < 10 ? `0${minutes}` : minutes}:
@@ -43,12 +43,11 @@ export const TimerScreen = ({ navigateToScreen, task, index }) => {
       <Button onPress={handleReset}>Reset</Button>
       <Button
         onPress={() => {
-          completeTask(index);
-          navigateToScreen("Tasks");
+          completeTask(task.id);
         }}
       >
         complete dat shit
       </Button>
-    </Center>
+    </>
   );
 };

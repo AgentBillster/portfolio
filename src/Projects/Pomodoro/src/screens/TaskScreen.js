@@ -1,51 +1,100 @@
-import {
-  Center,
-  SectionList,
-  Box,
-  Text,
-  ArrowForwardIcon,
-  Pressable,
-  HStack,
-  Button,
-  Divider,
-  PresenceTransition,
-  useDisclose,
-} from "native-base";
-
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NBaseHeader } from "../components/NBaseHeader";
 import { NBaseTabBar } from "../components/NBaseTabBar";
-import { NBTaskList } from "../components/NBTaskList";
-import { TaskContext } from "../context/TaskProvider";
+import { NBaseList } from "../components/NBaseList";
 
-export const TaskScreen = ({ activeScreen }) => {
+import { useToggle } from "../hooks/useToggle";
+import { NBaseAnimatedForm } from "../components/NBaseAnimatedForm";
+
+export const TaskScreen = ({ activeScreen, navigateToScreen }) => {
   const [activeTab, setActiveTab] = useState("active");
-  const [filteredData, setFilteredData] = useState([]);
-  const { isOpen, onToggle } = useDisclose();
-  const { tasks } = useContext(TaskContext);
+  const [tasks, setTasks] = useState([]);
+  const [isToggledOn, toggle] = useToggle();
 
-  const handleTabPress = (tab) => {
+  useEffect(() => {
+    const storedData = localStorage.getItem("tasks");
+    const parsedData = storedData ? JSON.parse(storedData) : [];
+    if (activeTab === "active") {
+      setTasks(parsedData.filter((task) => !task.completed));
+    } else {
+      setTasks(parsedData.filter((task) => task.completed));
+    }
+  }, [tasks, activeTab]);
+
+  const addTask = (name, minutes) => {
+    const tasks = JSON.parse(localStorage.getItem("tasks"));
+    const id = Math.max(...tasks.map((task) => task.id)) + 1;
+    const newTask = {
+      id: id,
+      name: name,
+      minutes: minutes,
+      completed: false,
+    };
+    localStorage.setItem("tasks", JSON.stringify([...tasks, newTask]));
+  };
+
+  const handleTaskPress = (task) => {
+    if (task.completed) {
+      return console.warn("tab has been completed");
+    } else {
+      navigateToScreen("Timer", { task, completeTask });
+    }
+  };
+
+  const completeTask = (id) => {
+    // get data
+    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    // get task we want to change via id
+    const taskIndex = tasks.findIndex((task) => task.id === id);
+
+    // if -1 then id is not found
+    if (taskIndex === -1) {
+      console.warn("id not found my man");
+    }
+
+    // update task
+    tasks[taskIndex].completed = true;
+
+    // Update the tasks array in local storage with the updated tasks
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    navigateToScreen("Tasks");
+  };
+
+  // const deleteTask = (index) => {
+  //   const updatedTasks = [...tasks];
+  //   updatedTasks[index].completed = true;
+  //   setTasks(updatedTasks);
+  // };
+
+  const handleTabToggle = (tab) => {
     if (tab === activeTab) {
       return console.warn("tab is already active");
     } else {
       setActiveTab(tab);
-      onToggle();
+      toggle();
     }
   };
 
-  useEffect(() => {
-    if (activeTab === "active") {
-      setFilteredData(tasks.filter((task) => !task.completed));
-    } else {
-      setFilteredData(tasks.filter((task) => task.completed));
-    }
-  }, [tasks, activeTab]);
+  // const Form = (tab) => {
+  //   if (tab === activeTab) {
+  //     return console.warn("tab is already active");
+  //   } else {
+  //     setActiveTab(tab);
+  //     toggle();
+  //   }
+  // };
 
   return (
     <>
       <NBaseHeader title={activeScreen} />
-        <NBaseTabBar tabs={["active", "completed"]} isOpen={isOpen} handleTabPress={handleTabPress} />
-      <NBTaskList tasks={filteredData} />
+      <NBaseTabBar
+        tabs={["active", "completed"]}
+        isOpen={isToggledOn}
+        handleTabToggle={handleTabToggle}
+      />
+      <NBaseList tasks={tasks} handleTaskPress={handleTaskPress} />
+      <NBaseAnimatedForm addTask={addTask} />
     </>
   );
 };

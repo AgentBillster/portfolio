@@ -8,14 +8,14 @@ import {
   Text,
 } from "native-base";
 
-export const NBaseTabBar = ({ tabs, handleTabPress, isOpen }) => {
+export const NBaseTabBar = ({ tabs, handleTabToggle, isOpen }) => {
   return (
     <Box p="4">
       <HStack>
         {tabs.map((item) => (
           <Pressable
             onPress={() => {
-              handleTabPress(item);
+              handleTabToggle(item);
             }}
             w="50%"
             p={2}
