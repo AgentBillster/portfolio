@@ -33,6 +33,7 @@ const AnimatedNavPanel = () => {
         {Object.keys(pages).map((page, i) =>
           page === "demo" ? null : (
             <Pressable
+              key={i}
               flex="1"
               justifyContent={"center"}
               alignItems="center"
@@ -41,13 +42,12 @@ const AnimatedNavPanel = () => {
               }}
             >
               <Text
-                style={{ transform: [{ rotate: "-90deg" }] }}
-                fontFamily={"Book"}
-                textAlign="center"
                 fontFamily="Light"
+                textAlign="center"
                 borderBottomWidth={page === currentPage ? 2 : 0}
                 borderColor="rgba(80,80,80, 0.9)"
                 fontSize="20px"
+                style={{ transform: [{ rotate: "-90deg" }] }}
               >
                 {page}
               </Text>

@@ -1,9 +1,12 @@
 import { Center, Heading, Text, Button } from "native-base";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { TaskContext } from "../context/TaskProvider";
 
-export const TimerScreen = ({ task, index, completeTask }) => {
+export const TimerScreen = ({ navigateToScreen, task, index }) => {
   const [seconds, setSeconds] = useState(task.minutes * 60);
   const [isPaused, setIsPaused] = useState(true);
+
+  const { completeTask } = useContext(TaskContext);
 
   useEffect(() => {
     let interval = null;
@@ -41,6 +44,7 @@ export const TimerScreen = ({ task, index, completeTask }) => {
       <Button
         onPress={() => {
           completeTask(index);
+          navigateToScreen("Tasks");
         }}
       >
         complete dat shit

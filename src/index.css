@@ -177,6 +177,7 @@ body {
 .iphone-x {
   position: relative;
   width: 250px;
+  margin: 20px;
   height: 800px;
   overflow: hidden;
   border-radius: 40px;

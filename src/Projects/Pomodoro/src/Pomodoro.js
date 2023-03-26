@@ -1,21 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
-import BottomTab from "./components/BottomTab";
 import { VStack, Box, Text, HStack, Pressable, Center } from "native-base";
 import { TaskScreen } from "./screens/TaskScreen";
 import { TimerScreen } from "./screens/TimerScreen";
 import { useNavigation } from "./hooks/useNavigation";
 import { NewTaskForm } from "./components/NewTaskForm";
+import { TaskProvider } from "./context/TaskProvider";
 
 const Pomodoro = () => {
-  const screenMap = {
-    Home: TaskScreen,
+  const { getScreenComponent } = useNavigation("Tasks", {
+    Tasks: TaskScreen,
     Timer: TimerScreen,
-    form: NewTaskForm,
-  };
+  });
 
-  const { getScreenComponent } = useNavigation("Home", screenMap);
-
-  return <Box>{getScreenComponent()}</Box>;
+  return (
+    <TaskProvider>
+      <Box w={"100%"} h={"100%"}>
+        {getScreenComponent()}
+      </Box>
+    </TaskProvider>
+  );
 };
 
 export default Pomodoro;

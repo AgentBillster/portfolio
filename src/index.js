@@ -49,11 +49,11 @@ root.render(
         //   },
         // },
 
-        // Pressable: {
-        //   defaultProps: {
-        //     cursor: "none",
-        //   },
-        // },
+        Pressable: {
+          defaultProps: {
+            cursor: "none",
+          },
+        },
 
         // Switch: {
         //   defaultProps: {
@@ -61,11 +61,11 @@ root.render(
         //   },
         // },
 
-        Pressable: {
-          defaultProps: {
-            cursor: "none",
-          },
-        },
+        // Pressable: {
+        //   defaultProps: {
+        //     cursor: "none",
+        //   },
+        // },
 
         Heading: {
           variants: {

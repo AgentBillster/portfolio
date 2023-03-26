@@ -1,12 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Box, Pressable, Switch, Text, useColorMode } from "native-base";
-
-import { View } from "react-native";
-import { useSpring, animated, useSpringValue } from "@react-spring/web";
-import { Dimensions } from "react-native";
-
-const width = Dimensions.get("screen").width;
-const height = Dimensions.get("screen").height;
+import React from "react";
+import { useColorMode } from "native-base";
+import { useSpring, animated } from "@react-spring/web";
 
 const AnimatedBackground = (props) => {
   const { colorMode } = useColorMode();
@@ -19,7 +13,6 @@ const AnimatedBackground = (props) => {
     <animated.div
       style={{
         ...bg,
-        cursor: "none",
         width: "100%",
         height: window.innerHeight,
         display: "flex",

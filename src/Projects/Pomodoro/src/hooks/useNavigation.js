@@ -13,14 +13,16 @@ export const useNavigation = (initialScreen, screenMap) => {
     }
   };
 
-  const navigateBack = () => {
-    console.warn(`'navigateBack' method not implemented`);
-  };
-
   const getScreenComponent = () => {
     if (activeScreen in screenMap) {
       const ScreenComponent = screenMap[activeScreen];
-      return <ScreenComponent {...props} navigateToScreen={navigateToScreen} />;
+      return (
+        <ScreenComponent
+          {...props}
+          activeScreen={activeScreen}
+          navigateToScreen={navigateToScreen}
+        />
+      );
     } else {
       console.error(`Screen '${activeScreen}' not found in screenMap`);
       return null;
@@ -28,8 +30,8 @@ export const useNavigation = (initialScreen, screenMap) => {
   };
 
   return {
-    // activeScreen,
-    // navigateToScreen,
+    activeScreen,
+    navigateToScreen,
     // navigateBack,
     getScreenComponent,
   };

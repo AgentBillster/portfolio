@@ -12,9 +12,8 @@ import {
 } from "react-code-blocks";
 
 const DemoScreen = ({ style, data }) => {
-  const [activeFile, setActiveFile] = useState(data.title); // all projects main file is named after themselves.
-  // import data
-  console.log(activeFile);
+  const [activeFile, setActiveFile] = useState(data.title);
+
   return (
     <animated.div
       style={{
@@ -41,7 +40,7 @@ const DemoScreen = ({ style, data }) => {
         />
       </Box> */}
 
-      <Center zIndex={"200"} flex={0.35}>
+      <Center flex={0.4}>
         <div className="iphone-x">
           <i></i>
           {data.app}
