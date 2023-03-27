@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { animated } from "@react-spring/web";
-import { HStack, Box, Center, Text, Heading } from "native-base";
+import {  Box, Center, } from "native-base";
 import { TreeNav } from "../navigators/TreeNav";
-import {
-  a11yDark,
-  a11yLight,
-  atomOneDark,
-  CodeBlock,
-  dracula,
-  nord,
-} from "react-code-blocks";
+// import {
+//   a11yDark,
+//   a11yLight,
+//   atomOneDark,
+//   CodeBlock,
+//   dracula,
+//   nord,
+// } from "react-code-blocks";
 
 const DemoScreen = ({ style, data }) => {
-  const [activeFile, setActiveFile] = useState(data.title);
+  const [ setActiveFile] = useState(data.title);
 
   return (
     <animated.div
@@ -51,7 +51,3 @@ const DemoScreen = ({ style, data }) => {
 };
 
 export default DemoScreen;
-{
-  /* <Box w={'375'} h='812'>
-      </Box> */
-}

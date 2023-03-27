@@ -5,6 +5,7 @@ import AnimatedCursor from "react-animated-cursor";
 import { Dimensions } from "react-native";
 import { NavContext } from "./providers/NavigationProvider";
 import AnimatedBackground from "./components/AnimatedBackground";
+import { LoadingAnim } from "./components/LoadingAnim";
 
 const App = () => {
   const { transitions, getPage } = useContext(NavContext);
@@ -26,6 +27,7 @@ const App = () => {
 
   return (
     <AnimatedBackground>
+      <LoadingAnim />
       <AnimatedCursor />
       <HStack
         w={width * 0.92}

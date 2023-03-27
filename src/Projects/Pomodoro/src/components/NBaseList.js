@@ -1,27 +1,15 @@
 import {
-  Center,
   Text,
-  Input,
-  Box,
-  HStack,
-  Button,
-  Skeleton,
   Pressable,
   VStack,
-  Icon,
   ArrowForwardIcon,
-  Badge,
-  useDisclose,
-  AddIcon,
+  DeleteIcon,
 } from "native-base";
-import React, { useContext, useEffect, useState } from "react";
-import { useToggle } from "../hooks/useToggle";
-import { NewTaskForm } from "./NBaseAnimatedForm";
+import React from "react";
 import { ScrollViewPlus } from "./ScrollViewPlus";
 
 export const NBaseList = ({ tasks, handleTaskPress }) => {
-  const [isToggledOn, toggle] = useToggle();
-  return (
+   return (
     <>
       <ScrollViewPlus>
         {tasks.map((task, i) => (
@@ -36,6 +24,7 @@ export const NBaseList = ({ tasks, handleTaskPress }) => {
             }}
             mt={4}
             px="8"
+            alignItems={"center"}
             py="4"
             borderRadius="6"
             key={i}
@@ -46,7 +35,11 @@ export const NBaseList = ({ tasks, handleTaskPress }) => {
               <Text>{task.name}</Text>
               <Text>{task.minutes} minutes</Text>
             </VStack>
-            <ArrowForwardIcon size="7" />
+            {!task.completed ? (
+              <ArrowForwardIcon size="7" />
+            ) : (
+              <DeleteIcon size="7" />
+            )}
           </Pressable>
         ))}
       </ScrollViewPlus>

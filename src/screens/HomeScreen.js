@@ -1,30 +1,22 @@
-import React, { useEffect, useState, useRef } from "react";
+import React from "react";
 import { animated, useSpring } from "@react-spring/web";
-import { Dimensions } from "react-native";
-import { useGesture, useDrag } from "@use-gesture/react";
+import { useDrag } from "@use-gesture/react";
 import {
   Box,
   Text,
   VStack,
   HStack,
-  Center,
-  Image,
   Heading,
   Divider,
-  Button,
-  TextArea,
-  PlayIcon,
-  Badge,
+  IconButton,
+  ArrowUpIcon,
+  Image,
 } from "native-base";
 import useMeasure from "react-use-measure";
 import { GitIcon, LinkedInIcon, MailIcon } from "../assets/icons/icons";
 
-const width = Dimensions.get("window").width;
-const height = Dimensions.get("window").height;
-
 const HomeScreen = ({ style }) => {
   const [ref, { height }] = useMeasure();
-  const scrollRef = useRef(null);
 
   const [{ y }, api] = useSpring(() => ({
     y: 0,
@@ -32,14 +24,13 @@ const HomeScreen = ({ style }) => {
   }));
 
   const bind = useDrag(
-    ({ event, distance, offset: [, y] }) => {
+    ({ offset: [, y] }) => {
       api.start({ y: y });
     },
     {
-      // bounds: {
-      //   bottom: 0,
-      //   top: -height + 600,
-      // },
+      bounds: {
+        bottom: height,
+      },
 
       rubberband: 0.9,
     }
@@ -48,10 +39,11 @@ const HomeScreen = ({ style }) => {
   return (
     <animated.div
       {...bind()}
+      ref={ref}
       style={{
         ...style,
         width: "100%",
-        paddingBlock: "3%",
+        paddingBlock: "4%",
         paddingInline: "5%",
         transform: y.to((y) => `translate3d(0,${y}px,0)`),
       }}
@@ -73,6 +65,18 @@ const HomeScreen = ({ style }) => {
               william.z.wilson95@gmail.com
             </Text>
           </VStack>
+          <IconButton
+            size="6"
+            colorScheme={"coolGray"}
+            variant={"outline"}
+            p="1"
+            icon={<ArrowUpIcon />}
+            top={-10}
+            style={{
+              transform: "rotate(45deg)",
+            }}
+            onPress={() => window.open("https://www.gmail.com", "_blank")}
+          />
         </HStack>
 
         <HStack space={2} alignItems={"center"}>
@@ -84,6 +88,20 @@ const HomeScreen = ({ style }) => {
             <Text>Github</Text>
             <Text _light={{ color: "muted.600" }}>AgentBillster</Text>
           </VStack>
+          <IconButton
+            size="6"
+            colorScheme={"coolGray"}
+            variant={"outline"}
+            p="1"
+            icon={<ArrowUpIcon />}
+            top={-10}
+            style={{
+              transform: "rotate(45deg)",
+            }}
+            onPress={() =>
+              window.open("https://www.github.com/agentbillster", "_blank")
+            }
+          />
         </HStack>
 
         <HStack space={2} alignItems={"center"}>
@@ -95,15 +113,34 @@ const HomeScreen = ({ style }) => {
             <Text>Linkedin</Text>
             <Text _light={{ color: "muted.600" }}>William_wilson95</Text>
           </VStack>
+          <IconButton
+            size="6"
+            colorScheme={"coolGray"}
+            variant={"outline"}
+            p="1"
+            icon={<ArrowUpIcon />}
+            top={-10}
+            style={{
+              transform: "rotate(45deg)",
+            }}
+            onPress={() =>
+              window.open(
+                "https://www.linkedin.com/in/agentbillster/",
+                "_blank"
+              )
+            }
+          />
         </HStack>
 
         <Image
           position={"absolute"}
           right="100"
-          bottom="-20"
+          bottom="-50"
+          borderWidth={1}
+          borderColor="rgba(80,80,80, 0.7)"
           source={require("../assets/images/me.jpg")}
           alt="Alternate Text"
-          size={["150px", "160px", "170px", "180px"]}
+          size={["150px", "160px", "200px", "230px"]}
           borderRadius={"20"}
         />
       </HStack>
@@ -111,10 +148,16 @@ const HomeScreen = ({ style }) => {
       <Divider bgColor="grey" zIndex="-1" />
       {/* <Divider mt={"1px"} zIndex="-1" borderWidth="1" /> */}
 
-      <HStack w={"70%"} mt={"40px"} alignItems={"baseline"} space="5">
+      <VStack w={"70%"} mt={"40px"} alignItems={"baseline"} space="5">
         <Box>
           <Heading variant={"bioheader"}>Bio</Heading>
-          <Divider mt={""} bgColor="black" zIndex="-1" />
+          <Divider
+            _dark={{
+              bgColor: "white",
+            }}
+            bgColor="black"
+            zIndex="-1"
+          />
           <Divider mt={"1px"} zIndex="-1" borderWidth="1" />
         </Box>
         <Text variant={"biotext"}>
@@ -125,12 +168,18 @@ const HomeScreen = ({ style }) => {
           innovative solutions and fresh ideas. And with a easygoing demeanor
           and strong communication skills, I'm a great collaborator and teammate
         </Text>
-      </HStack>
+      </VStack>
 
       <VStack w={"70%"} mt={"40px"} alignItems={"baseline"} space="5">
         <Box>
           <Heading variant={"bioheader"}>Education</Heading>
-          <Divider mt={""} bgColor="black" zIndex="-1" />
+          <Divider
+            _dark={{
+              bgColor: "white",
+            }}
+            bgColor="black"
+            zIndex="-1"
+          />
           <Divider mt={"1px"} zIndex="-1" borderWidth="1" />
         </Box>
 
@@ -143,26 +192,9 @@ const HomeScreen = ({ style }) => {
           <Text mt={"10px"}>
             A rigorous 9-month web development program that emphasized
             practical, hands-on learning to improve my skills as both a
-            developer and team player. Here is the tech we worked with.
+            developer and team player. We spent time on javascript, Java,
+            Python. as well as React Node and Spring Boot.
           </Text>
-
-          <HStack mt={"2"} space={"8"}>
-            <VStack>
-              <Badge>HTML</Badge>
-              {"\n"}
-              <Badge>CSS</Badge>
-            </VStack>
-            <VStack>
-              <Badge>Javascript</Badge>
-              {"\n"}
-              <Badge>React.js</Badge>
-            </VStack>
-            <VStack>
-              <Badge>Java</Badge>
-              {"\n"}
-              <Badge>Spring</Badge>
-            </VStack>
-          </HStack>
         </VStack>
       </VStack>
     </animated.div>
@@ -171,22 +203,3 @@ const HomeScreen = ({ style }) => {
 };
 
 export default HomeScreen;
-
-{
-  /* <ScrollView
-  w={"35%"}
-  height="100%"
-  margin={"auto"}
-  bg="white"
-  showsVerticalScrollIndicator={false}
-  p="3"
-  contentContainerStyle={{
-    alignItems: "center",
-    boxShadow: "px 0px 5px rgba(255,255,255,0.8)",
-    padding: "7px",
-    borderRadius: 40,
-  }}
->
-  
-</ScrollView> */
-}

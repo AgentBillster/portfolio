@@ -43,6 +43,20 @@ root.render(
           },
         },
 
+        Input: {
+          defaultProps: {
+            _light: { borderColor: "black" },
+            _dark: { borderColor: "white" },
+          },
+        },
+
+        TextArea: {
+          defaultProps: {
+            _light: { borderColor: "black" },
+            _dark: { borderColor: "white" },
+          },
+        },
+
         // HStack: {
         //   defaultProps: {
         //     cursor: "none",
@@ -80,11 +94,11 @@ root.render(
             },
           },
 
-          // defaultProps: {
-          //   fontFamily: "Light",
-          //   _light: { color: "black" },
-          //   _dark: { color: "white" },
-          // },
+          defaultProps: {
+            fontFamily: "Light",
+            _light: { color: "black" },
+            _dark: { color: "white" },
+          },
         },
       },
 

@@ -26,6 +26,10 @@ export const ScrollViewPlus = ({ children, platform = "web" }) => {
     onPanResponderRelease: handlePanResponderRelease,
   });
 
+  if (platform === "web") {
+    return <ScrollView p="4">{children}</ScrollView>;
+  }
+
   return (
     <ScrollView
       p="4"

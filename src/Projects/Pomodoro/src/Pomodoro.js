@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { VStack, Box, Text, HStack, Pressable, Center } from "native-base";
+import React from "react";
+import { Box } from "native-base";
 import { TaskScreen } from "./screens/TaskScreen";
 import { TimerScreen } from "./screens/TimerScreen";
 import { useNavigation } from "./hooks/useNavigation";
@@ -60,3 +60,7 @@ const Pomodoro = () => {
 };
 
 export default Pomodoro;
+
+// do more stuff with timer screen.
+//  keep count of how many session the user does and how much time and then when object
+// is completed add a property that displays that information

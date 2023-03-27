@@ -1,26 +1,19 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { animated, useSpring } from "@react-spring/web";
 
 import {
-  Center,
   Text,
   VStack,
-  Box,
   HStack,
   Heading,
-  ShareIcon,
   Select,
-  Switch,
   CheckIcon,
   Button,
-  Stagger,
-  Divider,
   Pressable,
   PresenceTransition,
 } from "native-base";
 import { useDrag } from "@use-gesture/react";
 import { NavContext } from "./../providers/NavigationProvider";
-import { ImageBackground, TouchableOpacity } from "react-native-web";
 import Pomodoro from "../Projects/Pomodoro/src/Pomodoro";
 
 const data = [
@@ -151,9 +144,16 @@ const WorkScreen = ({ style }) => {
       }}
     >
       <HStack mx="8" mt="10">
-        <Heading letterSpacing="-2" color="gray" fontSize="50px">
+        <Heading
+          _dark={{
+            color: "white",
+          }}
+          letterSpacing="-2"
+          color="gray"
+          fontSize="50px"
+        >
           PROJECTS
-          <Text ml={"6px"} color="muted.600" fontSize="30px">
+          <Text ml={"6px"} color="muted.500" fontSize="30px">
             {filteredData.length}
           </Text>
         </Heading>

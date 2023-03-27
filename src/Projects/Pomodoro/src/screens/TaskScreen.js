@@ -35,7 +35,7 @@ export const TaskScreen = ({ activeScreen, navigateToScreen }) => {
 
   const handleTaskPress = (task) => {
     if (task.completed) {
-      return console.warn("tab has been completed");
+      deleteTask(task.id);
     } else {
       navigateToScreen("Timer", { task, completeTask });
     }
@@ -50,7 +50,7 @@ export const TaskScreen = ({ activeScreen, navigateToScreen }) => {
 
     // if -1 then id is not found
     if (taskIndex === -1) {
-      console.warn("id not found my man");
+      console.warn("CANT FIND THAT MA BOI");
     }
 
     // update task
@@ -61,11 +61,12 @@ export const TaskScreen = ({ activeScreen, navigateToScreen }) => {
     navigateToScreen("Tasks");
   };
 
-  // const deleteTask = (index) => {
-  //   const updatedTasks = [...tasks];
-  //   updatedTasks[index].completed = true;
-  //   setTasks(updatedTasks);
-  // };
+  const deleteTask = (id) => {
+    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+    setTasks(updatedTasks);
+  };
 
   const handleTabToggle = (tab) => {
     if (tab === activeTab) {
@@ -75,15 +76,6 @@ export const TaskScreen = ({ activeScreen, navigateToScreen }) => {
       toggle();
     }
   };
-
-  // const Form = (tab) => {
-  //   if (tab === activeTab) {
-  //     return console.warn("tab is already active");
-  //   } else {
-  //     setActiveTab(tab);
-  //     toggle();
-  //   }
-  // };
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSpring, a } from "@react-spring/web";
 import useMeasure from "react-use-measure";
 import { treeIcons } from "../assets/icons/icons";

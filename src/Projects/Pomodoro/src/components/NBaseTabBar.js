@@ -2,7 +2,6 @@ import {
   Box,
   PresenceTransition,
   Pressable,
-  useDisclose,
   Divider,
   HStack,
   Text,
