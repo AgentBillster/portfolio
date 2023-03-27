@@ -22,7 +22,7 @@ export const TimerScreen = ({ task, completeTask, activeScreen }) => {
       }
     }
     return () => clearInterval(interval);
-  }, [isPaused, seconds]);
+  }, [isPaused, seconds, isBreak]);
 
   const handlePlayPause = () => {
     setIsPaused(!isPaused);

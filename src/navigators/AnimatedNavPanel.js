@@ -1,23 +1,15 @@
 import React, { useContext } from "react";
 import {
-  HStack,
   Pressable,
   VStack,
   Text,
-  Heading,
   Box,
   Center,
-  Switch,
   Divider,
 } from "native-base";
-import { Dimensions } from "react-native";
-import { useTransition } from "@react-spring/web";
-import { usePageNavigation } from "./../hooks/usePageNavigation";
 import { NavContext } from "./../providers/NavigationProvider";
 import ColorModeSwitch from "./../components/ColorModeSwitch";
 
-const width = Dimensions.get("window").width;
-const height = Dimensions.get("window").height;
 
 const AnimatedNavPanel = () => {
   const { pages, navigate, currentPage } = useContext(NavContext);

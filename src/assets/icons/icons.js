@@ -1,5 +1,5 @@
 import { Icon } from "native-base";
-import { G, Path, Ellipse, Polygon, Polyline } from "react-native-svg";
+import { Path } from "react-native-svg";
 
 const MailIcon = ({ size }) => (
   <Icon

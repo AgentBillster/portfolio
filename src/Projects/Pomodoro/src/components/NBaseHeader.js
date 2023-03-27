@@ -1,12 +1,4 @@
-import {
-  ArrowBackIcon,
-  Box,
-  HStack,
-  Icon,
-  IconButton,
-  StatusBar,
-  Text,
-} from "native-base";
+import { Box, HStack, StatusBar, Text } from "native-base";
 
 export const NBaseHeader = ({ title }) => {
   return (
