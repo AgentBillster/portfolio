@@ -48,7 +48,7 @@ export const TaskScreen = ({ activeScreen, navigateToScreen }) => {
     // get task we want to change via id
     const taskIndex = tasks.findIndex((task) => task.id === id);
 
-    // if -1 then id is not found
+    // if -1 then id is not in arr
     if (taskIndex === -1) {
       console.warn("CANT FIND THAT MA BOI");
     }

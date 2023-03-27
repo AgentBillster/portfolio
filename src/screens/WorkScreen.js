@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { animated, useSpring } from "@react-spring/web";
-
 import {
   Text,
   VStack,

@@ -1,18 +1,14 @@
 import {
-  Center,
   Text,
   Input,
   Box,
   HStack,
   Button,
   VStack,
-  FormControl,
-  Stack,
-  WarningOutlineIcon,
   PresenceTransition,
   AddIcon,
 } from "native-base";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useToggle } from "../hooks/useToggle";
 
 export const NBaseAnimatedForm = ({ addTask }) => {

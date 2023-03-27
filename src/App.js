@@ -1,5 +1,5 @@
-import React, { useEffect, useContext, useState, useLayoutEffect } from "react";
-import { Center, HStack } from "native-base";
+import React, {  useContext, useState, useLayoutEffect } from "react";
+import {  HStack } from "native-base";
 import AnimatedNavPanel from "./navigators/AnimatedNavPanel";
 import AnimatedCursor from "react-animated-cursor";
 import { Dimensions } from "react-native";
@@ -14,7 +14,6 @@ const App = () => {
   const [height, setHeight] = useState(Dimensions.get("window").height);
 
   useLayoutEffect(() => {
-    // use useLayoutEffect instead of useEffect
     function handleResize() {
       setWidth(Dimensions.get("window").width);
       setHeight(Dimensions.get("window").height);
