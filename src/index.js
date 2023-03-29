@@ -49,6 +49,17 @@ root.render(
             sectiontext: {
               fontSize: ["0px", "15px", "24px", "35px"],
             },
+
+            workheader: {
+              fontSize: ["0px", "50px", "70px", "35px"],
+            },
+            tagtext: {
+              fontSize: ["0px", "15px", "24px", "35px"],
+            },
+
+            projtext: {
+              fontSize: ["0px", "65px", "96px", "120px"],
+            },
           },
         },
 

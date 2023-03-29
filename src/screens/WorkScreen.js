@@ -10,10 +10,14 @@ import {
   Button,
   Pressable,
   PresenceTransition,
+  Divider,
+  Center,
 } from "native-base";
 import { useDrag } from "@use-gesture/react";
 import { NavContext } from "./../providers/NavigationProvider";
 import Pomodoro from "../Projects/Pomodoro/src/Pomodoro";
+
+// make responsive for big monitor
 
 const data = [
   {
@@ -142,36 +146,21 @@ const WorkScreen = ({ style }) => {
         transform: y.to((y) => `translate3d(0,${y}px,0)`),
       }}
     >
-      <HStack mx="8" mt="10">
-        <Heading
+      <HStack mx="8" mt="8">
+        <Text
           _dark={{
             color: "white",
           }}
           letterSpacing="-2"
           color="gray"
-          fontSize="50px"
+          variant="workheader"
         >
           PROJECTS
           <Text ml={"6px"} color="muted.500" fontSize="30px">
             {filteredData.length}
           </Text>
-        </Heading>
+        </Text>
         <HStack space={"4"} alignItems="center" ml={"auto"}>
-          <Select
-            colorScheme={"info"}
-            p="12px"
-            selectedValue={selectedTag}
-            borderColor="rgba(80,80,80, 0.5)"
-            borderWidth={1.5}
-            placeholder="All"
-            _selectedItem={{
-              bg: "muted.600",
-              endIcon: <CheckIcon size="5" />,
-            }}
-            onValueChange={(itemValue) => setSelectedTag(itemValue)}
-          >
-            <Select.Item label="react native" value="react native" />
-          </Select>
           <Button
             onPress={() => setShowDemoProjects(!showDemoProjects)}
             colorScheme="warning"
@@ -180,8 +169,10 @@ const WorkScreen = ({ style }) => {
           </Button>
         </HStack>
       </HStack>
-
-      <VStack borderTopWidth="1" borderColor="rgba(80,80,80, 0.8)">
+      <Center w="100%">
+        <Divider w="98%" borderWidth={1} bg={"black"} />
+      </Center>
+      <VStack borderColor="rgba(80,80,80, 0.8)">
         {filteredData.map((item, i) => (
           <HStack key={item.id} mt={i === 0 ? "30px" : ""} ml="auto" space="4">
             <Pressable
@@ -207,7 +198,7 @@ const WorkScreen = ({ style }) => {
                 }}
               >
                 <HStack>
-                  <Text fontSize={15} _hover={{ color: "blue.500" }}>
+                  <Text variant="tagtext" _hover={{ color: "blue.500" }}>
                     {item.tags.map(
                       (tag, index) =>
                         `${tag} ${index < item.tags.length - 1 ? " / " : ""}`
@@ -215,8 +206,8 @@ const WorkScreen = ({ style }) => {
                   </Text>
 
                   <Text
+                    variant={"projtext"}
                     borderColor="muted.300"
-                    fontSize="65px"
                     fontFamily="thin"
                   >
                     {item.title}

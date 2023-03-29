@@ -80,8 +80,7 @@ const HomeScreen = ({ style }) => {
               bgColor: "white",
             }}
             zIndex="-1"
-            borderWidth={2}
-            w="110%"
+            borderWidth={1}
             borderRadius="60"
             borderColor="rgba(80,80,80, 0.9)"
           />
@@ -104,8 +103,7 @@ const HomeScreen = ({ style }) => {
               bgColor: "white",
             }}
             zIndex="-1"
-            borderWidth={2}
-            w="110%"
+            borderWidth={1}
             borderRadius="60"
             borderColor="rgba(80,80,80, 0.9)"
           />

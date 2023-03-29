@@ -27,7 +27,11 @@ export const ScrollViewPlus = ({ children, platform = "web" }) => {
   });
 
   if (platform === "web") {
-    return <ScrollView p="4">{children}</ScrollView>;
+    return (
+      <ScrollView showsVerticalScrollIndicator={false} p="4">
+        {children}
+      </ScrollView>
+    );
   }
 
   return (
