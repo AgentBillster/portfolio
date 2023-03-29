@@ -8,21 +8,18 @@ export const LoadingAnim = () => {
   const textOpacity = useSpring({
     from: { opacity: 1 },
     to: { opacity: 0 },
-    config: { duration: 500 },
     delay: 1800,
   });
 
   const textOpacityDel = useSpring({
     from: { opacity: 1 },
     to: { opacity: 0 },
-    config: { duration: 500 },
     delay: 2000,
   });
 
   const screenOpacity = useSpring({
     from: { opacity: 1 },
     to: { opacity: 0 },
-    config: { duration: 200 },
     delay: 2500,
     onRest: () => {
       setShowComponent(false);

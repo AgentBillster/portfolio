@@ -3,43 +3,58 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { extendTheme, NativeBaseProvider } from "native-base";
+import { ArrowUpIcon, extendTheme, NativeBaseProvider } from "native-base";
 import { NavigationProvider } from "./providers/NavigationProvider";
+import { LoadingAnim } from "./components/LoadingAnim";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <NativeBaseProvider
     theme={extendTheme({
-      breakpoints: {
-        base: 0,
-        md: 768,
-        lg: 992,
-        xl: 1280,
-      },
-
+      breakpoints: [0, 1366, 1920, 2560],
       components: {
         Text: {
           variants: {
             bigtext: {
               fontFamily: "Thin",
-              fontSize: [30, 40, 50, 65],
-              display: ["none", "none", "flex"],
+              fontSize: ["0px", "65px", "100px", "160px"],
             },
             bigsubtext: {
               fontFamily: "thin",
-              fontSize: [20, 25, 30, 20],
+              style: { transform: [{ translateY: "-20px" }] },
+              fontSize: ["0px", "20px", "40px", "60px"],
             },
 
-            biotext: {
-              fontSize: [10, 12, 14, 16],
+            topnavtext: {
+              fontSize: ["20px", "22px", "34px", "50px"],
+            },
+            navitemtext: {
+              fontFamily: "Light",
+              borderColor: "rgba(80,80,80, 1)",
+              fontSize: ["3", "20px", "32px", "45px"],
+              style: { transform: [{ rotate: "-90deg" }] },
+            },
+
+            socialname: {
+              fontSize: ["0px", "13px", "20px", "32px"],
+            },
+            socialemail: {
+              fontSize: ["0px", "13px", "18px", "32px"],
+            },
+            sectionheader: {
+              fontSize: ["0px", "28px", "50px", "65px"],
+            },
+
+            sectiontext: {
+              fontSize: ["0px", "15px", "24px", "35px"],
             },
           },
         },
 
-        Icon: {
+        IconButton: {
           defaultProps: {
-            size: [40, 45, 50, 55],
+            cursor: "none",
           },
         },
 
@@ -57,11 +72,14 @@ root.render(
           },
         },
 
-        // HStack: {
-        //   defaultProps: {
-        //     cursor: "none",
-        //   },
-        // },
+        HStack: {
+          variants: {
+            socialspacing: { space: [10, 10, 20, 10] },
+          },
+          defaultProps: {
+            cursor: "none",
+          },
+        },
 
         Pressable: {
           defaultProps: {
@@ -124,6 +142,7 @@ root.render(
     })}
   >
     <NavigationProvider>
+      {/* <LoadingAnim /> */}
       <App />
     </NavigationProvider>
   </NativeBaseProvider>
@@ -132,4 +151,4 @@ root.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals(console.log);
+// reportWebVitals(console.log);

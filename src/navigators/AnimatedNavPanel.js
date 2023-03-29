@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   Pressable,
   VStack,
@@ -6,19 +6,18 @@ import {
   Box,
   Center,
   Divider,
+  PresenceTransition,
 } from "native-base";
 import { NavContext } from "./../providers/NavigationProvider";
 import ColorModeSwitch from "./../components/ColorModeSwitch";
 
-
 const AnimatedNavPanel = () => {
+  const [hoveredIndex, setHoveredIndex] = useState("");
   const { pages, navigate, currentPage } = useContext(NavContext);
   return (
     <Box borderRightWidth="1" borderColor={"muted.500"}>
       <Center flex={0.1}>
-        <Text fontFamily={"Medium"} fontSize="20px">
-          W.
-        </Text>
+        <Text variant="topnavtext">W.</Text>
       </Center>
       <Divider bg={"muted.500"} />
       <VStack flex={0.75}>
@@ -29,24 +28,36 @@ const AnimatedNavPanel = () => {
               flex="1"
               justifyContent={"center"}
               alignItems="center"
+              onHoverIn={() => setHoveredIndex(i)}
+              onHoverOut={() => setHoveredIndex("")}
               onPress={() => {
                 navigate(page);
               }}
             >
-              <Text
-                fontFamily="Light"
-                textAlign="center"
-                borderBottomWidth={page === currentPage ? 2 : 0}
-                borderColor="rgba(80,80,80, 0.9)"
-                fontSize="20px"
-                style={{ transform: [{ rotate: "-90deg" }] }}
+              <PresenceTransition
+                visible={hoveredIndex === i} // trigger animation when we hover over index
+                initial={{
+                  opacity: 1,
+                }}
+                animate={{
+                  opacity: 0.4,
+                  transition: {
+                    duration: 400,
+                  },
+                }}
               >
-                {page}
-              </Text>
+                <Text
+                  variant={"navitemtext"}
+                  borderBottomWidth={page === currentPage ? 1 : 0}
+                >
+                  {page}
+                </Text>
+              </PresenceTransition>
             </Pressable>
           )
         )}
       </VStack>
+      <Divider bg={"muted.500"} />
       <ColorModeSwitch />
     </Box>
   );

@@ -1,36 +1,25 @@
-import React, {  useContext, useState, useLayoutEffect } from "react";
-import {  HStack } from "native-base";
+import React, { useContext, useState, useLayoutEffect } from "react";
+import {
+  HStack,
+  useBreakpointResolvedProps,
+  useBreakpointValue,
+} from "native-base";
 import AnimatedNavPanel from "./navigators/AnimatedNavPanel";
 import AnimatedCursor from "react-animated-cursor";
 import { Dimensions } from "react-native";
 import { NavContext } from "./providers/NavigationProvider";
 import AnimatedBackground from "./components/AnimatedBackground";
-import { LoadingAnim } from "./components/LoadingAnim";
+const { width, height } = Dimensions.get("screen");
 
 const App = () => {
   const { transitions, getPage } = useContext(NavContext);
 
-  const [width, setWidth] = useState(Dimensions.get("window").width);
-  const [height, setHeight] = useState(Dimensions.get("window").height);
-
-  useLayoutEffect(() => {
-    function handleResize() {
-      setWidth(Dimensions.get("window").width);
-      setHeight(Dimensions.get("window").height);
-    }
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   return (
     <AnimatedBackground>
-      <LoadingAnim />
       <AnimatedCursor />
       <HStack
-        w={width * 0.92}
-        h={height * 0.85}
+        w={"90%"}
+        h={"90%"}
         borderWidth="1"
         borderColor="rgba(80,80,80, 0.9)"
         borderRadius={5}

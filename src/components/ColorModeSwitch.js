@@ -10,11 +10,18 @@ const ColorModeSwitch = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <Center flex={0.2}>
-      <Pressable onPress={toggleColorMode}>
-        {colorMode === "light" ? <SunIcon size="8" /> : <MoonIcon />}
-      </Pressable>
-    </Center>
+    <Pressable
+      flex="0.2"
+      justifyContent={"center"}
+      alignItems="center"
+      onPress={toggleColorMode}
+    >
+      {colorMode === "light" ? (
+        <SunIcon size={[40, 30, 50, 60]} />
+      ) : (
+        <MoonIcon size={[40, 30, 50, 70]} />
+      )}
+    </Pressable>
   );
 };
 

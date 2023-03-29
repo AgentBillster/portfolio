@@ -191,14 +191,14 @@ body {
   }
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1080px) {
   .iphone-x {
     width: 300px;
     height: 600px;
   }
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1440px) {
   .iphone-x {
     width: 320px;
     height: 650px;
