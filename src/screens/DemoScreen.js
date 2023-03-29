@@ -1,18 +1,11 @@
 import React, { useState } from "react";
 import { animated } from "@react-spring/web";
-import {  Box, Center, } from "native-base";
+import { Box, Center } from "native-base";
 import { TreeNav } from "../navigators/TreeNav";
-// import {
-//   a11yDark,
-//   a11yLight,
-//   atomOneDark,
-//   CodeBlock,
-//   dracula,
-//   nord,
-// } from "react-code-blocks";
+import { CodeViewer } from "../components/CodeViewer";
 
 const DemoScreen = ({ style, data }) => {
-  const [ setActiveFile] = useState(data.title);
+  const [activeFile, setActiveFile] = useState("readme");
 
   return (
     <animated.div
@@ -24,21 +17,16 @@ const DemoScreen = ({ style, data }) => {
       }}
     >
       <Box bg={"#2d2d30"} flex={0.2}>
-        <TreeNav data={data.fileData} setActiveFile={setActiveFile} />
+        <TreeNav
+          data={data.fileData}
+          setActiveFile={setActiveFile}
+          activeFile={activeFile}
+        />
       </Box>
 
-      {/* 
       <Box bg={"#2d2d30"} flex={0.45}>
-        <CodeBlock
-          theme={a11yLight}
-          customStyle={{
-            height: "100%",
-            fontSize: "16px",
-          }}
-          text={activeFile ? activeFile : "null"}
-          language="jsx"
-        />
-      </Box> */}
+        <CodeViewer activeFile={activeFile} />
+      </Box>
 
       <Center flex={0.4}>
         <div className="iphone-x">

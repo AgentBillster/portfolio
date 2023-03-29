@@ -4,14 +4,11 @@ import {
   Text,
   VStack,
   HStack,
-  Heading,
-  Select,
-  CheckIcon,
-  Button,
   Pressable,
   PresenceTransition,
   Divider,
   Center,
+  Stagger,
 } from "native-base";
 import { useDrag } from "@use-gesture/react";
 import { NavContext } from "./../providers/NavigationProvider";
@@ -156,67 +153,96 @@ const WorkScreen = ({ style }) => {
           variant="workheader"
         >
           PROJECTS
-          <Text ml={"6px"} color="muted.500" fontSize="30px">
+          <Text
+            ml={"6px"}
+            color="muted.500"
+            fontSize={["30px", "30px", "40px", "50px"]}
+          >
             {filteredData.length}
           </Text>
         </Text>
         <HStack space={"4"} alignItems="center" ml={"auto"}>
-          <Button
+          {/* <Button
+            size={["20px", "30px", "40px", "120px"]}
             onPress={() => setShowDemoProjects(!showDemoProjects)}
             colorScheme="warning"
           >
             HasDemo
-          </Button>
+          </Button> */}
         </HStack>
       </HStack>
       <Center w="100%">
         <Divider w="98%" borderWidth={1} bg={"black"} />
       </Center>
-      <VStack borderColor="rgba(80,80,80, 0.8)">
-        {filteredData.map((item, i) => (
-          <HStack key={item.id} mt={i === 0 ? "30px" : ""} ml="auto" space="4">
-            <Pressable
-              onHoverIn={() => setHoveredIndex(i)}
-              onHoverOut={() => setHoveredIndex("")}
-              onPress={() => {
-                navigate("demo", item);
-              }}
-              flex={1}
-              flexDir="row"
-              alignItems={"flex-end"}
-            >
-              <PresenceTransition
-                visible={hoveredIndex === i} // trigger animation when we hover over index
-                initial={{
-                  opacity: 0.8,
-                }}
-                animate={{
-                  opacity: 0.2,
-                  transition: {
-                    duration: 400,
-                  },
-                }}
-              >
-                <HStack>
-                  <Text variant="tagtext" _hover={{ color: "blue.500" }}>
-                    {item.tags.map(
-                      (tag, index) =>
-                        `${tag} ${index < item.tags.length - 1 ? " / " : ""}`
-                    )}
-                  </Text>
 
-                  <Text
-                    variant={"projtext"}
-                    borderColor="muted.300"
-                    fontFamily="thin"
-                  >
-                    {item.title}
-                  </Text>
-                </HStack>
-              </PresenceTransition>
-            </Pressable>
-          </HStack>
-        ))}
+      <VStack borderColor="rgba(80,80,80, 0.8)">
+        <Stagger
+          visible={true}
+          initial={{
+            opacity: 0,
+            translateY: 100,
+          }}
+          animate={{
+            opacity: 1,
+            translateY: 0,
+            transition: {
+              type: "spring",
+              stagger: {
+                offset: 34,
+              },
+            },
+          }}
+        >
+          {filteredData.map((item, i) => (
+            <HStack
+              key={item.id}
+              mt={i === 0 ? "30px" : ""}
+              ml="auto"
+              space="4"
+            >
+              <Pressable
+                onHoverIn={() => setHoveredIndex(i)}
+                onHoverOut={() => setHoveredIndex("")}
+                onPress={() => {
+                  navigate("demo", item);
+                }}
+                flex={1}
+                flexDir="row"
+                alignItems={"flex-end"}
+              >
+                <PresenceTransition
+                  visible={hoveredIndex === i} // trigger animation when we hover over index
+                  initial={{
+                    opacity: 0.8,
+                  }}
+                  animate={{
+                    opacity: 0.2,
+                    transition: {
+                      duration: 400,
+                    },
+                  }}
+                >
+                  <HStack>
+                    <Text variant="tagtext" _hover={{ color: "blue.500" }}>
+                      {item.tags.map(
+                        (tag, index) =>
+                          `${tag} ${index < item.tags.length - 1 ? " / " : ""}`
+                      )}
+                    </Text>
+
+                    <Text
+                      variant={"projtext"}
+                      borderColor="muted.300"
+                      fontFamily="thin"
+                    >
+                      {item.title}
+                    </Text>
+                  </HStack>
+                </PresenceTransition>
+              </Pressable>
+            </HStack>
+          ))}
+        </Stagger>
       </VStack>
     </animated.div>
   );

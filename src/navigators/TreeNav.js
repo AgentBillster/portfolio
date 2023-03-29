@@ -5,7 +5,14 @@ import { treeIcons } from "../assets/icons/icons";
 import { usePrevious } from "../hooks/usePrevious";
 
 const Tree = React.memo(
-  ({ onFileClick, children, name, style, defaultOpen = false }) => {
+  ({
+    setActiveFile,
+    activeFile,
+    children,
+    name,
+    style,
+    defaultOpen = false,
+  }) => {
     const [isOpen, setOpen] = useState(defaultOpen);
     const previous = usePrevious(isOpen);
 
@@ -25,12 +32,12 @@ const Tree = React.memo(
         `${children ? (isOpen ? "ChevronDown" : "ChevronRight") : "JSIcon"}`
       ];
 
-    const handleClick = () => {
-      if (!children) {
-        onFileClick(name);
-      }
-      setOpen(!isOpen);
-    };
+    // const handleClick = () => {
+    //   if (!children && activeFile !== name) {
+    //     setActiveFile(name);
+    //   }
+    //   setOpen(!isOpen);
+    // };
 
     return (
       <div
@@ -53,12 +60,7 @@ const Tree = React.memo(
             verticalAlign: "middle",
           }}
         />
-        <span
-          onClick={handleClick}
-          style={{ ...style, verticalAlign: "middle" }}
-        >
-          {name}
-        </span>
+        <span style={{ ...style, verticalAlign: "middle" }}>{name}</span>
         <a.div
           style={{
             opacity,
@@ -76,16 +78,9 @@ const Tree = React.memo(
   }
 );
 
-export const TreeNav = ({ data, setActiveFile }) => {
-  const handleFileClick = (fileName) => {
-    setActiveFile(fileName);
-  };
+export const TreeNav = ({ data }) => {
   const renderTree = (node) => (
-    <Tree
-      name={node.name}
-      defaultOpen={node.defaultOpen}
-      onFileClick={handleFileClick}
-    >
+    <Tree name={node.name} defaultOpen={node.defaultOpen}>
       {node.children && node.children.map((child) => renderTree(child))}
     </Tree>
   );

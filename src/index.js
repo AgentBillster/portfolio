@@ -12,7 +12,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <NativeBaseProvider
     theme={extendTheme({
-      breakpoints: [0, 1366, 1920, 2560],
+      breakpoints: [0, 1266, 1820, 2460],
       components: {
         Text: {
           variants: {
@@ -51,14 +51,17 @@ root.render(
             },
 
             workheader: {
-              fontSize: ["0px", "50px", "70px", "35px"],
-            },
-            tagtext: {
-              fontSize: ["0px", "15px", "24px", "35px"],
+              fontSize: ["0px", "50px", "70px", "120px"],
             },
 
+            tagtext: {
+              fontSize: ["0px", "15px", "24px", "38px"],
+            },
+
+      
+
             projtext: {
-              fontSize: ["0px", "65px", "96px", "120px"],
+              fontSize: ["0px", "65px", "96px", "140px"],
             },
           },
         },
