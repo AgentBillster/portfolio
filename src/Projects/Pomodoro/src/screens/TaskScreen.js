@@ -19,7 +19,7 @@ export const TaskScreen = ({ activeScreen, navigateToScreen }) => {
     } else {
       setTasks(parsedData.filter((task) => task.completed));
     }
-  }, [tasks, activeTab]);
+  }, [activeTab]);
 
   const addTask = (name, minutes) => {
     const tasks = JSON.parse(localStorage.getItem("tasks"));

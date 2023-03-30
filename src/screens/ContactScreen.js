@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import emailjs from "@emailjs/browser";
-import {animated } from "@react-spring/web";
+import { animated } from "@react-spring/web";
 import {
   Box,
   Button,
@@ -10,15 +10,19 @@ import {
   PresenceTransition,
   Text,
   TextArea,
+  useBreakpointValue,
   VStack,
 } from "native-base";
 
 const ContactScreen = ({ style }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [good, setGood] = useState();
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+
+  const fontsize = useBreakpointValue(["17px", "12px", "30px", "40px"]);
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -39,7 +43,7 @@ const ContactScreen = ({ style }) => {
         )
         .then(
           (result) => {
-            // setGood(true);
+            setGood(true);
           },
           (error) => {
             console.log(error.text);
@@ -58,7 +62,7 @@ const ContactScreen = ({ style }) => {
         ...style,
         width: "100%",
         paddingBlock: "8%",
-        paddingInline: "10%",
+        paddingInline: "8%",
       }}
     >
       <Center>
@@ -66,8 +70,13 @@ const ContactScreen = ({ style }) => {
           <Text variant="bigtext">Get in Touch</Text>
           <Text variant="bigsubtext">message me anytime</Text>
         </VStack>
-
-        <VStack w={"50%"} alignSelf="center" mt="10" space="2">
+        {good && <Text variant={"bigsubtext"}>sent</Text>}
+        <VStack
+          w={["50%", "50%", "60%", "75%"]}
+          alignSelf="center"
+          mt="2"
+          space="2"
+        >
           <PresenceTransition
             visible={error ? true : false}
             initial={{
@@ -96,8 +105,8 @@ const ContactScreen = ({ style }) => {
           <HStack space="2">
             <Input
               borderColor={"black"}
-              p={"4"}
               value={name}
+              fontSize={fontsize}
               w="49%"
               onChangeText={(text) => setName(text)}
               placeholder="Name"
@@ -105,8 +114,8 @@ const ContactScreen = ({ style }) => {
 
             <Input
               borderColor={"black"}
-              p={"4"}
               value={email}
+              fontSize={fontsize}
               w="50%"
               onChangeText={(text) => setEmail(text)}
               placeholder="Email"
@@ -115,8 +124,8 @@ const ContactScreen = ({ style }) => {
 
           <Input
             borderColor={"black"}
-            p={"4"}
             value={subject}
+            fontSize={fontsize}
             w="100%"
             onChangeText={(text) => setSubject(text)}
             placeholder="subject "
@@ -128,6 +137,7 @@ const ContactScreen = ({ style }) => {
             borderColor={"black"}
             h="100px"
             p={"4"}
+            fontSize={fontsize}
             value={message}
             w="100%"
             onChangeText={(text) => setMessage(text)}
@@ -137,6 +147,10 @@ const ContactScreen = ({ style }) => {
             p="4"
             colorScheme={"black"}
             variant="outline"
+            _text={{
+              fontSize: fontsize,
+            }}
+            fontSize={fontsize}
             borderColor={"muted.400"}
             onPress={(e) => {
               sendEmail(e);
@@ -151,4 +165,3 @@ const ContactScreen = ({ style }) => {
 };
 
 export default ContactScreen;
-

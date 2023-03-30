@@ -59,7 +59,14 @@ const Tree = React.memo(
           fill: "white",
         }}
       >
-        <Icon />
+        <Icon
+          style={{
+            width: "15px",
+            height: "15px",
+            marginRight: "10px",
+            verticalAlign: "middle",
+          }}
+        />
         <span
           onClick={handleClick}
           style={{ ...style, verticalAlign: "middle" }}

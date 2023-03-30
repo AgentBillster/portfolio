@@ -27,7 +27,7 @@ const SocialLinks = () => {
   return (
     <HStack variant="socialspacing">
       {socialData.map(({ icon, name, email, link }, index) => (
-        <HStack space={[2, 2, 4, 6]} alignItems={"center"}>
+        <HStack key={index} space={[2, 2, 4, 6]} alignItems={"center"}>
           <Box>{icon}</Box>
           <VStack>
             <Text variant={"socialname"}>{name}</Text>

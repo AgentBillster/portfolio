@@ -66,21 +66,61 @@ const JSIcon = (props) => (
 );
 
 const MDIcon = (props) => {
-  <svg {...props} viewBox="0 0 32 32" fill="none">
+  <svg
+    {...props}
+    viewBox="-0.5 0 25 25"
+    fill="white"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
-      stroke="#535358"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M6 5a2 2 0 012-2h16a2 2 0 012 2v22a2 2 0 01-2 2H8a2 2 0 01-2-2V5z"
-    />
-    <path
-      stroke="#535358"
+      d="M18.505 22H5.495C5.225 22 4.995 21.78 4.995 21.5V3.5C4.995 3.23 5.215 3 5.495 3H18.505C18.775 3 19.005 3.22 19.005 3.5V21.51C18.995 21.78 18.775 22 18.505 22Z"
+      stroke="#0F0F0F"
+      stroke-miterlimit="10"
       stroke-linecap="round"
       stroke-linejoin="round"
-      stroke-width="2"
-      d="M10 9h4M10 16h12M10 20h12M10 24h4"
     />
-    <circle cx="22" cy="9" r="1" fill="#535358" />
+    <path
+      d="M12.995 19H15.995"
+      stroke="#0F0F0F"
+      stroke-miterlimit="10"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M7.995 10H14.995"
+      stroke="#0F0F0F"
+      stroke-miterlimit="10"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M7.995 12H14.995"
+      stroke="#0F0F0F"
+      stroke-miterlimit="10"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M7.995 8H15.995"
+      stroke="#0F0F0F"
+      stroke-miterlimit="10"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M7.995 6H15.995"
+      stroke="#0F0F0F"
+      stroke-miterlimit="10"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M7.995 14H13.425"
+      stroke="#0F0F0F"
+      stroke-miterlimit="10"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
   </svg>;
 };
 

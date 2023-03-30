@@ -11,8 +11,9 @@ export const NBaseTabBar = ({ tabs, handleTabToggle, isOpen }) => {
   return (
     <Box p="4">
       <HStack>
-        {tabs.map((item) => (
+        {tabs.map((item, index) => (
           <Pressable
+            key={index}
             onPress={() => {
               handleTabToggle(item);
             }}

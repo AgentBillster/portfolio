@@ -1,6 +1,6 @@
 import React from "react";
 import { animated, useSpring } from "@react-spring/web";
-import { useDrag } from "@use-gesture/react";
+import { useDrag, useWheel } from "@use-gesture/react";
 import {
   Box,
   Text,
@@ -24,30 +24,20 @@ const HomeScreen = ({ style }) => {
     config: { tension: 300, friction: 30 },
   }));
 
-  const bind = useDrag(
-    ({ offset: [, y] }) => {
-      api.start({ y: y });
-    },
-    {
-      bounds: {
-        bottom: height,
-      },
-
-      rubberband: 0.9,
-    }
-  );
+  const wheel = useWheel(({ offset: [, y] }) => {
+    api.start({ y: -y });
+  });
 
   return (
     <animated.div
-      {...bind()}
-      ref={ref}
       style={{
-        ...style,
         width: "100%",
+        height: "2300px",
         paddingBlock: "4%",
         paddingInline: "5%",
         transform: y.to((y) => `translate3d(0,${y}px,0)`),
       }}
+      {...wheel()}
     >
       <VStack p="2" alignItems={"flex-start"}>
         <Text variant="bigtext">William Wilson</Text>

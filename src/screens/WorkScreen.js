@@ -9,8 +9,9 @@ import {
   Divider,
   Center,
   Stagger,
+  Box,
 } from "native-base";
-import { useDrag } from "@use-gesture/react";
+import { useWheel } from "@use-gesture/react";
 import { NavContext } from "./../providers/NavigationProvider";
 import Pomodoro from "../Projects/Pomodoro/src/Pomodoro";
 
@@ -113,14 +114,9 @@ const WorkScreen = ({ style }) => {
     config: { tension: 300, friction: 30 },
   }));
 
-  const bind = useDrag(
-    ({ event, distance, offset: [, y] }) => {
-      api.start({ y: y });
-    },
-    {
-      rubberband: 0.9,
-    }
-  );
+  const wheel = useWheel(({ offset: [, y] }) => {
+    api.start({ y: -y });
+  });
 
   const filteredData = data.filter((item) => {
     // Filter by hasDemo
@@ -138,16 +134,16 @@ const WorkScreen = ({ style }) => {
 
   return (
     <animated.div
-      {...bind()}
       style={{
-        ...style,
-        paddingBlock: "3%",
-        paddingInline: "5%",
         width: "100%",
+        height: "2300px",
+        paddingBlock: "4%",
+        paddingInline: "5%",
         transform: y.to((y) => `translate3d(0,${y}px,0)`),
       }}
+      {...wheel()}
     >
-      <HStack mx="8" mt="8">
+      <HStack borderBottomWidth={1}>
         <Text
           _dark={{
             color: "white",
@@ -165,21 +161,9 @@ const WorkScreen = ({ style }) => {
             {filteredData.length}
           </Text>
         </Text>
-        <HStack space={"4"} alignItems="center" ml={"auto"}>
-          {/* <Button
-            size={["20px", "30px", "40px", "120px"]}
-            onPress={() => setShowDemoProjects(!showDemoProjects)}
-            colorScheme="warning"
-          >
-            HasDemo
-          </Button> */}
-        </HStack>
       </HStack>
-      <Center w="100%">
-        <Divider w="98%" borderWidth={1} bg={"black"} />
-      </Center>
 
-      <VStack borderColor="rgba(80,80,80, 0.8)">
+      <VStack mt="20" borderColor="rgba(80,80,80, 0.8)">
         <Stagger
           visible={true}
           initial={{
