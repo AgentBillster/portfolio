@@ -5,7 +5,7 @@ import { TreeNav } from "../navigators/TreeNav";
 import { CodeViewer } from "../components/CodeViewer";
 
 const DemoScreen = ({ style, data }) => {
-  const [activeFile, setActiveFile] = useState("readme");
+  const [activeFile, setActiveFile] = useState();
 
   return (
     <animated.div

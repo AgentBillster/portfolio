@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useSpring, a } from "@react-spring/web";
 import useMeasure from "react-use-measure";
-import { treeIcons } from "../assets/icons/icons";
 import { usePrevious } from "../hooks/usePrevious";
+import { treeIcons } from "../assets/icons/icons";
 
 const Tree = React.memo(
   ({
     setActiveFile,
     activeFile,
+    type,
     children,
     name,
     style,
@@ -27,17 +28,23 @@ const Tree = React.memo(
       },
     });
 
-    const Icon =
-      treeIcons[
-        `${children ? (isOpen ? "ChevronDown" : "ChevronRight") : "JSIcon"}`
-      ];
+    const iconMap = {
+      js: treeIcons["JSIcon"],
+      md: treeIcons["MDIcon"],
+    };
 
-    // const handleClick = () => {
-    //   if (!children && activeFile !== name) {
-    //     setActiveFile(name);
-    //   }
-    //   setOpen(!isOpen);
-    // };
+    const Icon = children
+      ? isOpen
+        ? treeIcons["ChevronDown"]
+        : treeIcons["ChevronRight"]
+      : iconMap[type];
+
+    const handleClick = () => {
+      if (!children && activeFile !== name) {
+        setActiveFile(name);
+      }
+      setOpen(!isOpen);
+    };
 
     return (
       <div
@@ -52,15 +59,13 @@ const Tree = React.memo(
           fill: "white",
         }}
       >
-        <Icon
-          style={{
-            width: "15px",
-            height: "15px",
-            marginRight: "10px",
-            verticalAlign: "middle",
-          }}
-        />
-        <span style={{ ...style, verticalAlign: "middle" }}>{name}</span>
+        <Icon />
+        <span
+          onClick={handleClick}
+          style={{ ...style, verticalAlign: "middle" }}
+        >
+          {name}
+        </span>
         <a.div
           style={{
             opacity,
@@ -78,9 +83,15 @@ const Tree = React.memo(
   }
 );
 
-export const TreeNav = ({ data }) => {
+export const TreeNav = ({ data, setActiveFile, activeFile }) => {
   const renderTree = (node) => (
-    <Tree name={node.name} defaultOpen={node.defaultOpen}>
+    <Tree
+      name={node.name}
+      type={node.name.slice(-2)}
+      activeFile={activeFile}
+      setActiveFile={setActiveFile}
+      defaultOpen={node.defaultOpen}
+    >
       {node.children && node.children.map((child) => renderTree(child))}
     </Tree>
   );

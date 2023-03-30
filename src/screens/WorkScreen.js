@@ -14,8 +14,7 @@ import { useDrag } from "@use-gesture/react";
 import { NavContext } from "./../providers/NavigationProvider";
 import Pomodoro from "../Projects/Pomodoro/src/Pomodoro";
 
-// make responsive for big monitor
-
+// on app load write py scan filestree =>  node
 const data = [
   {
     id: 1,
@@ -35,19 +34,24 @@ const data = [
             children: [
               {
                 name: "components",
-                children: [{ name: "component1" }, { name: "component2" }],
+                children: [
+                  { name: "component1.js" },
+                  { name: "component2.js" },
+                ],
               },
               {
                 name: "screens",
-                children: [{ name: "screen1" }, { name: "screen2" }],
+                children: [{ name: "screen1.js" }, { name: "screen2.js" }],
               },
-              { name: "Pomodoro" },
+              { name: "Pomodoro.js" },
+              { name: "Readme.md" },
             ],
           },
         ],
       },
     ],
   },
+
   {
     id: 2,
     image: "https://picsum.photos/id/1/200/200",
