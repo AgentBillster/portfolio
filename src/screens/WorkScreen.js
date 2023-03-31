@@ -1,0 +1,226 @@
+import React, { useState, useContext } from "react";
+import { animated, useSpring } from "@react-spring/web";
+import {
+  Text,
+  VStack,
+  HStack,
+  Pressable,
+  PresenceTransition,
+  Stagger,
+} from "native-base";
+import { useWheel } from "@use-gesture/react";
+import { NavContext } from "./../providers/NavigationProvider";
+import Pomodoro from "../Projects/Pomodoro/src/Pomodoro";
+
+// on app load write py scan filestree =>  node
+const data = [
+  {
+    id: 1,
+    image: "https://picsum.photos/id/1/200/200",
+    title: "Pomodoro",
+    description: "a much needed app for personal use that keeps me focused!",
+    tags: ["react native", "native base"],
+    app: <Pomodoro />,
+    fileData: [
+      {
+        name: "Pomodoro",
+        defaultOpen: true,
+        children: [
+          {
+            name: "src",
+            defaultOpen: true,
+            children: [
+              {
+                name: "components",
+                children: [
+                  { name: "NBaseForm.js" },
+                  { name: "NBaseHeader.js" },
+                  { name: "NBaseList.js" },
+                  { name: "NBaseTabs.js" },
+                ],
+              },
+              {
+                name: "hooks",
+                children: [
+                  { name: "useNavigation.js" },
+                  { name: "useToggle.js" },
+                ],
+              },
+              {
+                name: "screens",
+                children: [
+                  { name: "TaskScreen.js" },
+                  { name: "TimerScreen.js" },
+                ],
+              },
+              { name: "Pomodoro.js" },
+              { name: "Readme.md" },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+
+  {
+    id: 2,
+    image: "https://picsum.photos/id/1/200/200",
+    title: "ConwaysGOL",
+    description: "Cellular automata thingy",
+    tags: ["react", "css"],
+    link: "https://master--spiffy-sundae-845e4f.netlify.app/",
+  },
+  {
+    id: 5,
+    image: "https://picsum.photos/id/1/200/200",
+    title: "myfirstwebsite.ever",
+    description: "wow thats bad lol",
+    link: "https://5e17c55e7d016d0188b94241--fishfriends1.netlify.app/index.html",
+    tags: ["react native", "native base"],
+  },
+  {
+    id: 3,
+    image: "https://picsum.photos/id/1/200/200",
+    title: "GHubFE",
+    description: "App that connects gamers together",
+    link: "https://5e17c55e7d016d0188b94241--fishfriends1.netlify.app/index.html",
+    tags: ["react native", "native base"],
+  },
+  {
+    id: 4,
+    image: "https://picsum.photos/id/1/200/200",
+    title: "BE4Ghub",
+    description: "backend for ghub",
+    link: "https://5e17c55e7d016d0188b94241--fishfriends1.netlify.app/index.html",
+    tags: ["express", "native base"],
+  },
+  {
+    id: 6,
+    image: "https://picsum.photos/id/1/200/200",
+    title: "SpringApp",
+    description: "backend for some shit code on github",
+    link: "https://5e17c55e7d016d0188b94241--fishfriends1.netlify.app/index.html",
+    tags: ["spring", "java"],
+  },
+];
+
+const WorkScreen = ({ style }) => {
+  const { navigate } = useContext(NavContext);
+  const [hoveredIndex, setHoveredIndex] = useState("");
+
+  const [{ y }, api] = useSpring(() => ({
+    y: 0,
+    config: { tension: 300, friction: 30 },
+  }));
+
+  const wheel = useWheel(({ offset: [, y] }) => {
+    api.start({ y: -y });
+  });
+
+  const handlePress = (item) => {
+    return item.app ? navigate("demo", item) : window.open(item.link, "_blank");
+  };
+
+  return (
+    <animated.div
+      style={{
+        width: "100%",
+        height: "2300px",
+        paddingBlock: "4%",
+        paddingInline: "5%",
+        transform: y.to((y) => `translate3d(0,${y}px,0)`),
+      }}
+      {...wheel()}
+    >
+      <HStack borderBottomWidth={1}>
+        <Text
+          _dark={{
+            color: "white",
+          }}
+          letterSpacing="-2"
+          color="gray"
+          variant="workheader"
+        >
+          PROJECTS
+          <Text
+            ml={"6px"}
+            color="muted.500"
+            fontSize={["30px", "30px", "40px", "50px"]}
+          >
+            {data.length}
+          </Text>
+        </Text>
+      </HStack>
+
+      <VStack mt="10" borderColor="rgba(80,80,80, 0.8)">
+        <Stagger
+          visible={true}
+          initial={{
+            opacity: 0,
+            translateY: 100,
+          }}
+          animate={{
+            opacity: 1,
+            translateY: 0,
+            transition: {
+              type: "spring",
+              stagger: {
+                offset: 34,
+              },
+            },
+          }}
+        >
+          {data.map((item, i) => (
+            <HStack
+              key={item.id}
+              mt={i === 0 ? "30px" : ""}
+              ml="auto"
+              space="4"
+            >
+              <Pressable
+                onHoverIn={() => setHoveredIndex(i)}
+                onHoverOut={() => setHoveredIndex("")}
+                onPress={() => handlePress(item)}
+                flex={1}
+                flexDir="row"
+                alignItems={"flex-end"}
+              >
+                <PresenceTransition
+                  visible={hoveredIndex === i} // trigger animation when we hover over index
+                  initial={{
+                    opacity: 0.8,
+                  }}
+                  animate={{
+                    opacity: 0.2,
+                    transition: {
+                      duration: 400,
+                    },
+                  }}
+                >
+                  <HStack>
+                    <Text variant="tagtext" _hover={{ color: "blue.500" }}>
+                      {item.tags.map(
+                        (tag, index) =>
+                          `${tag} ${index < item.tags.length - 1 ? " / " : ""}`
+                      )}
+                    </Text>
+
+                    <Text
+                      variant={"projtext"}
+                      borderColor="muted.300"
+                      fontFamily="thin"
+                    >
+                      {item.title}
+                    </Text>
+                  </HStack>
+                </PresenceTransition>
+              </Pressable>
+            </HStack>
+          ))}
+        </Stagger>
+      </VStack>
+    </animated.div>
+  );
+};
+
+export default WorkScreen;
