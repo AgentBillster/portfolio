@@ -1,12 +1,12 @@
 import { Box, HStack, StatusBar, Text } from "native-base";
 
-export const NBaseHeader = ({ title }) => {
+export const NBaseHeader = ({ title, color }) => {
   return (
     <>
-      <StatusBar bg="#3700B3" barStyle="light-content" />
+      <StatusBar bg={color} barStyle="light-content" />
       <Box safeAreaTop bg="violet.400" />
       <HStack
-        bg="muted.800"
+        bg={color}
         px="1"
         py="3"
         h={"20%"}
@@ -15,7 +15,11 @@ export const NBaseHeader = ({ title }) => {
         w="100%"
         maxW="350"
       >
-        <Text color="white" fontSize="20" fontWeight="bold">
+        <Text
+          color="black"
+          fontSize={["10px", "20px", "35px"]}
+          fontWeight="bold"
+        >
           {title}
         </Text>
       </HStack>

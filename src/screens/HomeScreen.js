@@ -51,9 +51,9 @@ const HomeScreen = ({ style }) => {
         <Image
           position={"absolute"}
           right={["150", "40px", "60px", "20px"]}
-          bottom={["0", "-80px", "-80px", "-90px"]}
-          w={["150px", "220px", "290px", "330px"]}
-          h={["150px", "250px", "310px", "360px"]}
+          bottom={["50px", "-80px", "-80px", "-90px"]}
+          w={["100px", "220px", "290px", "330px"]}
+          h={["90px", "250px", "310px", "360px"]}
           borderWidth={1}
           borderColor="rgba(80,80,80, 0.7)"
           source={require("../assets/images/me.jpg")}

@@ -3,6 +3,7 @@ import { useSpring, a } from "@react-spring/web";
 import useMeasure from "react-use-measure";
 import { usePrevious } from "../hooks/usePrevious";
 import { treeIcons } from "../assets/icons/icons";
+import { Pressable, Text } from "native-base";
 
 const Tree = React.memo(
   ({
@@ -16,6 +17,7 @@ const Tree = React.memo(
   }) => {
     const [isOpen, setOpen] = useState(defaultOpen);
     const previous = usePrevious(isOpen);
+    const bg = activeFile === name ? "muted.600" : "";
 
     const [ref, { height: viewHeight }] = useMeasure();
 
@@ -29,8 +31,8 @@ const Tree = React.memo(
     });
 
     const iconMap = {
-      js: treeIcons["JSIcon"],
-      md: treeIcons["MDIcon"],
+      ".js": treeIcons["JSIcon"],
+      ".md": treeIcons["MDIcon"],
     };
 
     const Icon = children
@@ -40,39 +42,50 @@ const Tree = React.memo(
       : iconMap[type];
 
     const handleClick = () => {
-      if (!children && activeFile !== name) {
+      if (!children) {
         setActiveFile(name);
       }
       setOpen(!isOpen);
     };
 
     return (
-      <div
-        style={{
-          position: "relative",
-          paddingInline: "7px",
-          paddingBlock: "3px",
-          textOverflow: "ellipsis",
-          whiteSpace: "nowrap",
-          verticalAlign: "middle",
-          color: "white",
-          fill: "white",
-        }}
-      >
-        <Icon
+      <div>
+        <Pressable
+          onPress={handleClick}
           style={{
-            width: "15px",
-            height: "15px",
-            marginRight: "10px",
-            verticalAlign: "middle",
+            position: "relative",
+            paddingInline: "7px",
+            paddingBlock: "3px",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            alignItems: "center",
+            fill: "white",
           }}
-        />
-        <span
-          onClick={handleClick}
-          style={{ ...style, verticalAlign: "middle" }}
+          bg={bg}
+          _hover={{ bg: "muted.700" }} // add hover effect
+          flex="1"
+          flexDirection={"row"}
+          w="90%"
         >
-          {name}
-        </span>
+          <Icon
+            style={{
+              width: "10%",
+              height: "10%",
+              marginRight: "10px",
+              verticalAlign: "middle",
+            }}
+          />
+          <Text
+            fontSize={["2", "18px", "24px", "30px"]}
+            style={{
+              ...style,
+              verticalAlign: "middle",
+              color: "white",
+            }}
+          >
+            {name}
+          </Text>
+        </Pressable>
         <a.div
           style={{
             opacity,
@@ -94,7 +107,7 @@ export const TreeNav = ({ data, setActiveFile, activeFile }) => {
   const renderTree = (node) => (
     <Tree
       name={node.name}
-      type={node.name.slice(-2)}
+      type={node.name.slice(-3)}
       activeFile={activeFile}
       setActiveFile={setActiveFile}
       defaultOpen={node.defaultOpen}

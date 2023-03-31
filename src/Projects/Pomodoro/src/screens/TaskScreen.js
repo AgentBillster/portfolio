@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { NBaseHeader } from "../components/NBaseHeader";
-import { NBaseTabBar } from "../components/NBaseTabBar";
+import { NBaseTabs } from "../components/NBaseTabs";
 import { NBaseList } from "../components/NBaseList";
-
-import { useToggle } from "../hooks/useToggle";
-import { NBaseAnimatedForm } from "../components/NBaseAnimatedForm";
+import { NBaseForm } from "../components/NBaseForm";
 
 export const TaskScreen = ({ activeScreen, navigateToScreen }) => {
   const [activeTab, setActiveTab] = useState("active");
   const [tasks, setTasks] = useState([]);
-  const [isToggledOn, toggle] = useToggle();
 
   useEffect(() => {
     const storedData = localStorage.getItem("tasks");
@@ -19,7 +16,7 @@ export const TaskScreen = ({ activeScreen, navigateToScreen }) => {
     } else {
       setTasks(parsedData.filter((task) => task.completed));
     }
-  }, [activeTab]);
+  }, [tasks]);
 
   const addTask = (name, minutes) => {
     const tasks = JSON.parse(localStorage.getItem("tasks"));
@@ -41,22 +38,13 @@ export const TaskScreen = ({ activeScreen, navigateToScreen }) => {
     }
   };
 
-  const completeTask = (id) => {
-    // get data
+  const completeTask = (id, taskData) => {
     const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-
-    // get task we want to change via id
     const taskIndex = tasks.findIndex((task) => task.id === id);
-
-    // if -1 then id is not in arr
     if (taskIndex === -1) {
       console.warn("CANT FIND THAT MA BOI");
     }
-
-    // update task
     tasks[taskIndex].completed = true;
-
-    // Update the tasks array in local storage with the updated tasks
     localStorage.setItem("tasks", JSON.stringify(tasks));
     navigateToScreen("Tasks");
   };
@@ -73,20 +61,19 @@ export const TaskScreen = ({ activeScreen, navigateToScreen }) => {
       return console.warn("tab is already active");
     } else {
       setActiveTab(tab);
-      toggle();
     }
   };
 
   return (
     <>
       <NBaseHeader title={activeScreen} />
-      <NBaseTabBar
+      <NBaseTabs
         tabs={["active", "completed"]}
-        isOpen={isToggledOn}
+        activeTab={activeTab}
         handleTabToggle={handleTabToggle}
       />
       <NBaseList tasks={tasks} handleTaskPress={handleTaskPress} />
-      <NBaseAnimatedForm addTask={addTask} />
+      <NBaseForm addTask={addTask} />
     </>
   );
 };

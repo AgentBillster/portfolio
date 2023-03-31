@@ -11,8 +11,8 @@ import {
 import React, { useState } from "react";
 import { useToggle } from "../hooks/useToggle";
 
-export const NBaseAnimatedForm = ({ addTask }) => {
-  const [taskName, setTaskName] = useState("Hire Will");
+export const NBaseForm = ({ addTask }) => {
+  const [taskName, setTaskName] = useState("Hire Will ;)");
   const [minutes, setMinutes] = useState(15);
   const [isToggledOn, toggle] = useToggle();
 
@@ -41,23 +41,30 @@ export const NBaseAnimatedForm = ({ addTask }) => {
         }}
       >
         <VStack borderRadius={"20px"} p={"3"} bg="white" flex={1}>
-          <Text mt={"2"} textAlign={"center"}>
+          <Text color="black" mt={"2"} textAlign={"center"}>
             New Task
           </Text>
 
           <Box mt={"6"}>
-            <Text>Name</Text>
+            <Text color="black">Title</Text>
             <Input
+              color="black"
               value={taskName}
+              borderWidth="0"
+              outlineStyle="none"
               onChangeText={(text) => setTaskName(text)}
+              style={{
+                border: "1px solid black",
+              }}
             />
           </Box>
 
           <Box mt={"6"}>
-            <Text>Select duration:</Text>
-            <HStack space={2}>
-              {[15, 30, 45, 60].map((m) => (
+            <Text color="black">Select duration:</Text>
+            <HStack w="100%" space={2}>
+              {[25, 50, 75, 100].map((m) => (
                 <Button
+                  flex="1"
                   key={m}
                   variant={minutes === m ? "solid" : "outline"}
                   onPress={() => setMinutes(m)}
@@ -87,6 +94,7 @@ export const NBaseAnimatedForm = ({ addTask }) => {
         right="4px"
         bottom="4px"
         p={"5"}
+        size={["8", "16", "20", "24"]}
         borderRadius={"10"}
         endIcon={<AddIcon size="6" />}
         onPress={toggle}

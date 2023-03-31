@@ -17,9 +17,9 @@ const ColorModeSwitch = () => {
       onPress={toggleColorMode}
     >
       {colorMode === "light" ? (
-        <SunIcon size={[40, 30, 50, 60]} />
+        <SunIcon size={[10, 30, 50, 60]} />
       ) : (
-        <MoonIcon size={[40, 30, 50, 70]} />
+        <MoonIcon size={[10, 30, 50, 70]} />
       )}
     </Pressable>
   );

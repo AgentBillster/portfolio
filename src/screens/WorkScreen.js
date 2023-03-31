@@ -6,10 +6,7 @@ import {
   HStack,
   Pressable,
   PresenceTransition,
-  Divider,
-  Center,
   Stagger,
-  Box,
 } from "native-base";
 import { useWheel } from "@use-gesture/react";
 import { NavContext } from "./../providers/NavigationProvider";
@@ -23,7 +20,6 @@ const data = [
     title: "Pomodoro",
     description: "a much needed app for personal use that keeps me focused!",
     tags: ["react native", "native base"],
-    hasDemo: true,
     app: <Pomodoro />,
     fileData: [
       {
@@ -32,17 +28,30 @@ const data = [
         children: [
           {
             name: "src",
+            defaultOpen: true,
             children: [
               {
                 name: "components",
                 children: [
-                  { name: "component1.js" },
-                  { name: "component2.js" },
+                  { name: "NBaseForm.js" },
+                  { name: "NBaseHeader.js" },
+                  { name: "NBaseList.js" },
+                  { name: "NBaseTabs.js" },
+                ],
+              },
+              {
+                name: "hooks",
+                children: [
+                  { name: "useNavigation.js" },
+                  { name: "useToggle.js" },
                 ],
               },
               {
                 name: "screens",
-                children: [{ name: "screen1.js" }, { name: "screen2.js" }],
+                children: [
+                  { name: "TaskScreen.js" },
+                  { name: "TimerScreen.js" },
+                ],
               },
               { name: "Pomodoro.js" },
               { name: "Readme.md" },
@@ -56,57 +65,47 @@ const data = [
   {
     id: 2,
     image: "https://picsum.photos/id/1/200/200",
-    title: "STEAMRANK",
-    description: "backend for some shit code on  github",
-    tags: ["react native", "native base"],
-    hasDemo: false,
-  },
-  {
-    id: 3,
-    image: "https://picsum.photos/id/1/200/200",
-    title: "backendjv",
-    description: "backend for some shit code on github",
-    tags: ["react native", "native base"],
-    hasDemo: false,
-  },
-  {
-    id: 4,
-    image: "https://picsum.photos/id/1/200/200",
-    title: "JAVATHING .tm",
-    description: "backend for some shit code on github",
-    tags: ["react native", "native base"],
-    hasDemo: false,
+    title: "ConwaysGOL",
+    description: "Cellular automata thingy",
+    tags: ["react", "css"],
+    link: "https://master--spiffy-sundae-845e4f.netlify.app/",
   },
   {
     id: 5,
     image: "https://picsum.photos/id/1/200/200",
-    title: "SOMEOther shit",
-    description: "backend for some shit code on  github",
+    title: "myfirstwebsite.ever",
+    description: "wow thats bad lol",
+    link: "https://5e17c55e7d016d0188b94241--fishfriends1.netlify.app/index.html",
     tags: ["react native", "native base"],
-    hasDemo: false,
+  },
+  {
+    id: 3,
+    image: "https://picsum.photos/id/1/200/200",
+    title: "GHubFE",
+    description: "App that connects gamers together",
+    link: "https://5e17c55e7d016d0188b94241--fishfriends1.netlify.app/index.html",
+    tags: ["react native", "native base"],
+  },
+  {
+    id: 4,
+    image: "https://picsum.photos/id/1/200/200",
+    title: "BE4Ghub",
+    description: "backend for ghub",
+    link: "https://5e17c55e7d016d0188b94241--fishfriends1.netlify.app/index.html",
+    tags: ["express", "native base"],
   },
   {
     id: 6,
     image: "https://picsum.photos/id/1/200/200",
-    title: "IDKasos",
+    title: "SpringApp",
     description: "backend for some shit code on github",
-    tags: ["react native", "native base"],
-    hasDemo: false,
-  },
-  {
-    id: 7,
-    image: "https://picsum.photos/id/1/200/200",
-    title: "haha nice",
-    description: "backend for some shit code on github",
-    tags: ["react native", "native base"],
-    hasDemo: false,
+    link: "https://5e17c55e7d016d0188b94241--fishfriends1.netlify.app/index.html",
+    tags: ["spring", "java"],
   },
 ];
 
 const WorkScreen = ({ style }) => {
   const { navigate } = useContext(NavContext);
-  const [showDemoProjects, setShowDemoProjects] = useState(false);
-  const [selectedTag, setSelectedTag] = useState("");
   const [hoveredIndex, setHoveredIndex] = useState("");
 
   const [{ y }, api] = useSpring(() => ({
@@ -118,19 +117,9 @@ const WorkScreen = ({ style }) => {
     api.start({ y: -y });
   });
 
-  const filteredData = data.filter((item) => {
-    // Filter by hasDemo
-    if (showDemoProjects && !item.hasDemo) {
-      return false;
-    }
-
-    // Filter by selectedTag
-    if (selectedTag !== "" && !item.tags.includes(selectedTag)) {
-      return false;
-    }
-
-    return true;
-  });
+  const handlePress = (item) => {
+    return item.app ? navigate("demo", item) : window.open(item.link, "_blank");
+  };
 
   return (
     <animated.div
@@ -158,12 +147,12 @@ const WorkScreen = ({ style }) => {
             color="muted.500"
             fontSize={["30px", "30px", "40px", "50px"]}
           >
-            {filteredData.length}
+            {data.length}
           </Text>
         </Text>
       </HStack>
 
-      <VStack mt="20" borderColor="rgba(80,80,80, 0.8)">
+      <VStack mt="10" borderColor="rgba(80,80,80, 0.8)">
         <Stagger
           visible={true}
           initial={{
@@ -181,7 +170,7 @@ const WorkScreen = ({ style }) => {
             },
           }}
         >
-          {filteredData.map((item, i) => (
+          {data.map((item, i) => (
             <HStack
               key={item.id}
               mt={i === 0 ? "30px" : ""}
@@ -191,9 +180,7 @@ const WorkScreen = ({ style }) => {
               <Pressable
                 onHoverIn={() => setHoveredIndex(i)}
                 onHoverOut={() => setHoveredIndex("")}
-                onPress={() => {
-                  navigate("demo", item);
-                }}
+                onPress={() => handlePress(item)}
                 flex={1}
                 flexDir="row"
                 alignItems={"flex-end"}

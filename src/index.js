@@ -2,10 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import { ArrowUpIcon, extendTheme, NativeBaseProvider } from "native-base";
+import { extendTheme, NativeBaseProvider } from "native-base";
 import { NavigationProvider } from "./providers/NavigationProvider";
-import { LoadingAnim } from "./components/LoadingAnim";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -18,7 +16,7 @@ root.render(
           variants: {
             bigtext: {
               fontFamily: "Thin",
-              fontSize: ["0px", "65px", "100px", "160px"],
+              fontSize: ["25px", "65px", "100px", "160px"],
             },
             bigsubtext: {
               fontFamily: "thin",
@@ -27,39 +25,39 @@ root.render(
             },
 
             topnavtext: {
-              fontSize: ["20px", "22px", "34px", "50px"],
+              fontSize: ["16px", "22px", "34px", "50px"],
             },
             navitemtext: {
               fontFamily: "Light",
               borderColor: "rgba(80,80,80, 1)",
-              fontSize: ["3", "20px", "32px", "45px"],
+              fontSize: ["12px", "20px", "32px", "45px"],
               style: { transform: [{ rotate: "-90deg" }] },
             },
 
             socialname: {
-              fontSize: ["0px", "13px", "20px", "32px"],
+              fontSize: ["10px", "13px", "20px", "32px"],
             },
             socialemail: {
-              fontSize: ["0px", "13px", "18px", "32px"],
+              fontSize: ["10px", "13px", "18px", "32px"],
             },
             sectionheader: {
-              fontSize: ["0px", "28px", "50px", "65px"],
+              fontSize: ["28px", "28px", "50px", "65px"],
             },
 
             sectiontext: {
-              fontSize: ["0px", "15px", "24px", "35px"],
+              fontSize: ["10px", "15px", "24px", "35px"],
             },
 
             workheader: {
-              fontSize: ["0px", "50px", "70px", "120px"],
+              fontSize: ["16px", "50px", "70px", "120px"],
             },
 
             tagtext: {
-              fontSize: ["0px", "15px", "24px", "38px"],
+              fontSize: ["10px", "15px", "24px", "38px"],
             },
 
             projtext: {
-              fontSize: ["0px", "65px", "108px", "140px"],
+              fontSize: ["30px", "65px", "108px", "140px"],
             },
           },
         },
