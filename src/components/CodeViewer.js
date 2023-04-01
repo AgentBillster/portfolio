@@ -400,15 +400,11 @@ const codeBlocks = {
   export default Pomodoro;
   `,
   "Readme.md": `Pomodoro App 🍅
-Welcome to the Pomodoro App! This application is designed to help you manage your time more effectively using the Pomodoro Technique.
+This application is designed to help you manage your time more effectively using the Pomodoro Technique.
 
 The Pomodoro Technique is a time management technique that involves breaking work into 25-minute intervals, separated by short breaks in order to increase productivity and reduce burnout.
 
-The Pomodoro App provides a very simple interface for managing your Pomodoro sessions. To get started, simply select the created task and hit start. For demo purposes im not going to make you wait so ive included a skip button that will take you to the next interval/break
-
-I have also build a vscode type file explorer that contains the actual code so you dont have to be a tab ninja.
-
-Code is un-commented right now so if you are reading this right now sorry lol. if you have any questions about the code send a message in the contact tab ill be happy to explain it. 
+The Pomodoro App provides a VERY simple interface for managing your Pomodoro sessions. To get started, simply select the created task and hit start. For demo purposes im not going to make you wait so ive included a skip button that will take you to the next interval/break
 `,
 };
 
