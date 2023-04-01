@@ -3,6 +3,7 @@ import {
   HStack,
   useBreakpointResolvedProps,
   useBreakpointValue,
+  useColorMode,
 } from "native-base";
 import AnimatedNavPanel from "./navigators/AnimatedNavPanel";
 import AnimatedCursor from "react-animated-cursor";
@@ -13,10 +14,22 @@ const { width, height } = Dimensions.get("screen");
 
 const App = () => {
   const { transitions, getPage } = useContext(NavContext);
-
+  const { colorMode } = useColorMode();
+  const color = colorMode === "light" ? "150, 150, 150" : "255, 255, 255";
   return (
     <AnimatedBackground>
-      <AnimatedCursor />
+      <AnimatedCursor
+        color={color}
+        innerSize={3}
+        outerSize={18}
+        trailingSpeed={8}
+        innerScale={1}
+        outerScale={2}
+        outerAlpha={0}
+        outerStyle={{
+          border: `1px solid rgb(${color})`,
+        }}
+      />
       <HStack
         w={"90%"}
         h={"90%"}

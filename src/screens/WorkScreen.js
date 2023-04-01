@@ -73,34 +73,34 @@ const data = [
   {
     id: 5,
     image: "https://picsum.photos/id/1/200/200",
-    title: "myfirstwebsite.ever",
+    title: "PreemFLP",
     description: "wow thats bad lol",
-    link: "https://5e17c55e7d016d0188b94241--fishfriends1.netlify.app/index.html",
-    tags: ["react native", "native base"],
+    link: "https://github.com/PreemFreelancePlatform",
+    tags: ["spring boot", "react"],
   },
   {
     id: 3,
     image: "https://picsum.photos/id/1/200/200",
     title: "GHubFE",
     description: "App that connects gamers together",
-    link: "https://5e17c55e7d016d0188b94241--fishfriends1.netlify.app/index.html",
-    tags: ["react native", "native base"],
+    link: "https://github.com/AgentBillster/gameThing",
+    tags: ["geoloc", "socialOauth2", "imageAPI", "asyncStorage"],
   },
   {
     id: 4,
     image: "https://picsum.photos/id/1/200/200",
     title: "BE4Ghub",
     description: "backend for ghub",
-    link: "https://5e17c55e7d016d0188b94241--fishfriends1.netlify.app/index.html",
-    tags: ["express", "native base"],
+    link: "https://github.com/AgentBillster/GHubApp",
+    tags: ["express", "oauth2", "mongoose", "geolib"],
   },
   {
     id: 6,
     image: "https://picsum.photos/id/1/200/200",
-    title: "SpringApp",
+    title: "FirstWebsite.ever",
     description: "backend for some shit code on github",
     link: "https://5e17c55e7d016d0188b94241--fishfriends1.netlify.app/index.html",
-    tags: ["spring", "java"],
+    tags: ["html", "css"],
   },
 ];
 
@@ -181,12 +181,14 @@ const WorkScreen = ({ style }) => {
                 onHoverIn={() => setHoveredIndex(i)}
                 onHoverOut={() => setHoveredIndex("")}
                 onPress={() => handlePress(item)}
-                flex={1}
-                flexDir="row"
-                alignItems={"flex-end"}
               >
                 <PresenceTransition
                   visible={hoveredIndex === i} // trigger animation when we hover over index
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "baseline",
+                  }}
                   initial={{
                     opacity: 0.8,
                   }}
@@ -197,7 +199,6 @@ const WorkScreen = ({ style }) => {
                     },
                   }}
                 >
-                  <HStack>
                     <Text variant="tagtext" _hover={{ color: "blue.500" }}>
                       {item.tags.map(
                         (tag, index) =>
@@ -212,7 +213,6 @@ const WorkScreen = ({ style }) => {
                     >
                       {item.title}
                     </Text>
-                  </HStack>
                 </PresenceTransition>
               </Pressable>
             </HStack>

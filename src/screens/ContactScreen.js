@@ -147,16 +147,12 @@ const ContactScreen = ({ style }) => {
             p="4"
             colorScheme={"black"}
             variant="outline"
-            _text={{
-              fontSize: fontsize,
-            }}
-            fontSize={fontsize}
             borderColor={"muted.400"}
             onPress={(e) => {
               sendEmail(e);
             }}
           >
-            send
+            <Text fontSize={fontsize}>send</Text>
           </Button>
         </VStack>
       </Center>
