@@ -65,7 +65,7 @@ const data = [
   {
     id: 2,
     image: "https://picsum.photos/id/1/200/200",
-    title: "CellularAutomata",
+    title: "ConwaysGOL",
     description: "Cellular automata thingy",
     tags: ["react", "css"],
     link: "https://master--spiffy-sundae-845e4f.netlify.app/",
