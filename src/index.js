@@ -58,7 +58,7 @@ root.render(
             },
 
             projtext: {
-              fontSize: ["30px", "65px", "108px", "140px"],
+              fontSize: ["30px", "72px", "108px", "140px"],
             },
           },
         },

@@ -199,20 +199,20 @@ const WorkScreen = ({ style }) => {
                     },
                   }}
                 >
-                    <Text variant="tagtext" _hover={{ color: "blue.500" }}>
-                      {item.tags.map(
-                        (tag, index) =>
-                          `${tag} ${index < item.tags.length - 1 ? " / " : ""}`
-                      )}
-                    </Text>
+                  <Text variant="tagtext" color={"muted.500"}>
+                    {item.tags.map(
+                      (tag, index) =>
+                        `${tag} ${index < item.tags.length - 1 ? " / " : ""}`
+                    )}
+                  </Text>
 
-                    <Text
-                      variant={"projtext"}
-                      borderColor="muted.300"
-                      fontFamily="thin"
-                    >
-                      {item.title}
-                    </Text>
+                  <Text
+                    variant={"projtext"}
+                    borderColor="muted.300"
+                    fontFamily="thin"
+                  >
+                    {item.title}
+                  </Text>
                 </PresenceTransition>
               </Pressable>
             </HStack>
