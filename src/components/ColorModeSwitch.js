@@ -1,6 +1,5 @@
 import {
   Pressable,
-  Center,
   useColorMode,
   SunIcon,
   MoonIcon,

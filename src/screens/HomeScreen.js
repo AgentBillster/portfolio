@@ -1,23 +1,17 @@
 import React from "react";
 import { animated, useSpring } from "@react-spring/web";
-import { useDrag, useWheel } from "@use-gesture/react";
+import { useWheel } from "@use-gesture/react";
 import {
   Box,
   Text,
   VStack,
   HStack,
-  Heading,
   Divider,
-  IconButton,
-  ArrowUpIcon,
   Image,
 } from "native-base";
-import useMeasure from "react-use-measure";
-import { GitIcon, LinkedInIcon, MailIcon } from "../assets/icons/icons";
 import SocialLinks from "../components/SocialLink";
 
 const HomeScreen = ({ style }) => {
-  const [ref, { height }] = useMeasure();
 
   const [{ y }, api] = useSpring(() => ({
     y: 0,

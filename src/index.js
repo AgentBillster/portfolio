@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import { extendTheme, NativeBaseProvider } from "native-base";
 import { NavigationProvider } from "./providers/NavigationProvider";
+import { LoadingAnim } from "./components/LoadingAnim";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -152,7 +153,7 @@ root.render(
     })}
   >
     <NavigationProvider>
-      {/* <LoadingAnim /> */}
+      <LoadingAnim />
       <App />
     </NavigationProvider>
   </NativeBaseProvider>

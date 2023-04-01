@@ -1,16 +1,12 @@
-import React, { useContext, useState, useLayoutEffect } from "react";
+import React, { useContext } from "react";
 import {
   HStack,
-  useBreakpointResolvedProps,
-  useBreakpointValue,
   useColorMode,
 } from "native-base";
 import AnimatedNavPanel from "./navigators/AnimatedNavPanel";
 import AnimatedCursor from "react-animated-cursor";
-import { Dimensions } from "react-native";
 import { NavContext } from "./providers/NavigationProvider";
 import AnimatedBackground from "./components/AnimatedBackground";
-const { width, height } = Dimensions.get("screen");
 
 const App = () => {
   const { transitions, getPage } = useContext(NavContext);
