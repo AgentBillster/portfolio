@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
-import {
-  HStack,
-  useColorMode,
-} from "native-base";
+import { HStack, useColorMode } from "native-base";
 import AnimatedNavPanel from "./navigators/AnimatedNavPanel";
 import AnimatedCursor from "react-animated-cursor";
 import { NavContext } from "./providers/NavigationProvider";
+import { View } from "react-native-web";
+
 import AnimatedBackground from "./components/AnimatedBackground";
 
 const App = () => {
@@ -14,7 +13,7 @@ const App = () => {
   const color = colorMode === "light" ? "150, 150, 150" : "255, 255, 255";
   return (
     <AnimatedBackground>
-      <AnimatedCursor
+      {/* <AnimatedCursor
         color={color}
         innerSize={3}
         outerSize={18}
@@ -25,18 +24,21 @@ const App = () => {
         outerStyle={{
           border: `1px solid rgb(${color})`,
         }}
-      />
-      <HStack
-        w={"90%"}
-        h={"90%"}
-        borderWidth="1"
-        borderColor="rgba(80,80,80, 0.9)"
-        borderRadius={5}
-        overflow={"hidden"}
+      /> */}
+      <View
+        style={{
+          width: "90%",
+          height: "90%",
+          border: "1px solid rgba(80,80,80, 0.9)",
+          borderRadius: "5",
+          display: "flex",
+          flexDirection: "row",
+          overflow: "hidden",
+        }}
       >
         <AnimatedNavPanel />
         {transitions((style, item) => getPage(item, style))}
-      </HStack>
+      </View>
     </AnimatedBackground>
   );
 };
