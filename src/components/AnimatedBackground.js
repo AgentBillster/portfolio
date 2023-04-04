@@ -7,7 +7,7 @@ const AnimatedBackground = (props) => {
 
   // i use this too much not be a hook.
   const bg = useSpring({
-    background: colorMode === "light" ? "rgb(230,230,230)" : "rgb(32,32,32)",
+    background: colorMode === "light" ? "rgb(230,230,230)" : "black",
   });
 
   return (

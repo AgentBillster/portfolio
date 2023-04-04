@@ -20,7 +20,7 @@ export const usePageNavigation = (pages) => {
     enter: { opacity: 1 },
     leave: { opacity: 0 },
     config: {
-      duration: 500,
+      duration: 400,
     },
     reset: true,
   });

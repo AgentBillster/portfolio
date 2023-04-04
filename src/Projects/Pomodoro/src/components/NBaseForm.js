@@ -95,7 +95,7 @@ export const NBaseForm = ({ addTask }) => {
         bottom="4px"
         p={"5"}
         size={["8", "16", "20", "24"]}
-        borderRadius={"40px"}
+        borderRadius={"10"}
         endIcon={<AddIcon size="6" />}
         onPress={toggle}
       />
