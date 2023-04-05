@@ -111,7 +111,7 @@ const WorkScreen = ({ navigate }) => {
   };
 
   return (
-    <ScrollView w="full" p="7%" showsVerticalScrollIndicator={false}>
+    <ScrollView w="full" p="5%" showsVerticalScrollIndicator={false}>
       <HStack borderBottomWidth={1}>
         <Text
           _dark={{

@@ -23,7 +23,7 @@ const HomeScreen = ({ style }) => {
   });
 
   return (
-    <ScrollView p="7%" showsVerticalScrollIndicator={false}>
+    <ScrollView p="5%" showsVerticalScrollIndicator={false}>
       <VStack p="2" alignItems={"flex-start"}>
         <Text variant="bigtext">William Wilson</Text>
         <Text pl="4" variant="bigsubtext">
