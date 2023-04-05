@@ -8,11 +8,11 @@ import {
   HStack,
   Divider,
   Image,
+  ScrollView,
 } from "native-base";
 import SocialLinks from "../components/SocialLink";
 
 const HomeScreen = ({ style }) => {
-
   const [{ y }, api] = useSpring(() => ({
     y: 0,
     config: { tension: 300, friction: 30 },
@@ -23,16 +23,7 @@ const HomeScreen = ({ style }) => {
   });
 
   return (
-    <animated.div
-      style={{
-        width: "100%",
-        height: "2300px",
-        paddingBlock: "4%",
-        paddingInline: "5%",
-        transform: y.to((y) => `translate3d(0,${y}px,0)`),
-      }}
-      {...wheel()}
-    >
+    <ScrollView p="7%" showsVerticalScrollIndicator={false}>
       <VStack p="2" alignItems={"flex-start"}>
         <Text variant="bigtext">William Wilson</Text>
         <Text pl="4" variant="bigsubtext">
@@ -42,7 +33,7 @@ const HomeScreen = ({ style }) => {
 
       <HStack mt={"10"}>
         <SocialLinks />
-        <Image
+        {/* <Image
           position={"absolute"}
           right={["150", "40px", "60px", "20px"]}
           bottom={["50px", "-80px", "-80px", "-90px"]}
@@ -53,8 +44,9 @@ const HomeScreen = ({ style }) => {
           source={require("../assets/images/me.jpg")}
           alt="Alternate Text"
           borderRadius={"20"}
-        />
+        /> */}
       </HStack>
+
       <Divider bgColor="grey" zIndex="-1" />
       <VStack w={"70%"} mt={"40px"} alignItems={"baseline"} space="5">
         <Box>
@@ -107,7 +99,7 @@ const HomeScreen = ({ style }) => {
           </Text>
         </VStack>
       </VStack>
-    </animated.div>
+    </ScrollView>
     // </animated.div>
   );
 };

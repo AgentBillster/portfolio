@@ -6,10 +6,9 @@ import {
   HStack,
   Pressable,
   PresenceTransition,
-  Stagger,
+  ScrollView,
 } from "native-base";
 import { useWheel } from "@use-gesture/react";
-import { NavContext } from "./../providers/NavigationProvider";
 import Pomodoro from "../Projects/Pomodoro/src/Pomodoro";
 
 // on app load write py scan filestree =>  node
@@ -104,34 +103,15 @@ const data = [
   },
 ];
 
-const WorkScreen = ({ style }) => {
-  const { navigate } = useContext(NavContext);
+const WorkScreen = ({ navigate }) => {
   const [hoveredIndex, setHoveredIndex] = useState("");
-
-  const [{ y }, api] = useSpring(() => ({
-    y: 0,
-    config: { tension: 300, friction: 30 },
-  }));
-
-  const wheel = useWheel(({ offset: [, y] }) => {
-    api.start({ y: -y });
-  });
 
   const handlePress = (item) => {
     return item.app ? navigate("demo", item) : window.open(item.link, "_blank");
   };
 
   return (
-    <animated.div
-      style={{
-        width: "100%",
-        height: "2300px",
-        paddingBlock: "4%",
-        paddingInline: "5%",
-        transform: y.to((y) => `translate3d(0,${y}px,0)`),
-      }}
-      {...wheel()}
-    >
+    <ScrollView w="full" p="7%" showsVerticalScrollIndicator={false}>
       <HStack borderBottomWidth={1}>
         <Text
           _dark={{
@@ -153,73 +133,50 @@ const WorkScreen = ({ style }) => {
       </HStack>
 
       <VStack mt="10" borderColor="rgba(80,80,80, 0.8)">
-        <Stagger
-          visible={true}
-          initial={{
-            opacity: 0,
-            translateY: 100,
-          }}
-          animate={{
-            opacity: 1,
-            translateY: 0,
-            transition: {
-              type: "spring",
-              stagger: {
-                offset: 34,
-              },
-            },
-          }}
-        >
-          {data.map((item, i) => (
-            <HStack
-              key={item.id}
-              mt={i === 0 ? "30px" : ""}
-              ml="auto"
-              space="4"
+        {data.map((item, i) => (
+          <HStack key={item.id} mt={i === 0 ? "30px" : ""} ml="auto" space="4">
+            <Pressable
+              onHoverIn={() => setHoveredIndex(i)}
+              onHoverOut={() => setHoveredIndex("")}
+              onPress={() => handlePress(item)}
             >
-              <Pressable
-                onHoverIn={() => setHoveredIndex(i)}
-                onHoverOut={() => setHoveredIndex("")}
-                onPress={() => handlePress(item)}
+              <PresenceTransition
+                visible={hoveredIndex === i} // trigger animation when we hover over index
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "baseline",
+                }}
+                initial={{
+                  opacity: 0.8,
+                }}
+                animate={{
+                  opacity: 0.2,
+                  transition: {
+                    duration: 400,
+                  },
+                }}
               >
-                <PresenceTransition
-                  visible={hoveredIndex === i} // trigger animation when we hover over index
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "baseline",
-                  }}
-                  initial={{
-                    opacity: 0.8,
-                  }}
-                  animate={{
-                    opacity: 0.2,
-                    transition: {
-                      duration: 400,
-                    },
-                  }}
-                >
-                  <Text variant="tagtext" color={"muted.500"}>
-                    {item.tags.map(
-                      (tag, index) =>
-                        `${tag} ${index < item.tags.length - 1 ? " / " : ""}`
-                    )}
-                  </Text>
+                <Text variant="tagtext" color={"muted.500"}>
+                  {item.tags.map(
+                    (tag, index) =>
+                      `${tag} ${index < item.tags.length - 1 ? " / " : ""}`
+                  )}
+                </Text>
 
-                  <Text
-                    variant={"projtext"}
-                    borderColor="muted.300"
-                    fontFamily="thin"
-                  >
-                    {item.title}
-                  </Text>
-                </PresenceTransition>
-              </Pressable>
-            </HStack>
-          ))}
-        </Stagger>
+                <Text
+                  variant={"projtext"}
+                  borderColor="muted.300"
+                  fontFamily="thin"
+                >
+                  {item.title}
+                </Text>
+              </PresenceTransition>
+            </Pressable>
+          </HStack>
+        ))}
       </VStack>
-    </animated.div>
+    </ScrollView>
   );
 };
 
