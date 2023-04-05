@@ -8,14 +8,12 @@ import {
   Divider,
   PresenceTransition,
 } from "native-base";
-import { NavContext } from "./../providers/NavigationProvider";
 import ColorModeSwitch from "./../components/ColorModeSwitch";
 
-const AnimatedNavPanel = () => {
+export const NavBar = ({ pages, navigate, currentPage }) => {
   const [hoveredIndex, setHoveredIndex] = useState("");
-  const { pages, navigate, currentPage } = useContext(NavContext);
   return (
-    <Box borderRightWidth="1" borderColor={"muted.500"}>
+    <Box zIndex={1000} borderRightWidth="1" borderColor={"muted.500"}>
       <Center flex={0.1}>
         <Text variant="topnavtext">W.</Text>
       </Center>
@@ -62,5 +60,3 @@ const AnimatedNavPanel = () => {
     </Box>
   );
 };
-
-export default AnimatedNavPanel;
