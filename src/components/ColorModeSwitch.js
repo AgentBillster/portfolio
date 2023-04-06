@@ -10,7 +10,7 @@ const ColorModeSwitch = () => {
 
   return (
     <Pressable
-      flex="0.2"
+      flex="0.15"
       justifyContent={"center"}
       alignItems="center"
       onPress={toggleColorMode}

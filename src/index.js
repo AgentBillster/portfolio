@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <NativeBaseProvider
     theme={extendTheme({
-      breakpoints: [0, 1266, 1820, 2460],
+      breakpoints: [0, 980, 1820, 2460],
       components: {
         Text: {
           variants: {
@@ -31,7 +31,6 @@ root.render(
               fontFamily: "Light",
               borderColor: "rgba(80,80,80, 1)",
               fontSize: ["12px", "20px", "32px", "45px"],
-              style: { transform: [{ rotate: "-90deg" }] },
             },
 
             socialname: {

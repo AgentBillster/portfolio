@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { useColorMode } from "native-base";
+import { useColorMode, HStack, Stack } from "native-base";
 import AnimatedCursor from "react-animated-cursor";
 import AnimatedBackground from "./components/AnimatedBackground";
 import { NavBar } from "./navigators/NavBar";
 import { animated, useTransition } from "@react-spring/web";
 import HomeScreen from "./screens/HomeScreen";
-import { View } from "react-native";
 import WorkScreen from "./screens/WorkScreen";
 import ContactScreen from "./screens/ContactScreen";
 
@@ -79,15 +78,15 @@ const App = () => {
           border: `1px solid rgb(${color})`,
         }}
       />
-      <View
+      <Stack
+        w={["100%", "90%", "90%", "90%"]}
+        h={["100%", "90%", "90%", "90%"]}
+        direction={["column-reverse", "row", "row", "row"]}
+        borderRadius={5}
+        overflow="hidden"
+        borderWidth={["0px", "1px", "1px", "1px"]}
         style={{
-          width: "90vw",
-          height: "90vh",
-          border: "1px solid rgba(80,80,80, 0.9)",
-          display: "flex",
-          flexDirection: "row",
-          borderRadius: 5,
-          overflow: "hidden",
+          boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
         }}
       >
         <NavBar pages={pages} navigate={navigate} currentPage={currentPage} />
@@ -95,7 +94,7 @@ const App = () => {
           const Page = pages[i];
           return <Page style={style} />;
         })}
-      </View>
+      </Stack>
     </AnimatedBackground>
   );
 };

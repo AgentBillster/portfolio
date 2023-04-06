@@ -7,18 +7,29 @@ import {
   Center,
   Divider,
   PresenceTransition,
+  useBreakpointValue,
+  Stack,
+  Hidden,
+  useMediaQuery,
 } from "native-base";
 import ColorModeSwitch from "./../components/ColorModeSwitch";
 
 export const NavBar = ({ pages, navigate, currentPage }) => {
+  const [isLargerThan980] = useMediaQuery({ minWidth: 980 });
   const [hoveredIndex, setHoveredIndex] = useState("");
+  const deg = useBreakpointValue(["0deg", "-90deg", "-90deg", "-90deg"]);
   return (
-    <Box zIndex={1000} borderRightWidth="1" borderColor={"muted.500"}>
-      <Center flex={0.1}>
-        <Text variant="topnavtext">W.</Text>
-      </Center>
-      <Divider bg={"muted.500"} />
-      <VStack flex={0.75}>
+    <Box borderRightWidth="1" borderColor={"muted.500"}>
+      {isLargerThan980 && (
+        <>
+          <Center flex={0.1}>
+            <Text variant="topnavtext">W.</Text>
+          </Center>
+          <Divider bg={"muted.500"} />
+        </>
+      )}
+
+      <Stack direction={["row", "column", "column", "column"]} flex={0.75}>
         {Object.keys(pages).map((page, i) =>
           page === "demo" ? null : (
             <Pressable
@@ -45,6 +56,7 @@ export const NavBar = ({ pages, navigate, currentPage }) => {
                 }}
               >
                 <Text
+                  style={{ transform: `rotate(${deg})` }}
                   variant={"navitemtext"}
                   borderBottomWidth={page === currentPage ? 1 : 0}
                 >
@@ -54,9 +66,13 @@ export const NavBar = ({ pages, navigate, currentPage }) => {
             </Pressable>
           )
         )}
-      </VStack>
-      <Divider bg={"muted.500"} />
-      <ColorModeSwitch />
+      </Stack>
+      {isLargerThan980 && (
+        <>
+          <Divider bg={"muted.500"} />
+          <ColorModeSwitch />
+        </>
+      )}
     </Box>
   );
 };
