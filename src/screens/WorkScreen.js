@@ -105,7 +105,7 @@ const data = [
   },
 ];
 
-const WorkScreen = ({ navigate }) => {
+const WorkScreen = ({ style }) => {
   const [hoveredIndex, setHoveredIndex] = useState("");
   const [demoData, setDemoData] = useState();
 
@@ -120,72 +120,79 @@ const WorkScreen = ({ navigate }) => {
   }
 
   return (
-    <ScrollView w="full" p="5%" showsVerticalScrollIndicator={false}>
-      <HStack borderBottomWidth={1}>
-        <Text
-          _dark={{
-            color: "white",
-          }}
-          letterSpacing="-2"
-          color="gray"
-          variant="workheader"
-        >
-          PROJECTS
+    <animated.div style={{ ...style, flex: 1 }}>
+      <ScrollView w="full" h="full" p="5%" showsVerticalScrollIndicator={false}>
+        <HStack borderBottomWidth={1}>
           <Text
-            ml={"6px"}
-            color="muted.500"
-            fontSize={["30px", "30px", "40px", "50px"]}
+            _dark={{
+              color: "white",
+            }}
+            letterSpacing="-2"
+            color="gray"
+            variant="workheader"
           >
-            {data.length}
-          </Text>
-        </Text>
-      </HStack>
-
-      <VStack mt="10" borderColor="rgba(80,80,80, 0.8)">
-        {data.map((item, i) => (
-          <HStack key={item.id} mt={i === 0 ? "30px" : ""} ml="auto" space="4">
-            <Pressable
-              onHoverIn={() => setHoveredIndex(i)}
-              onHoverOut={() => setHoveredIndex("")}
-              onPress={() => handlePress(item)}
+            PROJECTS
+            <Text
+              ml={"6px"}
+              color="muted.500"
+              fontSize={["30px", "30px", "40px", "50px"]}
             >
-              <PresenceTransition
-                visible={hoveredIndex === i} // trigger animation when we hover over index
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "baseline",
-                }}
-                initial={{
-                  opacity: 0.8,
-                }}
-                animate={{
-                  opacity: 0.2,
-                  transition: {
-                    duration: 400,
-                  },
-                }}
-              >
-                <Text variant="tagtext" color={"muted.500"}>
-                  {item.tags.map(
-                    (tag, index) =>
-                      `${tag} ${index < item.tags.length - 1 ? " / " : ""}`
-                  )}
-                </Text>
+              {data.length}
+            </Text>
+          </Text>
+        </HStack>
 
-                <Text
-                  variant={"projtext"}
-                  borderColor="muted.300"
-                  fontFamily="thin"
+        <VStack mt="10" borderColor="rgba(80,80,80, 0.8)">
+          {data.map((item, i) => (
+            <HStack
+              key={item.id}
+              mt={i === 0 ? "30px" : ""}
+              ml="auto"
+              space="4"
+            >
+              <Pressable
+                onHoverIn={() => setHoveredIndex(i)}
+                onHoverOut={() => setHoveredIndex("")}
+                onPress={() => handlePress(item)}
+              >
+                <PresenceTransition
+                  visible={hoveredIndex === i} // trigger animation when we hover over index
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "baseline",
+                  }}
+                  initial={{
+                    opacity: 0.8,
+                  }}
+                  animate={{
+                    opacity: 0.2,
+                    transition: {
+                      duration: 400,
+                    },
+                  }}
                 >
-                  {item.title}
-                </Text>
-              </PresenceTransition>
-            </Pressable>
-          </HStack>
-        ))}
-      </VStack>
-    </ScrollView>
+                  <Text variant="tagtext" color={"muted.500"}>
+                    {item.tags.map(
+                      (tag, index) =>
+                        `${tag} ${index < item.tags.length - 1 ? " / " : ""}`
+                    )}
+                  </Text>
+
+                  <Text
+                    variant={"projtext"}
+                    borderColor="muted.300"
+                    fontFamily="thin"
+                  >
+                    {item.title}
+                  </Text>
+                </PresenceTransition>
+              </Pressable>
+            </HStack>
+          ))}
+        </VStack>
+      </ScrollView>
+    </animated.div>
   );
 };
 

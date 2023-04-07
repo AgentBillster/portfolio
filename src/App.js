@@ -12,21 +12,9 @@ const App = () => {
   const { colorMode } = useColorMode();
 
   const pages = {
-    home: ({ style }) => (
-      <animated.div style={{ ...style, flex: 1 }}>
-        <HomeScreen />
-      </animated.div>
-    ),
-    work: ({ style }) => (
-      <animated.div style={{ ...style, flex: 1 }}>
-        <WorkScreen />
-      </animated.div>
-    ),
-    contact: ({ style }) => (
-      <animated.div style={{ ...style, flex: 1 }}>
-        <ContactScreen />
-      </animated.div>
-    ),
+    home: ({ style }) => <HomeScreen style={style} />,
+    work: ({ style }) => <WorkScreen style={style} />,
+    contact: ({ style }) => <ContactScreen style={style} />,
   };
 
   const [currentPage, setCurrentPage] = useState("home");
@@ -83,8 +71,8 @@ const App = () => {
         h={["100%", "90%", "90%", "90%"]}
         direction={["column-reverse", "row", "row", "row"]}
         borderRadius={5}
-        overflow="hidden"
         borderWidth={["0px", "1px", "1px", "1px"]}
+        overflow="hidden"
         style={{
           boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
         }}

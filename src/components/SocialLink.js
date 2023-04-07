@@ -1,4 +1,4 @@
-import { HStack, VStack, Box, Text, IconButton } from "native-base";
+import { HStack, VStack, Box, Text, IconButton, Stack } from "native-base";
 import { ArrowUpIcon } from "native-base";
 import { GitIcon, LinkedInIcon, MailIcon } from "../assets/icons/icons";
 
@@ -25,7 +25,11 @@ const SocialLinks = () => {
   ];
 
   return (
-    <HStack variant="socialspacing">
+    <Stack
+      direction={["column-reverse", "row", "row", "row"]}
+      space={[8, 2, 4, 6]}
+      variant="socialspacing"
+    >
       {socialData.map(({ icon, name, email, link }, index) => (
         <HStack key={index} space={[2, 2, 4, 6]} alignItems={"center"}>
           <Box>{icon}</Box>
@@ -49,7 +53,7 @@ const SocialLinks = () => {
           />
         </HStack>
       ))}
-    </HStack>
+    </Stack>
   );
 };
 

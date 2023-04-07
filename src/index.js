@@ -10,18 +10,18 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <NativeBaseProvider
     theme={extendTheme({
-      breakpoints: [0, 980, 1820, 2460],
+      breakpoints: [0,  980, 1820, 2460],
       components: {
         Text: {
           variants: {
             bigtext: {
               fontFamily: "Thin",
-              fontSize: ["25px", "65px", "100px", "160px"],
+              fontSize: ["60px", "65px", "100px", "160px"],
             },
             bigsubtext: {
               fontFamily: "thin",
               style: { transform: [{ translateY: "-20px" }] },
-              fontSize: ["0px", "20px", "40px", "60px"],
+              fontSize: ["20px", "20px", "40px", "60px"],
             },
 
             topnavtext: {
@@ -30,17 +30,17 @@ root.render(
             navitemtext: {
               fontFamily: "Light",
               borderColor: "rgba(80,80,80, 1)",
-              fontSize: ["12px", "20px", "32px", "45px"],
+              fontSize: ["40px", "20px", "32px", "45px"],
             },
 
             socialname: {
-              fontSize: ["10px", "13px", "20px", "32px"],
+              fontSize: ["20px", "13px", "20px", "32px"],
             },
             socialemail: {
-              fontSize: ["10px", "13px", "18px", "32px"],
+              fontSize: ["20px", "13px", "18px", "32px"],
             },
             sectionheader: {
-              fontSize: ["28px", "28px", "50px", "65px"],
+              fontSize: ["48px", "28px", "50px", "65px"],
             },
 
             sectiontext: {
@@ -150,7 +150,7 @@ root.render(
       },
     })}
   >
-    <LoadingAnim />
+    {/* <LoadingAnim /> */}
     <App />
   </NativeBaseProvider>
 );
