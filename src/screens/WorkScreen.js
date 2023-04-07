@@ -10,8 +10,8 @@ import {
 } from "native-base";
 import { useWheel } from "@use-gesture/react";
 import Pomodoro from "../Projects/Pomodoro/src/Pomodoro";
+import DemoScreen from "./DemoScreen";
 
-// on app load write py scan filestree =>  node
 const data = [
   {
     id: 1,
@@ -19,46 +19,48 @@ const data = [
     title: "Pomodoro",
     description: "a much needed app for personal use that keeps me focused!",
     tags: ["react native", "native base"],
-    app: <Pomodoro />,
-    fileData: [
-      {
-        name: "Pomodoro",
-        defaultOpen: true,
-        children: [
-          {
-            name: "src",
-            defaultOpen: true,
-            children: [
-              {
-                name: "components",
-                children: [
-                  { name: "NBaseForm.js" },
-                  { name: "NBaseHeader.js" },
-                  { name: "NBaseList.js" },
-                  { name: "NBaseTabs.js" },
-                ],
-              },
-              {
-                name: "hooks",
-                children: [
-                  { name: "useNavigation.js" },
-                  { name: "useToggle.js" },
-                ],
-              },
-              {
-                name: "screens",
-                children: [
-                  { name: "TaskScreen.js" },
-                  { name: "TimerScreen.js" },
-                ],
-              },
-              { name: "Pomodoro.js" },
-              { name: "Readme.md" },
-            ],
-          },
-        ],
-      },
-    ],
+    demoData: {
+      app: <Pomodoro />,
+      fileTree: [
+        {
+          name: "Pomodoro",
+          defaultOpen: true,
+          children: [
+            {
+              name: "src",
+              defaultOpen: true,
+              children: [
+                {
+                  name: "components",
+                  children: [
+                    { name: "NBaseForm.js" },
+                    { name: "NBaseHeader.js" },
+                    { name: "NBaseList.js" },
+                    { name: "NBaseTabs.js" },
+                  ],
+                },
+                {
+                  name: "hooks",
+                  children: [
+                    { name: "useNavigation.js" },
+                    { name: "useToggle.js" },
+                  ],
+                },
+                {
+                  name: "screens",
+                  children: [
+                    { name: "TaskScreen.js" },
+                    { name: "TimerScreen.js" },
+                  ],
+                },
+                { name: "Pomodoro.js" },
+                { name: "Readme.md" },
+              ],
+            },
+          ],
+        },
+      ],
+    },
   },
 
   {
@@ -105,10 +107,17 @@ const data = [
 
 const WorkScreen = ({ navigate }) => {
   const [hoveredIndex, setHoveredIndex] = useState("");
+  const [demoData, setDemoData] = useState();
 
   const handlePress = (item) => {
-    return item.app ? navigate("demo", item) : window.open(item.link, "_blank");
+    return item.demoData
+      ? setDemoData(item.demoData)
+      : window.open(item.link, "_blank");
   };
+
+  if (demoData) {
+    return <DemoScreen data={demoData} onClose={() => setDemoData()} />;
+  }
 
   return (
     <ScrollView w="full" p="5%" showsVerticalScrollIndicator={false}>
