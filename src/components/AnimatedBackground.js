@@ -1,18 +1,33 @@
-import React from "react";
-import { useColorMode } from "native-base";
+import React, { useState, useEffect } from "react";
 import { useSpring, animated } from "@react-spring/web";
-import { Dimensions } from "react-native";
+import { Dimensions } from "react-native-web";
+import { useColorMode } from "native-base";
 
 const AnimatedBackground = (props) => {
   const { colorMode } = useColorMode();
 
-  const screenWidth = Dimensions.get("window").width;
-  const screenHeight = Dimensions.get("window").height;
+  const [windowSize, setWindowSize] = useState({
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: Dimensions.get("window").width,
+        height: Dimensions.get("window").height,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const bg = useSpring({
     background: colorMode === "light" ? "rgb(230,230,230)" : "rgb(32,32,32)",
-    width: `${screenWidth}px`,
-    height: `${screenHeight}px`,
+    width: `${windowSize.width}px`,
+    height: `${windowSize.height}px`,
   });
 
   return (

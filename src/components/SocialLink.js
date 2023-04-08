@@ -5,12 +5,6 @@ import { GitIcon, LinkedInIcon, MailIcon } from "../assets/icons/icons";
 const SocialLinks = () => {
   const socialData = [
     {
-      icon: <MailIcon />,
-      name: "Gmail",
-      email: "william.z.wilson95@gmail.com",
-      link: "https://www.gmail.com",
-    },
-    {
       icon: <GitIcon />,
       name: "Github",
       email: "AgentBillster",
@@ -26,9 +20,12 @@ const SocialLinks = () => {
 
   return (
     <Stack
-      direction={["column-reverse", "row", "row", "row"]}
-      space={[8, 2, 4, 6]}
-      variant="socialspacing"
+      w="100%"
+      direction={["row", "row", "row", "row"]}
+      space={[2, 2, 4, 6]}
+      justifyContent={["baseline", "baseline", "baseline", "baseline"]}
+      mt="30"
+      borderWidth={1}
     >
       {socialData.map(({ icon, name, email, link }, index) => (
         <HStack key={index} space={[2, 2, 4, 6]} alignItems={"center"}>

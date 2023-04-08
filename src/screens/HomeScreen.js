@@ -14,18 +14,22 @@ import SocialLinks from "../components/SocialLink";
 
 const HomeScreen = ({ style }) => {
   return (
-    <animated.div style={{ ...style, flex: 1 }}>
-      <ScrollView w="full" h="full" p="5%" showsVerticalScrollIndicator={false}>
-        <VStack p="2" alignItems={"flex-start"}>
-          <Text variant="bigtext">William Wilson</Text>
-          <Text pl="4" variant="bigsubtext">
-            Fullstack Web Developer
-          </Text>
-        </VStack>
+    <animated.div style={{ ...style, overflow: "hidden" }}>
+      <ScrollView
+        w="full"
+        h={"full"}
+        p="5%"
+        showsVerticalScrollIndicator={false}
+      >
+        <Box w="100%">
+          <VStack>
+            <Text variant="bigtext">William Wilson</Text>
+            <Text variant="bigsubtext">Software Engineer</Text>
+          </VStack>
 
-        <HStack mt={"100"}>
-          <SocialLinks />
-          <Image
+          <HStack>
+            <SocialLinks />
+            {/* <Image
             position={"absolute"}
             right={["150", "40px", "60px", "20px"]}
             bottom={["50px", "-80px", "-80px", "-90px"]}
@@ -36,45 +40,31 @@ const HomeScreen = ({ style }) => {
             source={require("../assets/images/me.jpg")}
             alt="Alternate Text"
             borderRadius={"20"}
-          />
-        </HStack>
+          /> */}
+          </HStack>
+        </Box>
 
-        <Divider bgColor="grey" zIndex="-1" />
-        <VStack w={"70%"} mt={"40px"} alignItems={"baseline"} space="5">
-          <Box>
-            <Text variant={"sectionheader"}>Bio</Text>
-            <Divider
-              _dark={{
-                bgColor: "white",
-              }}
-              zIndex="-1"
-              borderWidth={1}
-              borderRadius="60"
-              borderColor="rgba(80,80,80, 0.9)"
-            />
+        <Divider bgColor="grey" zIndex="-1" w="100%" />
+
+        <VStack w={"100%"} mt={"40px"} alignItems={"baseline"} space="5">
+          <Box w={["100%", "60%", "60%", "60%"]}>
+            <Text border variant={"sectionheader"}>
+              Bio
+            </Text>
+            <Text variant={"sectiontext"}>
+              I've learned the ropes through hands-on experience and lots of
+              self-teaching. I got my start with the Lambda program, but I've
+              been building and tinkering ever since. I'm always looking for
+              ways to push the boundaries with innovative solutions and fresh
+              ideas. And with a easygoing demeanor and strong communication
+              skills, I'm a great collaborator and teammate.
+            </Text>
           </Box>
-          <Text variant={"sectiontext"}>
-            I've learned the ropes through hands-on experience and lots of
-            self-teaching. I got my start with the Lambda program, but I've been
-            building and tinkering ever since. I'm always looking for ways to
-            push the boundaries with innovative solutions and fresh ideas. And
-            with a easygoing demeanor and strong communication skills, I'm a
-            great collaborator and teammate.
-          </Text>
         </VStack>
 
-        <VStack w={"70%"} mt={"40px"} alignItems={"baseline"} space="5">
-          <Box>
+        <Box w={"100%"} mt={"40px"} alignItems={"baseline"} space="5">
+          <Box w={["100%", "70%", "70%", "70%"]}>
             <Text variant={"sectionheader"}>Education</Text>
-            <Divider
-              _dark={{
-                bgColor: "white",
-              }}
-              zIndex="-1"
-              borderWidth={1}
-              borderRadius="60"
-              borderColor="rgba(80,80,80, 0.9)"
-            />
           </Box>
 
           <VStack>
@@ -90,7 +80,7 @@ const HomeScreen = ({ style }) => {
               Python. as well as React Node and Spring Boot.
             </Text>
           </VStack>
-        </VStack>
+        </Box>
       </ScrollView>
     </animated.div>
   );

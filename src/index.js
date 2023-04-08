@@ -4,24 +4,26 @@ import "./index.css";
 import App from "./App";
 import { extendTheme, NativeBaseProvider } from "native-base";
 import { LoadingAnim } from "./components/LoadingAnim";
+import AnimatedBackground from "./components/AnimatedBackground";
+import AnimatedCursor from "react-animated-cursor";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <NativeBaseProvider
     theme={extendTheme({
-      breakpoints: [0,  980, 1820, 2460],
+      breakpoints: [0, 980, 1820, 2460],
       components: {
         Text: {
           variants: {
             bigtext: {
               fontFamily: "Thin",
-              fontSize: ["60px", "65px", "100px", "160px"],
+              fontSize: ["48px", "65px", "100px", "160px"],
             },
             bigsubtext: {
               fontFamily: "thin",
               style: { transform: [{ translateY: "-20px" }] },
-              fontSize: ["20px", "20px", "40px", "60px"],
+              fontSize: ["18px", "20px", "40px", "60px"],
             },
 
             topnavtext: {
@@ -34,17 +36,17 @@ root.render(
             },
 
             socialname: {
-              fontSize: ["20px", "13px", "20px", "32px"],
+              fontSize: ["14px", "13px", "20px", "32px"],
             },
             socialemail: {
-              fontSize: ["20px", "13px", "18px", "32px"],
+              fontSize: ["14px", "13px", "18px", "32px"],
             },
             sectionheader: {
-              fontSize: ["48px", "28px", "50px", "65px"],
+              fontSize: ["40px", "28px", "50px", "65px"],
             },
 
             sectiontext: {
-              fontSize: ["10px", "15px", "24px", "35px"],
+              fontSize: ["16px", "15px", "24px", "35px"],
             },
 
             workheader: {
@@ -151,7 +153,21 @@ root.render(
     })}
   >
     {/* <LoadingAnim /> */}
-    <App />
+    <AnimatedBackground>
+      <AnimatedCursor
+        color={"150, 150, 150"}
+        innerSize={3}
+        outerSize={18}
+        trailingSpeed={8}
+        innerScale={1}
+        outerScale={2}
+        outerAlpha={0}
+        outerStyle={{
+          border: `1px solid rgb(150, 150, 150)`,
+        }}
+      />
+      <App />
+    </AnimatedBackground>
   </NativeBaseProvider>
 );
 
