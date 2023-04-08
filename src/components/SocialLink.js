@@ -25,7 +25,6 @@ const SocialLinks = () => {
       space={[2, 2, 4, 6]}
       justifyContent={["baseline", "baseline", "baseline", "baseline"]}
       mt="30"
-      borderWidth={1}
     >
       {socialData.map(({ icon, name, email, link }, index) => (
         <HStack key={index} space={[2, 2, 4, 6]} alignItems={"center"}>

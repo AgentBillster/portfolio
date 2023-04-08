@@ -24,7 +24,9 @@ const HomeScreen = ({ style }) => {
         <Box w="100%">
           <VStack>
             <Text variant="bigtext">William Wilson</Text>
-            <Text variant="bigsubtext">Software Engineer</Text>
+            <Box p="1">
+              <Text variant="bigsubtext">Software Engineer</Text>
+            </Box>
           </VStack>
 
           <HStack>
@@ -44,7 +46,7 @@ const HomeScreen = ({ style }) => {
           </HStack>
         </Box>
 
-        <Divider bgColor="grey" zIndex="-1" w="100%" />
+        <Divider bgColor="grey" zIndex="-1" w="100%" mt="1" />
 
         <VStack w={"100%"} mt={"40px"} alignItems={"baseline"} space="5">
           <Box w={["100%", "60%", "60%", "60%"]}>

@@ -18,7 +18,7 @@ const data = [
     image: "https://picsum.photos/id/1/200/200",
     title: "Pomodoro",
     description: "a much needed app for personal use that keeps me focused!",
-    tags: ["react native", "native base"],
+    year: 2023,
     demoData: {
       app: <Pomodoro />,
       fileTree: [
@@ -66,42 +66,19 @@ const data = [
   {
     id: 2,
     image: "https://picsum.photos/id/1/200/200",
-    title: "CellularAutomata",
+    title: "ConwaysGOL",
     description: "Cellular automata thingy",
-    tags: ["react", "css"],
+    year: 2020,
     link: "https://master--spiffy-sundae-845e4f.netlify.app/",
   },
-  {
-    id: 5,
-    image: "https://picsum.photos/id/1/200/200",
-    title: "PreemFLP",
-    description: "wow thats bad lol",
-    link: "https://github.com/PreemFreelancePlatform",
-    tags: ["spring boot", "react"],
-  },
+
   {
     id: 3,
     image: "https://picsum.photos/id/1/200/200",
-    title: "GHubFE",
-    description: "App that connects gamers together",
-    link: "https://github.com/AgentBillster/gameThing",
-    tags: ["geoloc", "socialOauth2", "imageAPI", "asyncStorage"],
-  },
-  {
-    id: 4,
-    image: "https://picsum.photos/id/1/200/200",
-    title: "BE4Ghub",
-    description: "backend for ghub",
-    link: "https://github.com/AgentBillster/GHubApp",
-    tags: ["express", "oauth2", "mongoose", "geolib"],
-  },
-  {
-    id: 6,
-    image: "https://picsum.photos/id/1/200/200",
-    title: "FirstWebsite.ever",
+    title: "FishFriends",
     description: "backend for some shit code on github",
     link: "https://5e17c55e7d016d0188b94241--fishfriends1.netlify.app/index.html",
-    tags: ["html", "css"],
+    year: 2019,
   },
 ];
 
@@ -120,8 +97,13 @@ const WorkScreen = ({ style }) => {
   }
 
   return (
-    <animated.div style={{ ...style, flex: 1 }}>
-      <ScrollView w="full" h="full" p="5%" showsVerticalScrollIndicator={false}>
+    <animated.div style={{ ...style, overflow: "hidden", flex: "1" }}>
+      <ScrollView
+        w="full"
+        h={"full"}
+        p="5%"
+        showsVerticalScrollIndicator={false}
+      >
         <HStack borderBottomWidth={1}>
           <Text
             _dark={{
@@ -173,10 +155,7 @@ const WorkScreen = ({ style }) => {
                   }}
                 >
                   <Text variant="tagtext" color={"muted.500"}>
-                    {item.tags.map(
-                      (tag, index) =>
-                        `${tag} ${index < item.tags.length - 1 ? " / " : ""}`
-                    )}
+                    {`[${item.year}]`}
                   </Text>
 
                   <Text
