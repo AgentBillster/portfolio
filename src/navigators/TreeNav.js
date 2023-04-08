@@ -76,7 +76,7 @@ const Tree = React.memo(
             }}
           />
           <Text
-            fontSize={["2", "18px", "24px", "30px"]}
+            fontSize={["10px", "18px", "24px", "30px"]}
             style={{
               ...style,
               verticalAlign: "middle",

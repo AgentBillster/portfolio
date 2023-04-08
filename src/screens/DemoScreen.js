@@ -16,10 +16,12 @@ const DemoScreen = ({ data }) => {
           style={{
             width: "100%",
             height: "100%",
+            position: "absolute",
+            zIndex: 100,
             display: "flex",
           }}
         >
-          <Box bg={"#2d2d30"} flex={0.35}>
+          <Box bg={"#2d2d30"} flex={0.4}>
             <TreeNav
               data={data.fileTree}
               setActiveFile={setActiveFile}
@@ -27,7 +29,7 @@ const DemoScreen = ({ data }) => {
             />
           </Box>
 
-          <Box bg={"#2d2d30"} flex={0.65}>
+          <Box bg={"#2d2d30"} flex={0.6}>
             <CodeViewer activeFile={activeFile} />
           </Box>
         </animated.div>

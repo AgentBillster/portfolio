@@ -22,7 +22,7 @@ const SocialLinks = () => {
     <Stack
       w="100%"
       direction={["row", "row", "row", "row"]}
-      space={[2, 2, 4, 6]}
+      space={[2, 10, 4, 6]}
       justifyContent={["baseline", "baseline", "baseline", "baseline"]}
       mt="30"
     >

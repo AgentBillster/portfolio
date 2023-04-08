@@ -22,13 +22,12 @@ export const NavBar = ({ pages, navigate, currentPage }) => {
 
   return (
     <Box
-      zIndex={100}
+      zIndex={10}
       w={isLargerThan980 ? "8%" : "75%"}
       bg={isLargerThan980 ? "" : "white"}
-      // position={isLargerThan980 ? "" : "fixed"}
       borderRightWidth={isLargerThan980 ? 1 : 0}
       borderColor={isLargerThan980 ? "muted.500" : ""}
-      m="auto"
+      m={isLargerThan980 ? 0 : "auto"}
       mb={isLargerThan980 ? 0 : 4}
       p={isLargerThan980 ? 0 : 1}
       justifyContent={isLargerThan980 ? "" : "center"}
@@ -72,6 +71,9 @@ export const NavBar = ({ pages, navigate, currentPage }) => {
                 <Text
                   style={{ transform: `rotate(${deg})` }}
                   variant={"navitemtext"}
+                  _dark={{
+                    color: "white",
+                  }}
                   color={page === currentPage ? "muted.400" : 0}
                 >
                   {page}

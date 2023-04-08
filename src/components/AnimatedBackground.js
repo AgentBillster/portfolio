@@ -37,6 +37,7 @@ const AnimatedBackground = (props) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        overflow: "hidden",
       }}
     >
       {props.children}
