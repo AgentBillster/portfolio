@@ -54,7 +54,7 @@ const Tree = React.memo(
           onPress={handleClick}
           style={{
             position: "relative",
-            paddingInline: "7px",
+            paddingInline: "4px",
             paddingBlock: "3px",
             textOverflow: "ellipsis",
             whiteSpace: "nowrap",
@@ -71,7 +71,7 @@ const Tree = React.memo(
             style={{
               width: "10%",
               height: "10%",
-              marginRight: "10px",
+              marginRight: "6px",
               verticalAlign: "middle",
             }}
           />
@@ -90,8 +90,8 @@ const Tree = React.memo(
           style={{
             opacity,
             height: isOpen && previous === isOpen ? "auto" : height,
-            marginLeft: "6px",
-            padding: "0px 0px 0px 14px",
+            marginLeft: "3px",
+            padding: "0px 0px 0px 8px",
             borderLeft: "1px dashed rgba(80,80,80)",
             overflow: "hidden",
           }}

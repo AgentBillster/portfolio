@@ -409,7 +409,7 @@ The Pomodoro App provides a VERY simple interface for managing your Pomodoro ses
 };
 
 export const CodeViewer = ({ activeFile = "Readme.md" }) => {
-  const codeSize = useBreakpointValue([2, 16, 20, 24]);
+  const codeSize = useBreakpointValue([10, 16, 20, 24]);
   const code = codeBlocks[activeFile];
   const { colorMode } = useColorMode();
   const theme = colorMode === "light" ? a11yLight : a11yDark;
