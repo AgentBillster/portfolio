@@ -59,9 +59,7 @@ const App = () => {
         boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.4)",
       }}
     >
-      {/* <Box position="absolute"> */}
-        <NavBar pages={pages} navigate={navigate} currentPage={currentPage} />
-      {/* </Box> */}
+      <NavBar pages={pages} navigate={navigate} currentPage={currentPage} />
       {transitions((style, i) => {
         const Page = pages[i];
         return <Page style={style} />;

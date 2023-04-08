@@ -17,9 +17,23 @@ import ColorModeSwitch from "./../components/ColorModeSwitch";
 export const NavBar = ({ pages, navigate, currentPage }) => {
   const [isLargerThan980] = useMediaQuery({ minWidth: 980 });
   const [hoveredIndex, setHoveredIndex] = useState("");
+
   const deg = useBreakpointValue(["0deg", "-90deg", "-90deg", "-90deg"]);
+
   return (
-    <Box borderRightWidth="1" borderColor={"muted.500"}>
+    <Box
+      zIndex={100}
+      w={isLargerThan980 ? "8%" : "75%"}
+      bg={isLargerThan980 ? "" : "white"}
+      // position={isLargerThan980 ? "" : "fixed"}
+      borderRightWidth={isLargerThan980 ? 1 : 0}
+      borderColor={isLargerThan980 ? "muted.500" : ""}
+      m="auto"
+      mb={isLargerThan980 ? 0 : 4}
+      p={isLargerThan980 ? 0 : 1}
+      justifyContent={isLargerThan980 ? "" : "center"}
+      borderRadius={isLargerThan980 ? 0 : 4}
+    >
       {isLargerThan980 && (
         <>
           <Center flex={0.1}>
@@ -58,7 +72,7 @@ export const NavBar = ({ pages, navigate, currentPage }) => {
                 <Text
                   style={{ transform: `rotate(${deg})` }}
                   variant={"navitemtext"}
-                  borderBottomWidth={page === currentPage ? 1 : 0}
+                  color={page === currentPage ? "muted.400" : 0}
                 >
                   {page}
                 </Text>

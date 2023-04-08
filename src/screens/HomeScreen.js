@@ -13,6 +13,7 @@ import {
 import SocialLinks from "../components/SocialLink";
 
 const HomeScreen = ({ style }) => {
+
   return (
     <animated.div style={{ ...style, overflow: "hidden" }}>
       <ScrollView
@@ -75,7 +76,7 @@ const HomeScreen = ({ style }) => {
               <Text variant={"sectiontext"}>/ Las Vegas / 2018 - 2019 </Text>
             </Text>
 
-            <Text variant={"sectiontext"} mt={"10px"}>
+            <Text pb="80px" variant={"sectiontext"} mt={"10px"}>
               A rigorous 9-month web development program that emphasized
               practical, hands-on learning to improve my skills as both a
               developer and team player. We spent time on javascript, Java,

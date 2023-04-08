@@ -18,12 +18,12 @@ root.render(
           variants: {
             bigtext: {
               fontFamily: "Thin",
-              fontSize: ["50px", "65px", "100px", "160px"],
+              fontSize: ["48px", "65px", "100px", "160px"],
             },
             bigsubtext: {
               fontFamily: "thin",
               style: { transform: [{ translateY: "-20px" }] },
-              fontSize: ["20px", "20px", "40px", "60px"],
+              fontSize: ["18px", "20px", "40px", "60px"],
             },
 
             topnavtext: {
@@ -32,7 +32,7 @@ root.render(
             navitemtext: {
               fontFamily: "Light",
               borderColor: "rgba(80,80,80, 1)",
-              fontSize: ["40px", "20px", "32px", "45px"],
+              fontSize: ["16px", "20px", "32px", "45px"],
             },
 
             socialname: {
@@ -50,15 +50,15 @@ root.render(
             },
 
             workheader: {
-              fontSize: ["26px", "50px", "70px", "120px"],
+              fontSize: ["16px", "50px", "70px", "120px"],
             },
 
             tagtext: {
-              fontSize: ["16px", "15px", "24px", "38px"],
+              fontSize: ["10px", "15px", "24px", "38px"],
             },
 
             projtext: {
-              fontSize: ["50px", "72px", "108px", "140px"],
+              fontSize: ["30px", "72px", "108px", "140px"],
             },
           },
         },
@@ -152,7 +152,7 @@ root.render(
       },
     })}
   >
-    <LoadingAnim />
+    {/* <LoadingAnim /> */}
     <AnimatedBackground>
       <AnimatedCursor
         color={"150, 150, 150"}
