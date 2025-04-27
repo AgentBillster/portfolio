@@ -25,7 +25,7 @@ const data = [
   {
     id: 1,
     title: "Pomodoro",
-    description: "a much needed app for personal use that keeps me focused!",
+    description: "A productivity app that helps you stay focused (App store version is way better)",
     year: 2023,
     demoData: {
       app: (closeApp, viewCode) => (
@@ -74,7 +74,7 @@ const data = [
   {
     id: 2,
     title: "Conways",
-    description: "Cellular automata thingy",
+    description: "A simple algorithm for cellular automata",
     year: 2023,
     demoData: {
       app: (closeApp, viewCode) => (
@@ -106,7 +106,7 @@ const data = [
   {
     id: 3,
     title: "Nexus",
-    description: "bSJFNAKSNFAKJSNFAKJSNFAKJSFN",
+    description: "A platform for esports tournaments",
     link: "https://github.com/NexusEsportsPlatform/Nexus-FE",
     year: 2019,
   },
@@ -114,7 +114,7 @@ const data = [
   {
     id: 4,
     title: "FishFriends",
-    description: "bSJFNAKSNFAKJSNFAKJSNFAKJSFN",
+    description: "A website to show you where all the best fishing spots are",
     link: "https://5e17c55e7d016d0188b94241--fishfriends1.netlify.app/index.html",
     year: 2019,
   },
