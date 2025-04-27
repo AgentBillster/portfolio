@@ -25,7 +25,7 @@ const data = [
   {
     id: 1,
     title: "Pomodoro",
-    description: "A productivity app that helps you stay focused (App store version is way better)",
+    description: "A productivity app that helps you stay focused using react native. (More features when viewing via mobile device)",
     year: 2023,
     demoData: {
       app: (closeApp, viewCode) => (
