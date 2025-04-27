@@ -1,0 +1,235 @@
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+}
+
+#root {
+  display: flex;
+  height: 100%;
+}
+
+::-webkit-scrollbar {
+  display: "none";
+}
+
+*,
+*::after,
+*::before {
+  -webkit-user-select: none;
+  cursor: none;
+}
+
+@font-face {
+  font-family: "Thin";
+  src: local("Thin"), url(./assets/fonts/Thin.ttf) format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Light";
+  src: local("Light"), url(./assets/fonts/Light.ttf) format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Medium";
+  src: local("Medium"), url(./assets/fonts/Medium.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "SemiBold";
+  src: local("SemiBold"), url(./assets/fonts/SemiBold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Bold";
+  src: local("Bold"), url(./assets/fonts/Bold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Monda";
+  src: local("Monda"), url(./assets/fonts/Monda.ttf) format("truetype");
+}
+
+/* // ------conways */
+
+.grid {
+  margin-top: 30px;
+  margin-left: 60px;
+}
+
+.ctrls {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-evenly;
+  margin-left: 60px;
+  width: 50%;
+}
+
+.rules {
+  position: absolute;
+  left: 1000px;
+  top: 30px;
+}
+
+p {
+  width: 75%;
+  padding: 10px;
+  margin-top: 50px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+h3 {
+  width: 75%;
+  text-align: center;
+}
+
+.black {
+  background-color: black;
+  transition: background-color 0.3s ease;
+}
