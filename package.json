@@ -24,6 +24,7 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "^0.18.10",
     "react-native-web-linear-gradient": "^1.1.2",
+    "react-native-webgl": "^0.8.0",
     "react-scripts": "5.0.1",
     "react-use-measure": "^2.1.1",
     "three": "^0.176.0",

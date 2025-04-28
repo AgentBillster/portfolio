@@ -91,8 +91,7 @@ const data = [
               defaultOpen: true,
               children: [
                 { name: "Conways.js" },
-                { name: "GridOld.js" },
-                { name: "GridRevised.js" },
+                { name: "Implementation.js" },
                 { name: "Readme.md" },
               ],
             },

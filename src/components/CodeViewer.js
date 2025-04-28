@@ -1649,287 +1649,625 @@ const codeBlocks = {
     );
   };`,
 
-    "GridOld.js": `
-    const Grid = () => {
-      const [isMobile] = useMediaQuery({ maxWidth: breakpoints.lg });
-      const cellSize = isMobile ? 20 : 18;
-      const gridWidth = isMobile ? window.innerWidth : window.innerWidth * 0.2;
-      const gridHeight = isMobile
-        ? window.innerHeight * 0.8
-        : window.innerWidth * 0.3;
-      const numRows = Math.floor(gridHeight / cellSize);
-      const numCols = Math.floor(gridWidth / cellSize);
-    
-      const operations = [
-        [1, 0], // top
-        [1, -1], // top left
-        [0, -1], // left
-        [-1, -1], // bottom left
-        [-1, 0], // bottom
-        [-1, 1], // bottom right
-        [0, 1], // right
-        [1, 1], // top right
-      ];
-    
-      const emptyGrid = () => {
-        const rows = [];
-        for (let i = 0; i < numRows; i++) {
-          rows.push(Array.from(Array(numCols), () => 0));
-        }
-        return rows;
-      };
-    
-      const [grid, setGrid] = useState(() => {
-        return emptyGrid();
-      });
-    
-      const [generation, setGeneration] = useState(0);
-      const [resolved, setResolved] = useState(false);
-      const resolvedRef = useRef(resolved); 
-      resolvedRef.current = resolved; 
-    
-      const runSim = useCallback(() => {
-        if (resolvedRef.current) {
-          console.log("done");
-          return;
-        }
-    
-        setGrid((g) => {
-          const newGrid = produce(g, (gridCopy) => {
-            let changes = 0;
-            for (let i = 0; i < numRows; i++) {
-              for (let k = 0; k < numCols; k++) {
-                let neighbors = 0;
-                operations.forEach(([x, y]) => {
-                  const newI = i + x;
-                  const newk = k + y;
-                  if (newI >= 0 && newI < numRows && newk >= 0 && newk < numCols) {
-                    neighbors += g[newI][newk];
-                  }
-                });
-                if (neighbors < 2 || neighbors > 3) {
-                  if (gridCopy[i][k] !== 0) changes++;
-                  gridCopy[i][k] = 0;
-                } else if (g[i][k] === 0 && neighbors === 3) {
-                  if (gridCopy[i][k] !== 1) changes++;
-                  gridCopy[i][k] = 1;
-                }
-              }
-            }
-            if (changes === 0) {
-              setResolved(true);
-            }
-            return gridCopy;
+    "Implementation.js": ` 
+   // Reference for the container to get dimensions
+  const containerRef = useRef(null);
+  // Three.js objects
+  const sceneRef = useRef(null);
+  const cameraRef = useRef(null);
+  const rendererRef = useRef(null);
+  const controlsRef = useRef(null);
+  const instancedMeshRef = useRef(null);
+  const requestRef = useRef(null);
+  const clockRef = useRef(new THREE.Clock());
+
+  // Game state
+  const [showMenu, setShowMenu] = useState(true);
+  const [showSim, setShowSim] = useState(false);
+  const [generation, setGeneration] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+  const [cellSize, setCellSize] = useState(1.2);
+  const [gridSize, setGridSize] = useState({ rows: 100, cols: 100 });
+  const [speed, setSpeed] = useState(5); // Updates per second
+
+  // State for cells - using a Map for performance with large grids
+  const [grid, setGrid] = useState(() => new Map());
+  const [prevGrid, setPrevGrid] = useState(() => new Map());
+
+  // Animation data
+  const cellAnimations = useRef(new Map());
+  const [resolved, setResolved] = useState(false);
+
+  // Set up the Three.js scene
+  const initThree = () => {
+    scene.background = new THREE.Color(0x000000); // Pure black
+
+    if (!containerRef.current) return;
+
+    const width = containerRef.current.clientWidth;
+    const height = containerRef.current.clientHeight;
+
+    // Scene
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x070707);
+    sceneRef.current = scene;
+
+    // Camera
+    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+    camera.position.z = Math.max(gridSize.rows, gridSize.cols) * cellSize * 0.8;
+    cameraRef.current = camera;
+
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    containerRef.current.appendChild(renderer.domElement);
+    rendererRef.current = renderer;
+
+    // Controls
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.1;
+    controlsRef.current = controls;
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(1, 1, 1);
+    scene.add(directionalLight);
+
+    // Grid visualization (optional)
+    // const gridHelper = new THREE.GridHelper(
+    //   Math.max(gridSize.rows, gridSize.cols) * cellSize,
+    //   Math.max(gridSize.rows, gridSize.cols),
+    //   0x444444,
+    //   0x222222
+    // );
+    // scene.add(gridHelper);
+
+    // Create instanced mesh for cells
+    createInstancedMesh();
+
+    // Handle resize
+    const handleResize = () => {
+      if (!containerRef.current || !cameraRef.current || !rendererRef.current) return;
+
+      const width = containerRef.current.clientWidth;
+      const height = containerRef.current.clientHeight;
+
+      cameraRef.current.aspect = width / height;
+      cameraRef.current.updateProjectionMatrix();
+      rendererRef.current.setSize(width, height);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Animation loop
+    const animate = () => {
+      if (!controlsRef.current || !rendererRef.current || !sceneRef.current || !cameraRef.current) {
+        requestRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
+      const delta = clockRef.current.getDelta();
+
+      // Update cell animations
+      updateCellAnimations(delta);
+
+      controlsRef.current.update();
+      rendererRef.current.render(sceneRef.current, cameraRef.current);
+      requestRef.current = requestAnimationFrame(animate);
+    };
+
+    requestRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (requestRef.current) {
+        cancelAnimationFrame(requestRef.current);
+      }
+      if (rendererRef.current && containerRef.current) {
+        containerRef.current.removeChild(rendererRef.current.domElement);
+      }
+    };
+  };
+
+  // Create instanced mesh for efficient rendering of many cells
+  const createInstancedMesh = () => {
+    if (!sceneRef.current) return;
+
+    // Remove existing mesh if any
+    if (instancedMeshRef.current) {
+      sceneRef.current.remove(instancedMeshRef.current);
+    }
+
+    const maxInstances = gridSize.rows * gridSize.cols;
+
+    // Create slightly rounded cell geometry
+    const geometry = new THREE.BoxGeometry(cellSize * 0.9, cellSize * 0.9, cellSize * 0.2);
+
+    // Material with glow effect
+    const material = new THREE.MeshPhongMaterial({
+      color: 0x00ffff, // Cyan color
+      emissive: 0x00aaaa, // Cyan-ish glow
+      emissiveIntensity: 0.7,
+      shininess: 50,
+      transparent: true, // Enable transparency for the fade effect
+      opacity: 1.0
+    });
+
+    // Create the instanced mesh
+    const instancedMesh = new THREE.InstancedMesh(geometry, material, maxInstances);
+    instancedMesh.count = 0; // Start with 0 visible instances
+    instancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    sceneRef.current.add(instancedMesh);
+    instancedMeshRef.current = instancedMesh;
+
+    // Reset the animations reference
+    cellAnimations.current = new Map();
+  };
+
+  // Function to populate the grid with random cells
+  const populateRandomGrid = (density = 0.3) => {
+    const newGrid = new Map();
+
+    for (let i = 0; i < gridSize.rows; i++) {
+      for (let j = 0; j < gridSize.cols; j++) {
+        if (Math.random() < density) {
+          const key = i + "," + j;
+          newGrid.set(key, { alive: true, age: 0 });
+          // Initialize animation data for this cell
+          cellAnimations.current.set(key, {
+            scale: 0,
+            targetScale: 1,
+            jitter: {
+              x: Math.random() * 0.05,
+              y: Math.random() * 0.05,
+              z: Math.random() * 0.05,
+            },
           });
-          setGeneration((prev) => prev + 1);
-          return newGrid;
-        });
-    
-        if (!resolvedRef.current) {
-          setTimeout(runSim, 45);
         }
-      }, [operations, resolvedRef]);
-    
-      return (
-        <View bg="rgb(0,0,0)" w={"100%"} h="100%" zIndex={2}>
-          <View
-            style={{
-              alignSelf: "center",
-              display: "grid",
-              gridTemplateColumns: \`repeat(\${numCols}, \${cellSize}px)\`,
-            }}
-          >
-            {grid.map((rows, i) =>
-              rows.map((col, k) => {
-                return (
-                  <PresenceTransition
-                    visible={grid[i][k] && true}
-                    initial={{
-                      scale: 0,
-                    }}
-                    animate={{
-                      scale: 1,
-                      transition: { type: "spring", mass: 0.5, damping: 10 },
-                    }}
-                    exit={{
-                      scale: 0,
-                      transition: { type: "timing", duration: 1000 },
-                    }}
-                    key={\`\${i}-\${k}\`}
-                    style={{
-                      width: cellSize,
-                      height: cellSize,
-                      backgroundColor: "violet",
-                      borderRadius: "10%",
-                      // boxShadow:
-                      //   "0px 0px 3px 0px rgba(255, 255, 255, 0.5)",
-                    }}
-                  />
-                );
-              })
-            )}
-          </View>
-    
-          <View flexDir="row" alignItems={"center"} justifyContent={"space-evenly"}>
-            <Button
-              width={"50px"}
-              height={"50px"}
-              colorScheme={"violet"}
-              variant={"solid"}
-              onPress={() => {
-                const rows = [];
-                for (let i = 0; i < numRows; i++) {
-                  rows.push(
-                    Array.from(Array(numCols), () => (Math.random() > 0.85 ? 1 : 0))
-                  );
-                }
-                setResolved(false); // Reset resolved state to false before running the simulation
-                setGrid(rows);
-                runSim();
+      }
+    }
+
+    setGrid(newGrid);
+    updateInstancedMesh(newGrid);
+    setGeneration(0);
+    setResolved(false);
+  };
+
+  // Calculate the next state of the grid based on Conway's rules
+  const calculateNextState = () => {
+    const newGrid = new Map();
+    const potentialCells = new Map();
+
+    // Check living cells and their potential to stay alive
+    grid.forEach((cell, key) => {
+      const [i, j] = key.split(",").map(Number);
+
+      // Count live neighbors
+      let liveNeighbors = 0;
+
+      // Check all 8 surrounding cells
+      for (let di = -1; di <= 1; di++) {
+        for (let dj = -1; dj <= 1; dj++) {
+          if (di === 0 && dj === 0) continue;
+
+          const ni = (i + di + gridSize.rows) % gridSize.rows; // Wrap around
+          const nj = (j + dj + gridSize.cols) % gridSize.cols; // Wrap around
+          const neighborKey = ni + "," + nj;
+
+          if (grid.has(neighborKey)) {
+            liveNeighbors++;
+          } else {
+            // Add to potential cells that might come alive
+            if (!potentialCells.has(neighborKey)) {
+              potentialCells.set(neighborKey, { neighbors: 0 });
+            }
+            potentialCells.get(neighborKey).neighbors++;
+          }
+        }
+      }
+
+      // Apply Conway's rules for living cells
+      if (liveNeighbors === 2 || liveNeighbors === 3) {
+        newGrid.set(key, { alive: true, age: cell.age + 1 });
+
+        // Update animation data
+        if (!cellAnimations.current.has(key)) {
+          cellAnimations.current.set(key, {
+            scale: 0.1,
+            targetScale: 1,
+            jitter: {
+              x: Math.random() * 0.05,
+              y: Math.random() * 0.05,
+              z: Math.random() * 0.05,
+            },
+          });
+        } else {
+          const anim = cellAnimations.current.get(key);
+          anim.targetScale = 1;
+          anim.jitter = {
+            x: Math.random() * 0.05,
+            y: Math.random() * 0.05,
+            z: Math.random() * 0.05,
+          };
+        }
+      } else {
+        // Cell dies
+        if (cellAnimations.current.has(key)) {
+          const anim = cellAnimations.current.get(key);
+          anim.targetScale = 0;
+        }
+      }
+    });
+
+    // Check potential cells that might come alive
+    potentialCells.forEach((data, key) => {
+      if (data.neighbors === 3) {
+        newGrid.set(key, { alive: true, age: 0 });
+
+        // Initialize animation data
+        cellAnimations.current.set(key, {
+          scale: 0,
+          targetScale: 1,
+          jitter: {
+            x: Math.random() * 0.05,
+            y: Math.random() * 0.05,
+            z: Math.random() * 0.05,
+          },
+        });
+      }
+    });
+
+    // Check if the pattern is stable or oscillating
+    if (generation > 1000 || areGridsEqual(newGrid, prevGrid)) {
+      setIsRunning(false);
+      setResolved(true);
+      return;
+    }
+
+    setPrevGrid(grid);
+    setGrid(newGrid);
+    setGeneration(gen => gen + 1);
+    updateInstancedMesh(newGrid);
+  };
+
+  // Update the instanced mesh to reflect the current grid state
+  const updateInstancedMesh = (currentGrid) => {
+    if (!instancedMeshRef.current) return;
+
+    let count = 0;
+    const dummy = new THREE.Object3D();
+    const halfRows = gridSize.rows / 2;
+    const halfCols = gridSize.cols / 2;
+
+    currentGrid.forEach((cell, key) => {
+      const [i, j] = key.split(",").map(Number);
+
+      // Position at center of grid
+      dummy.position.x = (j - halfCols) * cellSize;
+      dummy.position.y = (halfRows - i) * cellSize;
+      dummy.position.z = 0;
+
+      // Get animation data for this cell
+      const anim = cellAnimations.current.get(key);
+      if (anim) {
+        dummy.scale.set(anim.scale, anim.scale, anim.scale);
+        dummy.position.x += anim.jitter.x;
+        dummy.position.y += anim.jitter.y;
+        dummy.position.z += anim.jitter.z;
+      } else {
+        dummy.scale.set(1, 1, 1);
+      }
+
+      dummy.updateMatrix();
+      instancedMeshRef.current.setMatrixAt(count, dummy.matrix);
+      count++;
+    });
+
+    instancedMeshRef.current.count = count;
+    instancedMeshRef.current.instanceMatrix.needsUpdate = true;
+  };
+
+  // Update animations for each cell
+  const updateCellAnimations = (delta) => {
+    if (!instancedMeshRef.current) return;
+
+    const animationSpeed = 5.0; // Speed of scale animation
+    const jitterSpeed = 1.0; // Speed of jitter animation
+    let needsUpdate = false;
+
+    cellAnimations.current.forEach((anim, key) => {
+      // Skip if not in current grid and animation is complete
+      if (!grid.has(key) && Math.abs(anim.scale) < 0.01) {
+        return;
+      }
+
+      // Update scale with easing
+      if (Math.abs(anim.scale - anim.targetScale) > 0.01) {
+        anim.scale += (anim.targetScale - anim.scale) * animationSpeed * delta;
+        needsUpdate = true;
+      }
+
+      // Add subtle jitter for living cells
+      if (grid.has(key) && anim.targetScale > 0.5) {
+        anim.jitter.x = Math.sin(clockRef.current.elapsedTime * jitterSpeed + parseInt(key) * 0.1) * 0.03;
+        anim.jitter.y = Math.cos(clockRef.current.elapsedTime * jitterSpeed + parseInt(key) * 0.2) * 0.03;
+        anim.jitter.z = Math.sin(clockRef.current.elapsedTime * jitterSpeed * 1.5 + parseInt(key)) * 0.05;
+        needsUpdate = true;
+      }
+    });
+
+    if (needsUpdate) {
+      updateInstancedMesh(grid);
+    }
+  };
+
+  // Check if two grids are equal (used to detect stable patterns)
+  const areGridsEqual = (gridA, gridB) => {
+    if (gridA.size !== gridB.size) return false;
+
+    for (const [key, _] of gridA) {
+      if (!gridB.has(key)) return false;
+    }
+
+    return true;
+  };
+
+  // Start or pause the simulation
+  const toggleSimulation = () => {
+    setIsRunning(!isRunning);
+  };
+
+  // Reset the simulation with a new random grid
+  const resetSimulation = () => {
+    setIsRunning(false);
+    populateRandomGrid();
+  };
+
+  // Run the simulation logic at regular intervals
+  useEffect(() => {
+    if (!isRunning) return;
+
+    const intervalId = setInterval(() => {
+      calculateNextState();
+    }, 1000 / speed);
+
+    return () => clearInterval(intervalId);
+  }, [isRunning, grid, prevGrid, generation, speed]);
+
+  // Set up Three.js when showing simulation
+  useEffect(() => {
+    if (showSim) {
+      const cleanup = initThree();
+
+      // Initialize with random cells
+      setTimeout(() => {
+        populateRandomGrid();
+      }, 100);
+
+      return cleanup;
+    }
+  }, [showSim, gridSize, cellSize]);
+
+  // Handle viewport resizing
+  useEffect(() => {
+    const handleResize = () => {
+      if (!containerRef.current || !cameraRef.current || !rendererRef.current) return;
+
+      const width = containerRef.current.clientWidth;
+      const height = containerRef.current.clientHeight;
+
+      cameraRef.current.aspect = width / height;
+      cameraRef.current.updateProjectionMatrix();
+      rendererRef.current.setSize(width, height);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Spring animation for menu
+  const menuAnimation = useSpring({
+    opacity: showMenu ? 1 : 0,
+    transform: showMenu ? 'scale(1)' : 'scale(0.8)',
+    config: { tension: 300, friction: 20 },
+  });
+
+  // Spring animation for controls
+  const controlsAnimation = useSpring({
+    opacity: showSim && !resolved ? 1 : 0,
+    height: showSim && !resolved ? 40 : 0,
+    config: { tension: 300, friction: 20 },
+  });
+
+  // Spring animation for game over
+  const gameOverAnimation = useSpring({
+    opacity: resolved ? 1 : 0,
+    transform: resolved ? 'scale(1)' : 'scale(0.8)',
+    config: { tension: 300, friction: 20 },
+  });
+
+  // Handle grid size changes
+  const handleGridSizeChange = (size) => {
+    setGridSize(size);
+    // Need to recreate the Three.js setup with new grid size
+    if (showSim) {
+      createInstancedMesh();
+      populateRandomGrid();
+    }
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      style={{
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#070707',
+        position: 'relative',
+        overflow: 'hidden'
+      }}
+    >
+      {showMenu && !showSim && (
+        <animated.div
+          style={{
+            ...menuAnimation,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            color: 'white',
+            fontFamily: 'Arial, sans-serif',
+            zIndex: 10
+          }}
+        >
+          <h1 style={{ marginBottom: '10%' }}>Conway's Game of Life</h1>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '75%' }}>
+            <button
+              onClick={() => {
+                setShowMenu(false);
+                setShowSim(true);
               }}
+              style={buttonStyle}
             >
-              {"Start"}
-            </Button>
-          </View>
-        </View>
-      );
-    };
+              Run Simulation
+            </button>
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
+              <button
+                onClick={() => handleGridSizeChange({ rows: 50, cols: 50 })}
+                style={{ ...buttonStyle, flex: 1, backgroundColor: gridSize.rows === 50 ? '#2a6e5d' : '' }}
+              >
+                Small Grid
+              </button>
+              <button
+                onClick={() => handleGridSizeChange({ rows: 100, cols: 100 })}
+                style={{ ...buttonStyle, flex: 1, backgroundColor: gridSize.rows === 100 ? '#2a6e5d' : '' }}
+              >
+                Medium Grid
+              </button>
+              <button
+                onClick={() => handleGridSizeChange({ rows: 200, cols: 200 })}
+                style={{ ...buttonStyle, flex: 1, backgroundColor: gridSize.rows === 200 ? '#2a6e5d' : '' }}
+              >
+                Large Grid
+              </button>
+            </div>
+          </div>
+        </animated.div>
+      )}
 
-    `,
+      {/* Controls for running simulation */}
+      {showSim && (
+        <animated.div
+          style={{
+            ...controlsAnimation,
+            position: 'absolute',
+            bottom: '20px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            display: 'flex',
+            gap: '10px',
+            zIndex: 10,
+            padding: '10px',
+            borderRadius: '8px',
+            backgroundColor: 'rgba(0,0,0,0.7)'
+          }}
+        >
+          <div style={{ color: 'white', marginRight: '15px' }}>
+            Generation: {generation}
+          </div>
+          <button
+            onClick={toggleSimulation}
+            style={buttonStyle}
+          >
+            {isRunning ? 'Pause' : 'Start'}
+          </button>
+          <button
+            onClick={resetSimulation}
+            style={buttonStyle}
+          >
+            Reset
+          </button>
+          <button
+            onClick={() => {
+              setShowSim(false);
+              setShowMenu(true);
+            }}
+            style={buttonStyle}
+          >
+            Menu
+          </button>
+          <div style={{ display: 'flex', alignItems: 'center', marginLeft: '15px' }}>
+            <label htmlFor="speed" style={{ color: 'white', marginRight: '8px' }}>Speed:</label>
+            <input
+              id="speed"
+              type="range"
+              min="1"
+              max="30"
+              value={speed}
+              onChange={(e) => setSpeed(Number(e.target.value))}
+              style={{ width: '100px' }}
+            />
+          </div>
+        </animated.div>
+      )}
 
-    "GridRevised.js": `
-    const Grid = ({ width, height, setShowSim }) => {
-      parent width and height
-      to ensure a responsive grid. 
-      const cellSize = 10; // in pixels
-      const rows = Math.floor(height / cellSize);
-      const cols = Math.floor(width / cellSize);
-    
-      const [prevState, setPrevState] = useState(new Set());
-      const [state, setState] = useState(new Set());
-      const [generation, setGeneration] = useState(0);
-      const [resolved, setResolved] = useState(false);
-    
-      const calculateNeighbors = useCallback(
-        (cell) => {
-          const [x, y] = cell.split(",").map(Number);
-          const neighbors = [];
-          for (let i = -1; i < 2; i++) {
-            for (let j = -1; j < 2; j++) {
-              if (i === 0 && j === 0) continue;
-              const neighborX = x + i;
-              const neighborY = y + j;
-              // Check if the neighbor is within the grid boundaries
-              if (
-                neighborX >= 0 &&
-                neighborX < rows &&
-                neighborY >= 0 &&
-                neighborY < cols
-              ) {
-                neighbors.push(\`\${neighborX},\${neighborY}\`);
-              }
-            }
-          }
-          return neighbors;
-        },
-        [rows, cols]
-      );
-    
-      const calculateNextState = useCallback(() => {
-        const newState = new Set();
-        const potentialCells = new Set();
-        state.forEach((cell) => {
-          const neighbors = calculateNeighbors(cell);
-          let liveNeighbors = 0;
-          neighbors.forEach((n) => {
-            if (state.has(n)) liveNeighbors++;
-            else potentialCells.add(n);
-          });
-          if (liveNeighbors === 2 || liveNeighbors === 3) newState.add(cell);
-        });
-    
-        potentialCells.forEach((cell) => {
-          const neighbors = calculateNeighbors(cell);
-          let liveNeighbors = 0;
-          neighbors.forEach((n) => {
-            if (state.has(n)) liveNeighbors++;
-          });
-          if (liveNeighbors === 3) newState.add(cell);
-        });
-        if (generation > 1000 || areSetsEqual(newState, prevState)) {
-          setResolved(true);
-          return;
-        }
-    
-        setPrevState(state);
-        setState(newState);
-        setGeneration((gen) => gen + 1);
-      }, [state, calculateNeighbors, generation, prevState]);
-    
-      const populate = useCallback(() => {
-        const initialCells = new Set();
-        for (let i = 0; i < rows; i++) {
-          for (let j = 0; j < cols; j++) {
-            if (Math.random() > 0.7) initialCells.add(\`\${i},\${j}\`);
-          }
-        }
-        setState(initialCells);
-      }, []);
-    
-      useEffect(() => {
-        populate();
-      }, [populate]);
-    
-      useEffect(() => {
-        const intervalId = setInterval(() => {
-          calculateNextState();
-        }, 40);
-        return () => clearInterval(intervalId);
-      }, [calculateNextState]);
-    
-      const areSetsEqual = (a, b) => {
-        if (a.size !== b.size) return false;
-        for (let item of a) if (!b.has(item)) return false;
-        return true;
-      };
-    
-      return (
-        <View w={width} h={height} borderWidth={1} borderColor={"white"}>
-          <AlertOverlay visible={resolved} fadeDuration={300} fadeOpacity={0.8}>
-            <PostOverlay isDone={resolved} color="teal.500">
-              <Text>{\`Simulation Ended at genereration \${generation}\`}</Text>
-              <Button onPress={() => setShowSim(false)}>back</Button>
-            </PostOverlay>
-          </AlertOverlay>
-    
-          {[...Array(rows).keys()].map((i) =>
-            [...Array(cols).keys()].map((j) => {
-              const key = \`\${i},\${j}\`;
-              return (
-                <div
-                  key={key}
-                  style={{
-                    position: "absolute",
-                    top: \`\${i * cellSize}px\`,
-                    left: \`\${j * cellSize}px\`,
-                    height: \`\${cellSize}px\`,
-                    width: \`\${cellSize}px\`,
-                    backgroundColor: state.has(key) ? "black" : "white",
-                    border: "solid 1px #ddd",
-                  }}
-                />
-              );
-            })
-          )}
-        </View>
-      );
-    };
-    `,
+      {/* Game over overlay */}
+      {resolved && (
+        <animated.div
+          style={{
+            ...gameOverAnimation,
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: 'rgba(0,0,0,0.8)',
+            padding: '20px',
+            borderRadius: '10px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            zIndex: 20
+          }}
+        >
+          <h2 style={{ color: 'white', marginBottom: '20px' }}>
+            Simulation Stabilized at Generation {generation}
+          </h2>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <button
+              onClick={resetSimulation}
+              style={buttonStyle}
+            >
+              New Simulation
+            </button>
+            <button
+              onClick={() => {
+                setShowSim(false);
+                setShowMenu(true);
+                setResolved(false);
+              }}
+              style={buttonStyle}
+            >
+              Back to Menu
+            </button>
+          </div>
+        </animated.div>
+      )}
+    </div>
+  );
+};`,
 
-    "Readme.md": `Hello, and thank you for your interest in my implementation of the Conway's Game of Life. Devised by mathematician John Conway, this is a fascinating exercise in cellular automata, demonstrating the beauty and complexity that can emerge from simplicity.
-    
-    Conway's Game of Life is governed by four basic rules:
-    ∙ Any live cell with fewer than two live neighbours succumbs to underpopulation and dies.
+  "Readme.md":
+`∙ Any live cell with fewer than two live neighbours succumbs to underpopulation and dies.
     ∙ Any live cell with two or three live neighbours flourishes, living on to the next generation.
     ∙ Any live cell burdened with more than three live neighbours falls to overpopulation and dies.
     ∙ Any dead cell that finds itself in the company of exactly three live neighbours springs to life, as if by reproduction.
@@ -1938,21 +2276,6 @@ const codeBlocks = {
     ∙ Any live cell with two or three live neighbours will make it to the next grid generation
     ∙ Any dead cell with three live neighbours will come to life in next grid generation
     ∙ All other live cells die in the next generation
-    
-    
-    Initial Implementation(GridOld):
-    So i used a two-dimensional array to represent the grid, marking each cell as either '1' (live) or '0' (dead). 
-    The simulation checks the state of every cell and its neighbours during each update cycle, regardless of their current state.
-    This inspection results in a slow simulation and a significant time and space complexity of O(nm) where 'n' and 'm' are the dimensions of the grid.
-    
-    Improved Implementation (GridRevised):
-    My revised implementation reduces computational load by employing a Set to store live cells, benefiting from the speed of sparse matrix representation.
-    Instead of evaluating every cell during each update as in the old version, this updated method focuses on live cells and their immediate neighbours.
-    This strategy significantly reduces the number of operations per cycle, leading to more efficient processing.
-    The time complexity of this implementation is O(n + m), where 'n' is the number of live cells,
-    and 'm' is the number of adjacent cells around the live cells that are examined for potential revival.
-
-    Head over and check out the code!
     `,
   },
 };

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useMemo } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import {
   Button,
   Center,
@@ -8,6 +8,7 @@ import {
   View,
   useBreakpointValue,
   useMediaQuery,
+  HStack,
 } from "native-base";
 import { LandscapeIcon } from "../../Pomodoro/assets/Icons";
 import { breakpoints } from "../../../theme";
@@ -19,7 +20,7 @@ import Lottie from "lottie-react";
 import cube from "../../../assets/lottie/cube.json";
 import conways from "../../../assets/lottie/conways.json";
 import { SplashScreen } from "../../components(native)/SplashScreen";
-import { useTransition, animated } from "@react-spring/web";
+import * as THREE from 'three';
 
 export const Conways = ({ closeApp, viewCode }) => {
   const [ref, { width, height }] = useMeasure();
@@ -157,23 +158,30 @@ const Menu = ({ setShowModal, handlePress, setShowSim }) => {
 
 const Grid = ({ width, height, setShowSim }) => {
   const celldim = useBreakpointValue({
-    base: 14,
-    sm: 14,
-    md: 20,
-    lg: 16,
-    xl: 11,
-    xxl: 12,
+    base: 4,
+    sm: 4,
+    md: 6,
+    lg: 5,
+    xl: 4,
+    xxl: 4,
   });
-  const cellSize = celldim; // in pixels
-
-  const rows = Math.floor(height / cellSize);
-  const cols = Math.floor(width / cellSize);
-
+  const cellSize = celldim;
+  const canvasRef = useRef(null);
   const [prevState, setPrevState] = useState(new Set());
   const [state, setState] = useState(new Set());
   const [generation, setGeneration] = useState(0);
   const [resolved, setResolved] = useState(false);
-  const [isPopulated, setIsPopulated] = useState(false); // new state
+  const [isPopulated, setIsPopulated] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [speed, setSpeed] = useState(1);
+  const intervalRef = useRef(null);
+
+  const baseInterval = 60; // Base interval in milliseconds
+  const minSpeed = 0.25;  // Slowest speed (4x slower)
+  const maxSpeed = 4;     // Fastest speed (4x faster)
+
+  const rows = Math.floor(height / cellSize);
+  const cols = Math.floor(width / cellSize);
 
   const calculateNeighbors = useCallback(
     (cell) => {
@@ -185,7 +193,6 @@ const Grid = ({ width, height, setShowSim }) => {
           const neighborX = x + i;
           const neighborY = y + j;
           if (
-            // if the neighbor is within the bounds of the grid
             neighborX >= 0 &&
             neighborX < rows &&
             neighborY >= 0 &&
@@ -236,24 +243,29 @@ const Grid = ({ width, height, setShowSim }) => {
     const initialCells = new Set();
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
-        if (Math.random() > 0.7) initialCells.add(`${i},${j}`);
+        if (Math.random() > 0.8) initialCells.add(`${i},${j}`);
       }
     }
     setState(initialCells);
-    setIsPopulated(true); // set to true after populating
-  }, []);
+    setIsPopulated(true);
+  }, [rows, cols]);
 
   useEffect(() => {
     populate();
   }, [populate]);
 
   useEffect(() => {
-    if (!isPopulated) return; // check if population has been done
-    const intervalId = setInterval(() => {
+    if (!isPopulated || isPaused) return;
+    const interval = baseInterval / speed;
+    intervalRef.current = setInterval(() => {
       calculateNextState();
-    }, 60);
-    return () => clearInterval(intervalId);
-  }, [calculateNextState, isPopulated]);
+    }, interval);
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [calculateNextState, isPopulated, isPaused, speed]);
 
   const areSetsEqual = (a, b) => {
     if (a.size !== b.size) return false;
@@ -261,56 +273,149 @@ const Grid = ({ width, height, setShowSim }) => {
     return true;
   };
 
-  const transitions = useTransition([...state], {
-    from: { transform: "scale(0)" },
-    enter: {
-      transform: "scale(1.03)",
-      config: {
-        type: "timing",
-        duration: 90,
-      },
-    },
-    leave: {
-      transform: "scale(0)",
-      config: {
-        type: "timing",
-        duration: 190,
-      },
-    },
-    keys: (item) => item,
-  });
+  const handleEndSimulation = () => {
+    setIsPaused(true);
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+    setResolved(true);
+  };
+
+  const handleSpeedChange = (delta) => {
+    setSpeed(prevSpeed => {
+      const newSpeed = prevSpeed + delta;
+      return Math.min(Math.max(newSpeed, minSpeed), maxSpeed);
+    });
+  };
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, width, height);
+
+    // Draw grid lines
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.lineWidth = 0.5;
+
+    for (let i = 0; i <= rows; i++) {
+      ctx.beginPath();
+      ctx.moveTo(0, i * cellSize);
+      ctx.lineTo(width, i * cellSize);
+      ctx.stroke();
+    }
+
+    for (let j = 0; j <= cols; j++) {
+      ctx.beginPath();
+      ctx.moveTo(j * cellSize, 0);
+      ctx.lineTo(j * cellSize, height);
+      ctx.stroke();
+    }
+
+    // Draw live cells
+    ctx.fillStyle = 'cyan';
+    state.forEach(cell => {
+      const [i, j] = cell.split(',').map(Number);
+      ctx.fillRect(j * cellSize, i * cellSize, cellSize, cellSize);
+    });
+  }, [state, width, height, cellSize, rows, cols]);
 
   return (
-    <View w={width} h={height} borderWidth={1}>
+    <View w={width} h={height} >
       <AlertOverlay visible={resolved} fadeDuration={300} fadeOpacity={0.8}>
         <PostOverlay isDone={resolved} color="teal.500">
-          <Text>{`Simulation Ended at genereration ${generation}`}</Text>
+          <Text>{`Simulation Ended at generation ${generation}`}</Text>
           <Button onPress={() => setShowSim(false)}>back</Button>
         </PostOverlay>
       </AlertOverlay>
-      <Text position={"absolute"} zIndex={"20"} top={0}>
+
+      <Text position={"absolute"} alignSelf={"center"} justifyContent={"center"} zIndex={"21"} bottom={"2"}>
         {generation}
       </Text>
 
-      {transitions((style, item) => {
-        const [i, j] = item.split(",").map(Number);
-        const key = `${i},${j}`;
-        return (
-          <animated.div
-            key={key}
+      <HStack zIndex={"20"} bg={"black"} position={"absolute"} bottom={0} left={0} right={0} justifyContent={"space-between"} >
+        <Button
+          width={"50%"}
+          zIndex={"20"}
+          variant={"ghost"}
+          size="sm"
+          onPress={handleEndSimulation}
+          bg={"black"}
+          _pressed={{
+            bg: "rgba(255,255,255,0.1)",
+          }}
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Text
             style={{
-              ...style,
-              position: "absolute",
-              top: `${i * cellSize}px`,
-              left: `${j * cellSize}px`,
-              height: `${cellSize}px`,
-              width: `${cellSize}px`,
-              backgroundColor: "white",
-              borderRadius: "2px",
+              fontSize: 17,
+              fontWeight: "bold",
+              color: "white",
+              marginLeft: 4,
             }}
-          />
-        );
-      })}
+          >
+            End
+          </Text>
+        </Button>
+
+        {/* Speed Controls */}
+        <HStack
+          width={"50%"}
+          zIndex={"20"}
+          right={0}
+          top={0}
+          justifyContent={"center"}
+          alignItems={"center"}
+          bg={"black"}
+
+        >
+          <Button
+            variant={"ghost"}
+            size="sm"
+            onPress={() => handleSpeedChange(-0.25)}
+            isDisabled={speed <= minSpeed}
+            _pressed={{
+              bg: "rgba(255,255,255,0.1)",
+            }}
+          >
+            <Text fontWeight={"bold"} style={{ color: "white", fontSize: 18 }}>−</Text>
+          </Button>
+          <Text fontWeight={"bold"} style={{ color: "white", fontSize: 16 }}>
+            {speed.toFixed(2)}x
+          </Text>
+          <Button
+            variant={"ghost"}
+            size="sm"
+            onPress={() => handleSpeedChange(0.25)}
+            isDisabled={speed >= maxSpeed}
+            _pressed={{
+              bg: "rgba(255,255,255,0.1)",
+            }}
+
+          >
+            <Text fontWeight={"bold"} style={{ color: "white", fontSize: 18 }}>+</Text>
+          </Button>
+        </HStack>
+      </HStack>
+
+
+      <canvas
+        ref={canvasRef}
+        width={width}
+        height={height}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+        }}
+      />
     </View>
   );
 };

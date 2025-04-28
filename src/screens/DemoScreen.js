@@ -213,7 +213,7 @@ const DeviceFrame = ({ children, color }) => {
         height: deviceHeight,
         borderRadius: "38.5px",
         overflow: "hidden",
-        boxShadow: `0px 0px 1px 1px rgb(10, 10, 10), 0px 0px 1px 9px rgba(0, 1, 0, 1), 0px 0px 1px 13px rgba(44, 44, 44, 1), 0px 0px 0.5px 14.5px rgba(110, 110, 110, 1)`,
+        boxShadow: `0px 0px 1px 1px rgb(10, 10, 10), 0px 0px 1px 5px rgba(0, 1, 0, 1), 0px 0px 1px 7px rgba(44, 44, 44, 1), 0px 0px 0.5px 9px rgba(110, 110, 110, 1)`,
       }}
     >
       <HStack w="100%" p="2%" h="8%" top={0} bg="black">
